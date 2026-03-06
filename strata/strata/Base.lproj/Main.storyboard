@@ -32,6 +32,15 @@
                                     <segue destination="yIQ-tr-d7N" kind="show" id="hFY-dM-MDl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHf-X9-xnQ">
+                                <rect key="frame" x="141" y="484" width="111" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="thirdscreen"/>
+                                <connections>
+                                    <segue destination="fvo-y9-Zac" kind="show" id="6mK-ff-q1Y"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -75,6 +84,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7yI-lc-Ux0" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1567" y="132"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="7rA-2Q-RKc">
+            <objects>
+                <viewController id="fvo-y9-Zac" customClass="ViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wYc-Nh-RUo">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y88-nb-jGH">
+                                <rect key="frame" x="175" y="172" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oqa-g6-WzX">
+                                <rect key="frame" x="139" y="343" width="115" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="third screen"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Yyr-H3-EUI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="NzY-es-PWx"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oFQ-xR-ljI" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="630" y="798"/>
         </scene>
     </scenes>
     <resources>

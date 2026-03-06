@@ -52,29 +52,29 @@
             <point key="canvasLocation" x="-414.50381679389312" y="131.69014084507043"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="DLt-yS-2ho">
+        <scene sceneID="jpw-RL-Jbq">
             <objects>
-                <viewController id="6sm-51-xRf" customClass="ViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="SiV-xD-XMP">
+                <viewController id="914-ug-CWB" customClass="ViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sni-Sp-f1T">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="sanjanas changes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4LK-hr-opy">
-                                <rect key="frame" x="175" y="172" width="136" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ian screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4L-e9-prV">
+                                <rect key="frame" x="175" y="172" width="78" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="spI-KX-59C"/>
+                        <viewLayoutGuide key="safeArea" id="0sy-3i-MpT"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="joJ-JK-Obm"/>
+                    <navigationItem key="navigationItem" id="9hN-rG-CzH"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dMA-BD-wfh" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1px-Z6-kca" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1561" y="689"/>
+            <point key="canvasLocation" x="1708" y="-375"/>
         </scene>
     </scenes>
     <resources>

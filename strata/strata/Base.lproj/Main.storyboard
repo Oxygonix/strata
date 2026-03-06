@@ -29,7 +29,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="gofirstscreen"/>
                                 <connections>
-                                    <segue destination="yIQ-tr-d7N" kind="show" id="hFY-dM-MDl"/>
+                                    <segue destination="lg2-GW-xbM" kind="show" id="x0p-uP-D5g"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -41,6 +41,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="630" y="132"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="rfg-B4-EnP">
+            <objects>
+                <viewController id="lg2-GW-xbM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MUA-ZA-hDj">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMC-Me-F4J">
+                                <rect key="frame" x="187" y="279" width="37" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="4iR-LR-Kvv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2CK-xH-qIG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FI6-Mj-EmH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="630" y="963"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Wzz-uP-usw">

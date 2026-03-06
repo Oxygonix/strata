@@ -24,7 +24,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Vd-Ji-IBp">
-                                <rect key="frame" x="134" y="343" width="125" height="35"/>
+                                <rect key="frame" x="127" y="409" width="125" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="gofirstscreen"/>
@@ -39,6 +39,15 @@
                                 <buttonConfiguration key="configuration" style="plain" title="thirdscreen"/>
                                 <connections>
                                     <segue destination="fvo-y9-Zac" kind="show" id="6mK-ff-q1Y"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xrx-ga-yON">
+                                <rect key="frame" x="127" y="345" width="125" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="gofirstscreen"/>
+                                <connections>
+                                    <segue destination="7zq-6D-iqA" kind="show" id="JNR-jg-h6P"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -114,7 +123,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFQ-xR-ljI" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="630" y="798"/>
+            <point key="canvasLocation" x="1566" y="861"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="1Ui-BW-kbe">
+            <objects>
+                <viewController id="n8J-fd-riR" customClass="ViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="T9k-da-jmN">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="THA-9J-RHi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="oIB-Qf-sEU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JCD-IQ-bwG" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1567" y="132"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="QqI-0Y-28L">
+            <objects>
+                <viewController id="bV2-NQ-dGP" customClass="ViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cVB-XS-aN0">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="eze-Y8-lHf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dul-xe-Czn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YIv-Kj-nnM" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1566" y="-646"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="UsW-p9-aXk">
+            <objects>
+                <viewController id="7zq-6D-iqA" customClass="ViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PvX-2L-lMj">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="07l-6u-BkT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="f6E-Tn-iNd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c5w-84-8kF" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1566" y="-646"/>
         </scene>
     </scenes>
     <resources>

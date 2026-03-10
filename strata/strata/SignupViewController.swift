@@ -7,13 +7,22 @@
 
 import UIKit
 
-class SignupController: UIViewController {
+class SignupViewController: UIViewController {
 
+    @IBOutlet weak var emailTextField: UITextField!
+    
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    @IBOutlet weak var confirmPasswordTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func createAccountTapped(_ sender: UIButton) {
+        
+    }
+    
 }
 

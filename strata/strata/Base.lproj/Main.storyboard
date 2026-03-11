@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rgu-bQ-Gx9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
@@ -162,24 +162,6 @@
             </objects>
             <point key="canvasLocation" x="627.27272727272737" y="131.17154811715483"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Wzz-uP-usw">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rgu-bQ-Gx9" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HyD-O1-Fb4">
-                        <rect key="frame" x="0.0" y="124" width="440" height="54"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="CDc-CN-D1S"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QbJ-OJ-CKk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-414.50381679389312" y="131.69014084507043"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="DLt-yS-2ho">
             <objects>
@@ -313,10 +295,12 @@
             </objects>
             <point key="canvasLocation" x="1405.909090909091" y="131.17154811715483"/>
         </scene>
-        <!--HeatMap-->
+        <!--HeatMapNavBar-->
         <scene sceneID="EXe-nM-wOq">
             <objects>
-                <viewControllerPlaceholder storyboardName="HeatMap" referencedIdentifier="HeatMap" id="W2v-N8-dZM" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="HeatMap" referencedIdentifier="HeatMapNavBar" id="W2v-N8-dZM" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="vLs-Vd-kK0"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hA-Eh-cQT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="988" y="537"/>
@@ -324,7 +308,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="RRq-ou-Swi"/>
-        <segue reference="q66-6z-d8D"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

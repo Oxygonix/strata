@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <device id="retina6_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,67 +11,65 @@
         <!--ProfileSettings-->
         <scene sceneID="CTI-G5-gjg">
             <objects>
-                <viewControllerPlaceholder storyboardName="ProfileSettings" referencedIdentifier="ProfileSettings" id="kF3-vn-viu" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="ProfileSettings" referencedIdentifier="ProfileSettings" id="kF3-vn-viu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="69C-zG-0aA"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y7P-DN-A5y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="240" y="474"/>
+            <point key="canvasLocation" x="1242" y="474"/>
         </scene>
-        <!--HeatMap-->
+        <!--Profile-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="HeatMap" id="Y6W-OH-hqX" customClass="HeatMapViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WorkoutLog" id="Y6W-OH-hqX" customClass="HeatMapViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx">
-                                <rect key="frame" x="16" y="175" width="361" height="550"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="HeatMap" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
+                                <rect key="frame" x="185" y="146" width="70" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="HeatMap" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
-                                        <rect key="frame" x="133" y="154" width="70" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx">
+                                <rect key="frame" x="20" y="175" width="400" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="HeatMap" landscapeImage="figure.stand" catalog="system" id="ggo-Rv-bCZ">
-                        <imageReference key="image" image="figure.stand" catalog="system" symbolScale="large" variableValue="1"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="ggo-Rv-bCZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1066.4122137404579" y="91.549295774647888"/>
+            <point key="canvasLocation" x="1958.1818181818182" y="91.004184100418414"/>
         </scene>
         <!--Tab Bar Controller-->
-        <scene sceneID="Toq-ih-iEu">
+        <scene sceneID="I8T-ZN-PPO">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="sDF-FT-yxx" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HeatMapNavBar" automaticallyAdjustsScrollViewInsets="NO" id="xF7-5u-1TD" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bs7-4g-17l">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e1q-wx-GJS">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" red="0.86539697650000003" green="0.0" blue="0.15132154140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="viewControllers" id="Uv1-cR-SZU"/>
-                        <segue destination="kF3-vn-viu" kind="presentation" modalPresentationStyle="fullScreen" id="vwx-68-qVL"/>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="viewControllers" id="Kn0-bg-rmt"/>
+                        <segue destination="kF3-vn-viu" kind="relationship" relationship="viewControllers" id="RI8-sB-qaN"/>
                     </connections>
                 </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qb3-bq-Bko" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fdI-dW-gYv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139.69465648854961" y="91.549295774647888"/>
+            <point key="canvasLocation" x="1066.3636363636365" y="91.004184100418414"/>
         </scene>
     </scenes>
     <resources>
-        <image name="figure.stand" catalog="system" width="74" height="128"/>
+        <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

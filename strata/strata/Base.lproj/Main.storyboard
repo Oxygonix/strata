@@ -11,7 +11,7 @@
         <!--Signup View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SignupViewController" customModule="strata" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUp" id="BYZ-38-t0r" customClass="SignupViewController" customModule="strata" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -165,7 +165,7 @@
         <!--Login View Controller-->
         <scene sceneID="DLt-yS-2ho">
             <objects>
-                <viewController id="6sm-51-xRf" customClass="LoginViewController" customModule="strata" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" id="6sm-51-xRf" customClass="LoginViewController" customModule="strata" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SiV-xD-XMP">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -307,7 +307,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RRq-ou-Swi"/>
+        <segue reference="MhQ-Tr-22y"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

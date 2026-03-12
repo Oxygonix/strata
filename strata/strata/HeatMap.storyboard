@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--ProfileSettings-->
+        <scene sceneID="CTI-G5-gjg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ProfileSettings" referencedIdentifier="ProfileSettings" id="kF3-vn-viu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="69C-zG-0aA"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y7P-DN-A5y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1242" y="474"/>
+        </scene>
+        <!--HeatMap-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="WorkoutLog" id="Y6W-OH-hqX" customClass="HeatMapViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="HeatMap" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
+                                <rect key="frame" x="185" y="146" width="70" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx">
+                                <rect key="frame" x="20" y="175" width="400" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="HeatMap" image="figure.stand" catalog="system" id="ggo-Rv-bCZ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1958.1818181818182" y="91.004184100418414"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="I8T-ZN-PPO">
+            <objects>
+                <tabBarController storyboardIdentifier="HeatMapNavBar" automaticallyAdjustsScrollViewInsets="NO" id="xF7-5u-1TD" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e1q-wx-GJS">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="viewControllers" id="Kn0-bg-rmt"/>
+                        <segue destination="niq-tx-vZo" kind="relationship" relationship="viewControllers" id="MMy-4w-wkk"/>
+                        <segue destination="zqT-pR-5y1" kind="relationship" relationship="viewControllers" id="1DA-iA-qDs"/>
+                        <segue destination="kF3-vn-viu" kind="relationship" relationship="viewControllers" id="is2-O1-9Gz"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fdI-dW-gYv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1066.3636363636365" y="91.004184100418414"/>
+        </scene>
+        <!--WorkoutLog-->
+        <scene sceneID="oWH-i4-M2r">
+            <objects>
+                <viewControllerPlaceholder storyboardName="WorkoutLog" referencedIdentifier="WorkoutLog" id="niq-tx-vZo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="5Tf-Cb-j6M"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="smC-Ug-UKA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="917" y="474"/>
+        </scene>
+        <!--Recommendations-->
+        <scene sceneID="f0y-5n-FUp">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Recommendations" referencedIdentifier="Recommendations" id="zqT-pR-5y1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="aFf-bq-hGc"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nwo-Hh-Y0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1067" y="531"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="figure.stand" catalog="system" width="74" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

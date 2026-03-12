@@ -15,10 +15,65 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tnd-Ty-Jfh">
+                                <rect key="frame" x="-0.66666666666665719" y="0.0" width="394.33333333333326" height="853"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutCell" rowHeight="350" id="57g-F6-Z3v" customClass="WorkoutLogCell" customModule="strata" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="394.33333333333326" height="350"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="57g-F6-Z3v" id="NJ3-Ht-0cs">
+                                            <rect key="frame" x="0.0" y="0.0" width="394.33333333333326" height="350"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="77s-gA-McR">
+                                                    <rect key="frame" x="20" y="7" width="124" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Aa-an-kj6">
+                                                    <rect key="frame" x="20" y="30" width="124" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ZOe-58-EAb">
+                                                    <rect key="frame" x="0.0" y="59" width="394" height="255"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="77s-gA-McR" firstAttribute="leading" secondItem="NJ3-Ht-0cs" secondAttribute="leading" constant="20" symbolic="YES" id="6fj-cc-y8Y"/>
+                                                <constraint firstItem="4Aa-an-kj6" firstAttribute="leading" secondItem="NJ3-Ht-0cs" secondAttribute="leading" constant="20" symbolic="YES" id="AW9-qB-QJM"/>
+                                                <constraint firstItem="77s-gA-McR" firstAttribute="top" secondItem="NJ3-Ht-0cs" secondAttribute="top" constant="7" id="Qbc-WO-vKW"/>
+                                                <constraint firstItem="4Aa-an-kj6" firstAttribute="top" secondItem="77s-gA-McR" secondAttribute="bottom" constant="2" id="mzO-YW-eOE"/>
+                                                <constraint firstItem="ZOe-58-EAb" firstAttribute="top" secondItem="4Aa-an-kj6" secondAttribute="bottom" constant="8" symbolic="YES" id="qjH-b6-wcY"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="activityImageView" destination="ZOe-58-EAb" id="rqX-HH-idU"/>
+                                            <outlet property="subtitleLabel" destination="4Aa-an-kj6" id="k3E-0H-G3O"/>
+                                            <outlet property="titleLabel" destination="77s-gA-McR" id="zhf-MQ-abI"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tnd-Ty-Jfh" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" constant="1" id="NfH-RD-uCN"/>
+                            <constraint firstItem="tnd-Ty-Jfh" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="TUI-x0-T3h"/>
+                            <constraint firstItem="tnd-Ty-Jfh" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" constant="1" id="dfv-J6-2tE"/>
+                            <constraint firstItem="tnd-Ty-Jfh" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" id="paQ-8o-xgS"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Workout Log" image="chart.line.text.clipboard.fill" catalog="system" id="r1s-zG-eQG"/>
+                    <connections>
+                        <outlet property="tableView" destination="tnd-Ty-Jfh" id="2fY-TK-l2f"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -30,6 +85,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="xec-Rv-GbT" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1Dd-mc-rCp">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

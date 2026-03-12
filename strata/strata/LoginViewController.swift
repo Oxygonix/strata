@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
 
@@ -20,7 +21,14 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func signInPressed(_ sender: UIButton) {
-        
+        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
+            // Add an alert display to screen showing result in future
+            if let error = error as NSError? {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                print("Success")
+            }
+        }
     }
     
     

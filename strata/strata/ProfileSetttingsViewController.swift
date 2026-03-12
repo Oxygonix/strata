@@ -15,7 +15,17 @@ class ProfileSetttingsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func equipmentButton(_ sender: UIButton) {
+        sender.isSelected.toggle()
 
+            if sender.isSelected {
+                sender.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            } else {
+                sender.setImage(UIImage(systemName: "square"), for: .normal)
+            }
+    }
+    
+    
     /*
     // MARK: - Navigation
 

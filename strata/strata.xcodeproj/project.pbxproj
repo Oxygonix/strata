@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E17DF7B52F6241550020F6BD /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7B42F6241550020F6BD /* Macaw */; };
+		E17DF7C72F6277B20020F6BD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7C62F6277B20020F6BD /* FirebaseAuth */; };
+		E17DF7C92F6277B20020F6BD /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7C82F6277B20020F6BD /* FirebaseCore */; };
+		E17DF7CB2F6277B20020F6BD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7CA2F6277B20020F6BD /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		475ED5E82F5A6B6400679A42 /* strata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = strata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +43,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17DF7B52F6241550020F6BD /* Macaw in Frameworks */,
+				E17DF7CB2F6277B20020F6BD /* FirebaseFirestore in Frameworks */,
+				E17DF7C92F6277B20020F6BD /* FirebaseCore in Frameworks */,
+				E17DF7C72F6277B20020F6BD /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +89,10 @@
 			);
 			name = strata;
 			packageProductDependencies = (
+				E17DF7B42F6241550020F6BD /* Macaw */,
+				E17DF7C62F6277B20020F6BD /* FirebaseAuth */,
+				E17DF7C82F6277B20020F6BD /* FirebaseCore */,
+				E17DF7CA2F6277B20020F6BD /* FirebaseFirestore */,
 			);
 			productName = strata;
 			productReference = 475ED5E82F5A6B6400679A42 /* strata.app */;
@@ -107,6 +122,10 @@
 			);
 			mainGroup = 475ED5DF2F5A6B6400679A42;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E17DF7B32F6241550020F6BD /* XCRemoteSwiftPackageReference "Macaw" */,
+				E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 475ED5E92F5A6B6400679A42 /* Products */;
 			projectDirPath = "";
@@ -345,6 +364,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E17DF7B32F6241550020F6BD /* XCRemoteSwiftPackageReference "Macaw" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/Macaw";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.10;
+			};
+		};
+		E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E17DF7B42F6241550020F6BD /* Macaw */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E17DF7B32F6241550020F6BD /* XCRemoteSwiftPackageReference "Macaw" */;
+			productName = Macaw;
+		};
+		E17DF7C62F6277B20020F6BD /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E17DF7C82F6277B20020F6BD /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		E17DF7CA2F6277B20020F6BD /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 475ED5E02F5A6B6400679A42 /* Project object */;
 }

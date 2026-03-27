@@ -26,37 +26,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="HeatMap" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
-                                <rect key="frame" x="185" y="146" width="70" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx">
-                                <rect key="frame" x="20" y="175" width="400" height="550"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx" customClass="MacawView" customModule="Macaw">
+                                <rect key="frame" x="20" y="175" width="400" height="612"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="FTu-xG-9YP" appends="YES" id="LkU-4z-ZgN"/>
+                                    <outletCollection property="gestureRecognizers" destination="1qw-F9-CVu" appends="YES" id="sAW-fL-YZ1"/>
+                                </connections>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
+                                <rect key="frame" x="96" y="83" width="248" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Hello David!">
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="45" name="Avenir-Book"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="dLJ-XK-ENw" appends="YES" id="vqO-mR-Kvv"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="HeatMap" image="figure.stand" catalog="system" id="ggo-Rv-bCZ"/>
+                    <connections>
+                        <outlet property="heatMapContainer" destination="9fv-8l-hOx" id="Lo7-ej-aXq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="FTu-xG-9YP">
+                    <connections>
+                        <action selector="swipe:" destination="Y6W-OH-hqX" id="ufc-d3-CYc"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="dLJ-XK-ENw">
+                    <connections>
+                        <action selector="swipe:" destination="Y6W-OH-hqX" id="49X-5V-vqC"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <tapGestureRecognizer id="1qw-F9-CVu">
+                    <connections>
+                        <action selector="muscleTapped:" destination="Y6W-OH-hqX" id="Kkq-sJ-xkh"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1958.1818181818182" y="91.004184100418414"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="I8T-ZN-PPO">
             <objects>
-                <tabBarController storyboardIdentifier="HeatMapNavBar" automaticallyAdjustsScrollViewInsets="NO" id="xF7-5u-1TD" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HeatMapNavBar" automaticallyAdjustsScrollViewInsets="NO" id="xF7-5u-1TD" colorLabel="IBBuiltInLabel-Red" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e1q-wx-GJS">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.86539697650000003" green="0.0" blue="0.15132154140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="0.86539697650000003" green="0.0" blue="0.15132154140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="Y6W-OH-hqX" kind="relationship" relationship="viewControllers" id="Kn0-bg-rmt"/>
@@ -90,6 +126,7 @@
             <point key="canvasLocation" x="1067" y="531"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.86539697650000003" green="0.0" blue="0.15132154140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="figure.stand" catalog="system" width="74" height="128"/>
         <systemColor name="systemBackgroundColor">

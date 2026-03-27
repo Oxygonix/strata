@@ -55,10 +55,11 @@ class HeatMapViewController: UIViewController {
     
     var bodyNode: Node!
     var showingFront = true
+    @IBOutlet weak var helloLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         bodyNode = try! SVGParser.parse(resource: "Male-Front")
             let macawView = MacawView(node: bodyNode, frame: heatMapContainer.bounds)
             macawView.backgroundColor = .clear
@@ -66,6 +67,12 @@ class HeatMapViewController: UIViewController {
             heatMapContainer.addSubview(macawView)
         
         fillAllMuscles(front: showingFront)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isDark = UserDefaults.standard.bool(forKey: "darkModeEnabled")
+        helloLabel.textColor = isDark ? .white : .black
     }
     
     func fillMuscle(name: String, level: Int) {

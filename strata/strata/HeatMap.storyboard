@@ -61,6 +61,7 @@
                     <tabBarItem key="tabBarItem" title="HeatMap" image="figure.stand" catalog="system" id="ggo-Rv-bCZ"/>
                     <connections>
                         <outlet property="heatMapContainer" destination="9fv-8l-hOx" id="Lo7-ej-aXq"/>
+                        <outlet property="helloLabel" destination="QQ6-3U-mEw" id="Cbh-T1-Fpo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

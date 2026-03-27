@@ -7,23 +7,31 @@
 
 import UIKit
 
-class RecommendationsViewController: UIViewController {
+let textCellIdentifier = "TextCell"
 
+class RecommendationsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    @IBOutlet weak var tableView: UITableView!
+    
+    var workouts: [Workout] = [
+           Workout(name: "Heavy Squat Workout", duration: "45 min", imageName: "squat"),
+           Workout(name: "Shoulder/Chest Workout", duration: "45 min", imageName: "chest"),
+           Workout(name: "Leg Cooldown Workout", duration: "30 min", imageName: "cooldown"),
+           Workout(name: "HIIT Workout", duration: "30 min", imageName: "hiit")
+       ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return workouts.count
     }
-    */
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
 
 }

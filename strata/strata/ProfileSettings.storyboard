@@ -172,7 +172,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Done"/>
                                 <connections>
-                                    <action selector="donePressed:" destination="Y6W-OH-hqX" eventType="valueChanged" id="rV7-lL-Mog"/>
+                                    <action selector="donePressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="oUg-At-7rX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owi-8T-JMb">

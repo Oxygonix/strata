@@ -141,7 +141,9 @@ class ProfileSetttingsViewController: UIViewController {
     }
     
     func saveProfileToFirestore() {
-        guard let user = Auth.auth().currentUser else { return }
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
 
         let name = nameTextField.text ?? ""
         let age = Int(ageTextField.text ?? "") ?? 0
@@ -170,7 +172,6 @@ class ProfileSetttingsViewController: UIViewController {
                 "mat": matSelected,
                 "cables": cablesSelected
             ],
-            "updatedAt": Timestamp()
         ], merge: true)
     }
     

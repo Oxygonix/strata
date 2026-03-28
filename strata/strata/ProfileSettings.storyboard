@@ -171,6 +171,9 @@
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Done"/>
+                                <connections>
+                                    <action selector="donePressed:" destination="Y6W-OH-hqX" eventType="valueChanged" id="rV7-lL-Mog"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owi-8T-JMb">
                                 <rect key="frame" x="131" y="504" width="55.333333333333343" height="50.333333333333314"/>
@@ -235,8 +238,19 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="FOe-eJ-hx8"/>
                     <connections>
+                        <outlet property="ageTextField" destination="tUg-zi-KxZ" id="EHt-ER-whZ"/>
+                        <outlet property="barbellsButton" destination="4RL-go-ThN" id="2Q0-PA-AJG"/>
+                        <outlet property="benchButton" destination="ivm-ie-sQp" id="d6j-8R-OgA"/>
+                        <outlet property="cablesButton" destination="cBt-OO-6Hm" id="aJ2-ST-CK8"/>
                         <outlet property="darkModeSwitch" destination="xnU-rT-Y0L" id="bsq-SM-Fz1"/>
+                        <outlet property="dumbbellsButton" destination="kYC-gx-lOi" id="vRv-4M-lGd"/>
+                        <outlet property="heightFtTextField" destination="MXn-Zt-7RI" id="KvY-5v-Wjw"/>
+                        <outlet property="heightInTextField" destination="7sc-dK-uTK" id="dTd-rH-xlG"/>
+                        <outlet property="kettlebellButton" destination="jQ6-SH-40q" id="nbk-tc-OCC"/>
+                        <outlet property="matButton" destination="WuL-97-M57" id="bhL-qD-lSW"/>
+                        <outlet property="nameTextField" destination="Y5v-fv-Ose" id="3mb-eh-gdB"/>
                         <outlet property="notificationSwitch" destination="pq5-RW-alt" id="jAw-6z-PUs"/>
+                        <outlet property="weightTextField" destination="AOu-pm-21U" id="Qpk-pX-dRh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

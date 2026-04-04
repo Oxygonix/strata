@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tnd-Ty-Jfh">
-                                <rect key="frame" x="-0.66666666666665719" y="0.0" width="394.33333333333326" height="853"/>
+                                <rect key="frame" x="-0.66666666666665719" y="27" width="394.33333333333326" height="853"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutCell" rowHeight="350" id="57g-F6-Z3v" customClass="WorkoutLogCell" customModule="strata" customModuleProvider="target">
@@ -56,6 +56,7 @@
                                             <outlet property="activityImageView" destination="ZOe-58-EAb" id="rqX-HH-idU"/>
                                             <outlet property="subtitleLabel" destination="4Aa-an-kj6" id="k3E-0H-G3O"/>
                                             <outlet property="titleLabel" destination="77s-gA-McR" id="zhf-MQ-abI"/>
+                                            <segue destination="o4C-Jb-u0T" kind="show" id="7LX-GO-PPu"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -71,13 +72,30 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Workout Log" image="chart.line.text.clipboard.fill" catalog="system" id="r1s-zG-eQG"/>
+                    <navigationItem key="navigationItem" id="uYm-Yy-miZ"/>
                     <connections>
                         <outlet property="tableView" destination="tnd-Ty-Jfh" id="2fY-TK-l2f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1066.4122137404579" y="130.98591549295776"/>
+            <point key="canvasLocation" x="1155" y="131"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="wHL-ve-BKr">
+            <objects>
+                <viewController id="o4C-Jb-u0T" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Re-my-n4Z">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="gKa-Xk-4bC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="3lP-4T-cXE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mnj-X2-VJ3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2065" y="127"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5bO-ww-dh2">
@@ -90,12 +108,29 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="viewControllers" id="QBN-JF-bQl"/>
+                        <segue destination="cHd-zN-bcH" kind="relationship" relationship="viewControllers" id="XLe-DE-H4d"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-Df-zRE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139.69465648854961" y="130.98591549295776"/>
+            <point key="canvasLocation" x="-692" y="131"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="NPk-qn-i8B">
+            <objects>
+                <navigationController id="cHd-zN-bcH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="xZD-xv-dXN"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XoU-ac-8wq">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="rDV-s3-oS2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Ro-zL-n38" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="254" y="131"/>
         </scene>
     </scenes>
     <resources>

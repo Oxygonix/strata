@@ -19,7 +19,11 @@ class SignupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: "toProfileSegue", sender: self)
+            }
+        }
     }
 
     @IBAction func createAccountTapped(_ sender: UIButton) {

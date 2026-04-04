@@ -17,7 +17,11 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
+            }
+        }
     }
     
     @IBAction func signInPressed(_ sender: UIButton) {

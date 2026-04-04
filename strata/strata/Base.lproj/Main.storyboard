@@ -58,7 +58,7 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="createAccountTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="36R-CX-tRr"/>
-                                            <segue destination="W2v-N8-dZM" kind="presentation" identifier="ProfileSegue" modalPresentationStyle="fullScreen" id="RRq-ou-Swi"/>
+                                            <segue destination="W2v-N8-dZM" kind="presentation" identifier="toProfileSegue" modalPresentationStyle="fullScreen" id="RRq-ou-Swi"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEf-VO-R5A">
@@ -307,7 +307,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a0R-wk-k5R"/>
+        <segue reference="RRq-ou-Swi"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

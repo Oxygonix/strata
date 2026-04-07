@@ -26,25 +26,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx" customClass="MacawView" customModule="Macaw">
-                                <rect key="frame" x="20" y="175" width="400" height="612"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx" customClass="MacawView" customModule="Macaw">
+                                <rect key="frame" x="20" y="235" width="400" height="552"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="FTu-xG-9YP" appends="YES" id="LkU-4z-ZgN"/>
-                                    <outletCollection property="gestureRecognizers" destination="1qw-F9-CVu" appends="YES" id="sAW-fL-YZ1"/>
                                 </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
-                                <rect key="frame" x="96" y="83" width="248" height="62"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
+                                <rect key="frame" x="20" y="124" width="400" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="Xwr-dY-VHg"/>
+                                    <constraint firstAttribute="width" constant="400" id="d4A-Qg-7Tq"/>
+                                </constraints>
                                 <attributedString key="attributedText">
                                     <fragment content="Hello David!">
                                         <attributes>
                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="45" name="Avenir-Book"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -54,13 +55,25 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="9fv-8l-hOx" firstAttribute="top" secondItem="QQ6-3U-mEw" secondAttribute="bottom" constant="49" id="2ub-VQ-AdV"/>
+                            <constraint firstItem="QQ6-3U-mEw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="7Pa-xO-wVj"/>
+                            <constraint firstItem="9fv-8l-hOx" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="EaM-6u-zyt"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9fv-8l-hOx" secondAttribute="bottom" constant="52" id="R1E-IP-aVv"/>
+                            <constraint firstItem="QQ6-3U-mEw" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="d6i-RO-35w"/>
+                            <constraint firstItem="9fv-8l-hOx" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="v2l-Pt-fQo"/>
+                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="dLJ-XK-ENw" appends="YES" id="vqO-mR-Kvv"/>
+                            <outletCollection property="gestureRecognizers" destination="Tt1-Ve-fEd" appends="YES" id="ICq-27-Scn"/>
+                            <outletCollection property="gestureRecognizers" destination="Tt1-Ve-fEd" appends="YES" id="h7R-jU-Pz0"/>
                         </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="HeatMap" image="figure.stand" catalog="system" id="ggo-Rv-bCZ"/>
                     <connections>
                         <outlet property="heatMapContainer" destination="9fv-8l-hOx" id="Lo7-ej-aXq"/>
+                        <outlet property="heatMapLeading" destination="EaM-6u-zyt" id="AXs-5S-XMc"/>
+                        <outlet property="helloLabel" destination="QQ6-3U-mEw" id="Cbh-T1-Fpo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -74,9 +87,9 @@
                         <action selector="swipe:" destination="Y6W-OH-hqX" id="49X-5V-vqC"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <tapGestureRecognizer id="1qw-F9-CVu">
+                <tapGestureRecognizer id="Tt1-Ve-fEd">
                     <connections>
-                        <action selector="muscleTapped:" destination="Y6W-OH-hqX" id="Kkq-sJ-xkh"/>
+                        <action selector="backgroundTapped:" destination="Y6W-OH-hqX" id="C5f-fd-LfF"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

@@ -51,11 +51,6 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WNN-ir-ZUg">
-                                <rect key="frame" x="428" y="203" width="325" height="584"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemRedColor"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -79,7 +74,6 @@
                         <outlet property="heatMapContainer" destination="9fv-8l-hOx" id="Lo7-ej-aXq"/>
                         <outlet property="heatMapLeading" destination="EaM-6u-zyt" id="AXs-5S-XMc"/>
                         <outlet property="helloLabel" destination="QQ6-3U-mEw" id="Cbh-T1-Fpo"/>
-                        <outlet property="muscleDetailView" destination="WNN-ir-ZUg" id="K2j-pb-XKQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -150,9 +144,6 @@
         <image name="figure.stand" catalog="system" width="74" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

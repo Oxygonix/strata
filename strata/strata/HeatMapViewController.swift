@@ -77,17 +77,21 @@ let musclesBack: [String: Int] = [
 
 let allMuscles = Set(musclesFront.keys).union(Set(musclesBack.keys))
 
-class HeatMapViewController: UIViewController {
+class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     let db = Firestore.firestore()
     var bodyNode: Node!
     var showingFront = true
     var isDetailVisible = false
     
+    var detailView = UIView()
+    var trailingConstraint: NSLayoutConstraint?
+    let detailViewWidth: CGFloat = 250
+    let detailViewHeight: CGFloat = 600
+    
     @IBOutlet weak var heatMapLeading: NSLayoutConstraint!
     @IBOutlet weak var heatMapContainer: MacawView!
     @IBOutlet weak var helloLabel: UILabel!
-    @IBOutlet weak var muscleDetailView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +105,11 @@ class HeatMapViewController: UIViewController {
                 print("Document does not exist")
             }
         }
+        if let tap = view.gestureRecognizers?.first as? UITapGestureRecognizer {
+            tap.delegate = self
+            tap.cancelsTouchesInView = false
+        }
+        setupDetailView()
         loadBodySVG(named: "Male-Front")
         attachTapHandlers(view: heatMapContainer)
         fillAllMuscles(front: showingFront)
@@ -111,6 +120,23 @@ class HeatMapViewController: UIViewController {
         let isDark = UserDefaults.standard.bool(forKey: "darkModeEnabled")
         helloLabel.textColor = isDark ? .white : .black
     }
+    
+    func setupDetailView() {
+            // 2. Initialize and style
+            detailView.backgroundColor = .red
+            detailView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(detailView)
+
+            // 3. Set constraints
+            trailingConstraint = detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: detailViewWidth)
+            
+            NSLayoutConstraint.activate([
+                detailView.centerYAnchor.constraint(equalTo: heatMapContainer.centerYAnchor),
+                detailView.widthAnchor.constraint(equalToConstant: detailViewWidth),
+                detailView.heightAnchor.constraint(equalToConstant: detailViewHeight),
+                trailingConstraint!
+            ])
+        }
     
     func fillMuscle(name: String, level: Int) {
         let clampedLevel = max(1, min(level, 10))
@@ -198,9 +224,11 @@ class HeatMapViewController: UIViewController {
         let container = self.view!
         let shift = container.frame.width / 2
         
+        self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseInOut]) {
             self.heatMapContainer.transform = CGAffineTransform(translationX: -shift, y: 0)
-            self.muscleDetailView.frame = self.muscleDetailView.frame.offsetBy(dx: -shift, dy: 0)
+            self.trailingConstraint?.constant = 0
+            self.view.layoutIfNeeded()
         }
         
         isDetailVisible = true
@@ -219,22 +247,20 @@ class HeatMapViewController: UIViewController {
     }
     
     @IBAction func backgroundTapped(_ sender: Any) {
-        guard isDetailVisible,
-              let panel = muscleDetailView else { return }
+        
+        guard isDetailVisible else { return }
         
         guard let recognizer = sender as? UITapGestureRecognizer else { return }
         let location = recognizer.location(in: view)
-        
-        // If tap is INSIDE panel → ignore
-        if panel.frame.contains(location) {
+
+        if detailView.frame.contains(location) {
             return
         }
         
-        let shift = view.frame.width / 2
-        
         UIView.animate(withDuration: 0.75, animations: {
             self.heatMapContainer.transform = .identity
-            self.muscleDetailView.frame = self.muscleDetailView.frame.offsetBy(dx: shift, dy: 0)
+            self.trailingConstraint?.constant = self.detailViewWidth
+            self.view.layoutIfNeeded()
         })
         
         isDetailVisible = false

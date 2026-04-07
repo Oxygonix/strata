@@ -29,7 +29,7 @@ let muscleHeatmapFront: [String: Int] = [
     "Obliques": 3,
     "Adductors": 2,
     "Abductors": 2,
-    "Calves": 1,
+    "Calves": 4,
     "Quads": 5
 ]
 
@@ -39,14 +39,15 @@ let muscleHeatmapBack: [String: Int] = [
     "Rear Delts": 3,
     "Lats": 5,
     "Triceps": 2,
-    "Traps": 3,
+    "Traps": 2,
     "Forearms": 1,
     "Adductors": 2,
     "Abductors": 2,
-    "Calves": 1,
+    "Calves": 4,
     "Obliques": 3
 ]
 
+// Single or Group of Muscles
 let musclesFront: [String: Int] = [
     "Chest": 1,
     "Biceps": 0,
@@ -89,6 +90,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     let detailViewWidth: CGFloat = 250
     let detailViewHeight: CGFloat = 600
     
+    var titleLabel = UILabel()
+    var subtitleLabel = UILabel()
+    var highlightedMuscle: String? = nil
+    
     @IBOutlet weak var heatMapLeading: NSLayoutConstraint!
     @IBOutlet weak var heatMapContainer: MacawView!
     @IBOutlet weak var helloLabel: UILabel!
@@ -122,21 +127,52 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func setupDetailView() {
-            // 2. Initialize and style
-            detailView.backgroundColor = .red
-            detailView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(detailView)
+        // Set up detail view
+        detailView.backgroundColor = UIColor(red: 255/255, green: 100/255, blue: 100/255, alpha: 1)
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(detailView)
+        detailView.layer.cornerRadius = 25
+        detailView.layer.maskedCorners = [
+            .layerMinXMinYCorner,
+            .layerMinXMaxYCorner
+        ]
+        detailView.clipsToBounds = true
 
-            // 3. Set constraints
-            trailingConstraint = detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: detailViewWidth)
+        trailingConstraint = detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: detailViewWidth)
+        
+        NSLayoutConstraint.activate([
+            detailView.centerYAnchor.constraint(equalTo: heatMapContainer.centerYAnchor),
+            detailView.widthAnchor.constraint(equalToConstant: detailViewWidth),
+            detailView.heightAnchor.constraint(equalToConstant: detailViewHeight),
+            trailingConstraint!
+        ])
+        
+        // Set up detail labels
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 38)
+        titleLabel.textColor = .white
+        subtitleLabel.font = UIFont.systemFont(ofSize: 24)
+        subtitleLabel.textColor = .white
+        subtitleLabel.numberOfLines = 0
+        
+        detailView.addSubview(titleLabel)
+        detailView.addSubview(subtitleLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: detailView.topAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -20),
             
-            NSLayoutConstraint.activate([
-                detailView.centerYAnchor.constraint(equalTo: heatMapContainer.centerYAnchor),
-                detailView.widthAnchor.constraint(equalToConstant: detailViewWidth),
-                detailView.heightAnchor.constraint(equalToConstant: detailViewHeight),
-                trailingConstraint!
-            ])
-        }
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            subtitleLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 20),
+            subtitleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -20)
+        ])
+        
+        titleLabel.text = "Muscle"
+        subtitleLabel.text = "Intensity"
+    }
     
     func fillMuscle(name: String, level: Int) {
         let clampedLevel = max(1, min(level, 10))
@@ -212,15 +248,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func handleLayerTap(layerId: String) {
-        print("Handling tap for layer with ID: \(layerId)")
+
+        highlightedMuscle = layerId
+        updateView(layerId: layerId)
         
-        // If already open → just update content
-        if isDetailVisible {
-            updateView(layerId: layerId)
-            return
-        }
-        
-        // First time opening
         let container = self.view!
         let shift = container.frame.width / 2
         
@@ -235,8 +266,104 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func updateView(layerId: String) {
-        // change what details are on the view
-        // (name, level of fatigue, recent logs, recommendations)
+        
+        print("Updating detail view for \(layerId)")
+        
+        highlightMuscle(layerId)
+        
+        titleLabel.text = layerId
+        
+        let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
+        let intensity = data[layerId] ?? 1
+        
+        let intensityDescription: String
+        switch intensity {
+        case 1: intensityDescription = "Rested"
+        case 2: intensityDescription = "Light fatigue"
+        case 3: intensityDescription = "Moderate fatigue"
+        case 4: intensityDescription = "High fatigue"
+        case 5: intensityDescription = "Extremely fatigued"
+        default: intensityDescription = "Unknown"
+        }
+        
+        subtitleLabel.text = "Intensity: \(intensityDescription)"
+    }
+    
+    func setOpacityRecursively(node: Node, opacity: Double) {
+        if let shape = node as? Shape {
+            shape.opacityVar.animation(to: opacity, during: 0.2).play()
+        } else if let group = node as? Group {
+            for child in group.contents {
+                setOpacityRecursively(node: child, opacity: opacity)
+            }
+        }
+    }
+    
+    func highlightMuscle(_ muscleName: String) {
+        guard let body = bodyNode else { return }
+
+        let extraGroups = ["Head", "Feet", "Hands", "Knees"]
+
+        for name in allMuscles.union(extraGroups) {
+            let nodesToFade = [name, "\(name) (Stroke)"]
+
+            for nodeName in nodesToFade {
+                if let node = body.nodeBy(tag: nodeName) {
+                    let targetOpacity: Double
+                    if nodeName == muscleName || nodeName == "\(muscleName) (Stroke)" {
+                        targetOpacity = 1.0
+                    } else {
+                        targetOpacity = 0.2
+                    }
+                    setOpacityRecursively(node: node, opacity: targetOpacity)
+                }
+            }
+        }
+    }
+    
+    func resetMuscleOpacity() {
+        guard let body = bodyNode else { return }
+
+        let extraGroups = ["Head", "Feet", "Hands", "Knees"]
+
+        for name in allMuscles.union(extraGroups) {
+            let nodesToReset = [name, "\(name) (Stroke)"]
+
+            for nodeName in nodesToReset {
+                if let node = body.nodeBy(tag: nodeName) {
+                    setOpacityRecursively(node: node, opacity: 1.0)
+                }
+            }
+        }
+    }
+    
+    func applyHighlightMode() {
+        guard let body = bodyNode else { return }
+        guard let selected = highlightedMuscle else { return }
+
+        let extraGroups = ["Head", "Feet", "Hands", "Knees"]
+
+        for name in allMuscles.union(extraGroups) {
+            let nodesToSet = [name, "\(name) (Stroke)"]
+
+            for nodeName in nodesToSet {
+                if let node = body.nodeBy(tag: nodeName) {
+                    let targetOpacity: Double = (nodeName == selected || nodeName == "\(selected) (Stroke)") ? 1.0 : 0.2
+                    // Set opacity immediately without animation
+                    setOpacityImmediately(node: node, opacity: targetOpacity)
+                }
+            }
+        }
+    }
+    
+    func setOpacityImmediately(node: Node, opacity: Double) {
+        if let shape = node as? Shape {
+            shape.opacity = opacity
+        } else if let group = node as? Group {
+            for child in group.contents {
+                setOpacityImmediately(node: child, opacity: opacity)
+            }
+        }
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
@@ -249,10 +376,8 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func backgroundTapped(_ sender: Any) {
         
         guard isDetailVisible else { return }
-        
         guard let recognizer = sender as? UITapGestureRecognizer else { return }
         let location = recognizer.location(in: view)
-
         if detailView.frame.contains(location) {
             return
         }
@@ -263,6 +388,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
             self.view.layoutIfNeeded()
         })
         
+        resetMuscleOpacity()
         isDetailVisible = false
     }
 
@@ -272,5 +398,9 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
         loadBodySVG(named: svgName)
         attachTapHandlers(view: heatMapContainer)
         fillAllMuscles(front: showingFront)
+        
+        if highlightedMuscle != nil && isDetailVisible {
+            applyHighlightMode()
+        }
     }
 }

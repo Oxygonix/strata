@@ -105,16 +105,16 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let user = Auth.auth().currentUser
-        let docRef = db.collection("users").document("\(user!.uid)")
-        docRef.getDocument { (document, err) in
-            if let document = document, document.exists {
-                let name = document.data()!["name"] as! String
-                self.helloLabel.text = "Hello \(name)!"
-            } else {
-                print("Document does not exist")
-            }
-        }
+//        let user = Auth.auth().currentUser
+//        let docRef = db.collection("users").document("\(user!.uid)")
+//        docRef.getDocument { (document, err) in
+//            if let document = document, document.exists {
+//                let name = document.data()!["name"] as! String
+//                self.helloLabel.text = "Hello \(name)!"
+//            } else {
+//                print("Document does not exist")
+//            }
+//        }
         if let tap = view.gestureRecognizers?.first as? UITapGestureRecognizer {
             tap.delegate = self
             tap.cancelsTouchesInView = false

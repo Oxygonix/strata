@@ -58,7 +58,7 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="createAccountTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="36R-CX-tRr"/>
-                                            <segue destination="W2v-N8-dZM" kind="presentation" identifier="ProfileSegue" modalPresentationStyle="fullScreen" id="RRq-ou-Swi"/>
+                                            <segue destination="W2v-N8-dZM" kind="presentation" identifier="toProfileSegue" modalPresentationStyle="fullScreen" id="RRq-ou-Swi"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEf-VO-R5A">
@@ -237,7 +237,6 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="signInPressed:" destination="6sm-51-xRf" eventType="touchUpInside" id="vqc-BB-dU0"/>
-                                            <segue destination="W2v-N8-dZM" kind="presentation" modalPresentationStyle="fullScreen" id="MhQ-Tr-22y"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or if you don't have an account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPz-6z-Pi6">
@@ -289,11 +288,12 @@
                     <connections>
                         <outlet property="emailTextField" destination="AwY-QM-D58" id="4KD-XF-if5"/>
                         <outlet property="passwordTextField" destination="Iis-Qz-4v5" id="PV6-cC-7EM"/>
+                        <segue destination="W2v-N8-dZM" kind="presentation" identifier="toHeatmapSegue" modalPresentationStyle="fullScreen" id="a0R-wk-k5R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMA-BD-wfh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1405.909090909091" y="131.17154811715483"/>
+            <point key="canvasLocation" x="1628" y="158"/>
         </scene>
         <!--HeatMapNavBar-->
         <scene sceneID="EXe-nM-wOq">

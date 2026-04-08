@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Profile-->
+        <!--Profile Setttings View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="ProfileSettings" id="Y6W-OH-hqX" customClass="ProfileSetttingsViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileSettings" id="Y6W-OH-hqX" customClass="ProfileSetttingsViewController" customModule="strata" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -165,19 +165,15 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQ4-RB-es5">
-                                <rect key="frame" x="188" y="755.66666666666663" width="64.333333333333314" height="34.333333333333371"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="systemRedColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Done"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owi-8T-JMb">
                                 <rect key="frame" x="131" y="504" width="55.333333333333343" height="50.333333333333314"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="figure.stand" catalog="system" buttonSize="large"/>
+                                <connections>
+                                    <action selector="maleButtonPushed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="dUO-fg-EQi"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="22X-rV-R5V">
                                 <rect key="frame" x="248" y="504" width="55.333333333333329" height="50.333333333333329"/>
@@ -185,6 +181,9 @@
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="figure.stand.dress" catalog="system"/>
+                                <connections>
+                                    <action selector="femaleButtonPushed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="dte-1x-xeb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzN-2K-OSN">
                                 <rect key="frame" x="275" y="213" width="114" height="133"/>
@@ -195,6 +194,56 @@
                                     <imageReference key="image" image="person.crop.circle.fill" catalog="system" symbolScale="large"/>
                                 </buttonConfiguration>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xnU-rT-Y0L">
+                                <rect key="frame" x="52" y="461" width="61" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="onTintColor" red="0.79386050959999999" green="0.057234349660000003" blue="0.14923041670000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="darkModeChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="07g-B8-12S"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dark Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4h-7X-4VJ">
+                                <rect key="frame" x="131" y="465" width="84" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pq5-RW-alt">
+                                <rect key="frame" x="244" y="461" width="61" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="onTintColor" red="0.79386050959999999" green="0.057234349660000003" blue="0.14923041670000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="enableNotificationChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="Kre-de-sNq"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enable Notifications" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MXj-6u-K5u">
+                                <rect key="frame" x="322" y="449" width="106" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O0f-S7-mc4">
+                                <rect key="frame" x="178" y="804" width="85" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Log Out"/>
+                                <connections>
+                                    <action selector="logoutButtonPushed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Eid-of-dPS"/>
+                                    <segue destination="RV2-lT-nYY" kind="presentation" identifier="logoutSegue" modalPresentationStyle="fullScreen" id="GGt-oR-GHK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQ4-RB-es5">
+                                <rect key="frame" x="188" y="743" width="64.333333333333314" height="34.333333333333371"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Done"/>
+                                <connections>
+                                    <action selector="donePressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="oUg-At-7rX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -203,11 +252,38 @@
                             <constraint firstItem="Twa-Ri-O3n" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="KBW-29-WC1"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="FOe-eJ-hx8"/>
+                    <tabBarItem key="tabBarItem" title="" image="person.crop.circle.fill" catalog="system" id="FOe-eJ-hx8"/>
+                    <connections>
+                        <outlet property="ageTextField" destination="tUg-zi-KxZ" id="EHt-ER-whZ"/>
+                        <outlet property="barbellsButton" destination="4RL-go-ThN" id="2Q0-PA-AJG"/>
+                        <outlet property="benchButton" destination="ivm-ie-sQp" id="d6j-8R-OgA"/>
+                        <outlet property="cablesButton" destination="cBt-OO-6Hm" id="aJ2-ST-CK8"/>
+                        <outlet property="darkModeSwitch" destination="xnU-rT-Y0L" id="bsq-SM-Fz1"/>
+                        <outlet property="dumbbellsButton" destination="kYC-gx-lOi" id="vRv-4M-lGd"/>
+                        <outlet property="femaleButton" destination="22X-rV-R5V" id="ZZJ-0Q-RpB"/>
+                        <outlet property="heightFtTextField" destination="MXn-Zt-7RI" id="KvY-5v-Wjw"/>
+                        <outlet property="heightInTextField" destination="7sc-dK-uTK" id="dTd-rH-xlG"/>
+                        <outlet property="kettlebellButton" destination="jQ6-SH-40q" id="nbk-tc-OCC"/>
+                        <outlet property="maleButton" destination="owi-8T-JMb" id="v4T-E2-VKS"/>
+                        <outlet property="matButton" destination="WuL-97-M57" id="bhL-qD-lSW"/>
+                        <outlet property="nameTextField" destination="Y5v-fv-Ose" id="3mb-eh-gdB"/>
+                        <outlet property="notificationSwitch" destination="pq5-RW-alt" id="jAw-6z-PUs"/>
+                        <outlet property="weightTextField" destination="AOu-pm-21U" id="Qpk-pX-dRh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1066.3636363636365" y="130.54393305439331"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="Yjp-6c-378">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="Login" id="RV2-lT-nYY" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="fMq-n2-Sqd"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gOn-pc-LDe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1067" y="535"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="JM7-ak-0pn">
@@ -237,16 +313,16 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="placeholderTextColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.2196078431372549" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

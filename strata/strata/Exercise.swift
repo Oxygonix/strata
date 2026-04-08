@@ -10,6 +10,6 @@ import Foundation
 struct Exercise {
     let name: String
     let sets: Int
-    let reps: Int
+    let reps: String
     let rest: String
 }

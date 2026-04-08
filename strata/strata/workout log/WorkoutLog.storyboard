@@ -291,6 +291,7 @@
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="muscleGroupLabel" destination="i3y-l0-rdf" id="mjT-vr-8Bm"/>
+                                            <outlet property="rowCardView" destination="rowAccent" id="7qL-0R-S17"/>
                                             <outlet property="setsCollectionView" destination="pEf-m5-M6A" id="xBd-PH-2es"/>
                                             <outlet property="workoutNameLabel" destination="lhl-ni-Bqi" id="wf7-4p-BuG"/>
                                         </connections>

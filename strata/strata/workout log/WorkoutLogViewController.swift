@@ -1,5 +1,4 @@
 import UIKit
-import Charts
 
 class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -17,7 +16,6 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 90
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

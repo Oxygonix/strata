@@ -33,8 +33,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recommended For You" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ez-t3-ikl">
-                                <rect key="frame" x="127" y="169" width="187.66666666666669" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recommended Workouts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ez-t3-ikl">
+                                <rect key="frame" x="117.66666666666669" y="169" width="205" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -69,13 +69,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Workout Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gvl-r7-9au">
-                                <rect key="frame" x="159.66666666666666" y="196" width="120.99999999999997" height="21"/>
+                                <rect key="frame" x="159.66666666666666" y="166" width="120.99999999999997" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SPc-QU-1Ko">
-                                <rect key="frame" x="20" y="307" width="400" height="561"/>
+                                <rect key="frame" x="20" y="308" width="400" height="560"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="exerciseCell" id="Mqn-BD-RJj">
@@ -89,27 +89,45 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xo8-lZ-R89">
-                                <rect key="frame" x="186.66666666666666" y="236" width="67" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="35.999999999999993" y="257" width="65.333333333333314" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Difficulty Level:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORD-tH-vno">
+                                <rect key="frame" x="36" y="228" width="117" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body Parts Worked:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCd-yo-w1N">
+                                <rect key="frame" x="36" y="199" width="151" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZXO-zl-BsL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ZXO-zl-BsL" firstAttribute="trailing" secondItem="SPc-QU-1Ko" secondAttribute="trailing" constant="20" id="2to-77-aXn"/>
-                            <constraint firstItem="ZXO-zl-BsL" firstAttribute="bottom" secondItem="SPc-QU-1Ko" secondAttribute="bottom" constant="20" id="8XL-jw-Y9C"/>
-                            <constraint firstItem="SPc-QU-1Ko" firstAttribute="leading" secondItem="ZXO-zl-BsL" secondAttribute="leading" constant="20" id="DYX-Sj-iPk"/>
-                            <constraint firstItem="Gvl-r7-9au" firstAttribute="centerX" secondItem="gQ1-Q3-3Fn" secondAttribute="centerX" id="Nfh-yZ-4mk"/>
-                            <constraint firstItem="Gvl-r7-9au" firstAttribute="top" secondItem="ZXO-zl-BsL" secondAttribute="top" constant="18" id="R7h-eK-ekR"/>
-                            <constraint firstItem="SPc-QU-1Ko" firstAttribute="top" secondItem="xo8-lZ-R89" secondAttribute="bottom" constant="50" id="Z6f-Q8-4t2"/>
-                            <constraint firstItem="xo8-lZ-R89" firstAttribute="centerX" secondItem="gQ1-Q3-3Fn" secondAttribute="centerX" id="eEs-ct-xOl"/>
-                            <constraint firstItem="xo8-lZ-R89" firstAttribute="top" secondItem="ZXO-zl-BsL" secondAttribute="top" constant="58" id="z0r-v4-kZC"/>
+                            <constraint firstItem="ZXO-zl-BsL" firstAttribute="bottom" secondItem="SPc-QU-1Ko" secondAttribute="bottom" constant="20" id="201-mG-LIY"/>
+                            <constraint firstItem="ORD-tH-vno" firstAttribute="leading" secondItem="ZXO-zl-BsL" secondAttribute="leading" constant="36" id="3J2-fy-LMw"/>
+                            <constraint firstItem="SPc-QU-1Ko" firstAttribute="leading" secondItem="ZXO-zl-BsL" secondAttribute="leading" constant="20" id="5XO-Bw-qWc"/>
+                            <constraint firstItem="ORD-tH-vno" firstAttribute="top" secondItem="hCd-yo-w1N" secondAttribute="bottom" constant="8" symbolic="YES" id="Br8-ea-wwR"/>
+                            <constraint firstItem="Gvl-r7-9au" firstAttribute="centerX" secondItem="gQ1-Q3-3Fn" secondAttribute="centerX" id="HXS-Ou-wDm"/>
+                            <constraint firstItem="xo8-lZ-R89" firstAttribute="top" secondItem="ORD-tH-vno" secondAttribute="bottom" constant="8" symbolic="YES" id="SOU-LC-sF8"/>
+                            <constraint firstItem="xo8-lZ-R89" firstAttribute="leading" secondItem="ZXO-zl-BsL" secondAttribute="leading" constant="36" id="Y4T-Hc-6Eb"/>
+                            <constraint firstItem="ZXO-zl-BsL" firstAttribute="top" secondItem="Gvl-r7-9au" secondAttribute="top" constant="12" id="ali-uv-kjo"/>
+                            <constraint firstItem="hCd-yo-w1N" firstAttribute="top" secondItem="Gvl-r7-9au" secondAttribute="bottom" constant="12" id="eoE-JR-2UV"/>
+                            <constraint firstItem="SPc-QU-1Ko" firstAttribute="top" secondItem="xo8-lZ-R89" secondAttribute="bottom" constant="30" id="paR-hP-cPm"/>
+                            <constraint firstItem="hCd-yo-w1N" firstAttribute="leading" secondItem="ZXO-zl-BsL" secondAttribute="leading" constant="36" id="tAe-AN-1yL"/>
+                            <constraint firstItem="ZXO-zl-BsL" firstAttribute="trailing" secondItem="SPc-QU-1Ko" secondAttribute="trailing" constant="20" id="vKe-q5-L50"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Nmy-LB-GMg"/>
                     <connections>
+                        <outlet property="bodyPartsWorkedLabel" destination="hCd-yo-w1N" id="LI0-Qb-NLw"/>
+                        <outlet property="difficultyLevelLabel" destination="ORD-tH-vno" id="zlB-Vo-twx"/>
                         <outlet property="durationLabel" destination="xo8-lZ-R89" id="3cb-9v-AFN"/>
                         <outlet property="tableView" destination="SPc-QU-1Ko" id="8Dh-yK-9KE"/>
                         <outlet property="workoutLabel" destination="Gvl-r7-9au" id="bct-TD-vzW"/>

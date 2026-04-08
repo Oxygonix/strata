@@ -168,7 +168,6 @@
                 <viewController storyboardIdentifier="Login" id="6sm-51-xRf" customClass="LoginViewController" customModule="strata" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SiV-xD-XMP">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Welcome to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tdg-vG-lJO">
@@ -308,7 +307,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RRq-ou-Swi"/>
+        <segue reference="MhQ-Tr-22y"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

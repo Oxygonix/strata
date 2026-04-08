@@ -78,7 +78,7 @@ let musclesBack: [String: Int] = [
 
 let allMuscles = Set(musclesFront.keys).union(Set(musclesBack.keys))
 
-class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
+class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate {
     
     let db = Firestore.firestore()
     var bodyNode: Node!
@@ -92,7 +92,12 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var titleLabel = UILabel()
     var subtitleLabel = UILabel()
+    var intensityImageView: UIImageView!
     var highlightedMuscle: String? = nil
+    
+    var segmentedControl: UISegmentedControl!
+    var tableView: UITableView!
+    var tableData: [String] = []
     
     @IBOutlet weak var heatMapLeading: NSLayoutConstraint!
     @IBOutlet weak var heatMapContainer: MacawView!
@@ -137,7 +142,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
             .layerMinXMaxYCorner
         ]
         detailView.clipsToBounds = true
-
         trailingConstraint = detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: detailViewWidth)
         
         NSLayoutConstraint.activate([
@@ -150,28 +154,87 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Set up detail labels
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 38)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 40)
         titleLabel.textColor = .white
-        subtitleLabel.font = UIFont.systemFont(ofSize: 24)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 18)
         subtitleLabel.textColor = .white
         subtitleLabel.numberOfLines = 0
-        
         detailView.addSubview(titleLabel)
-        detailView.addSubview(subtitleLabel)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: detailView.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -20),
-            
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            subtitleLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 20),
-            subtitleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -20)
+            titleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -20)
         ])
+        
+        // Setup intensity image view
+        intensityImageView = UIImageView()
+        intensityImageView.translatesAutoresizingMaskIntoConstraints = false
+        intensityImageView.contentMode = .scaleAspectFit
+        detailView.addSubview(intensityImageView)
+        detailView.addSubview(subtitleLabel)
         
         titleLabel.text = "Muscle"
         subtitleLabel.text = "Intensity"
+
+        NSLayoutConstraint.activate([
+            intensityImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
+            intensityImageView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            intensityImageView.heightAnchor.constraint(equalToConstant: 40),
+            intensityImageView.widthAnchor.constraint(equalToConstant: 60),
+            
+            subtitleLabel.centerYAnchor.constraint(equalTo: intensityImageView.centerYAnchor),
+            subtitleLabel.leadingAnchor.constraint(equalTo: intensityImageView.trailingAnchor, constant: 10),
+            subtitleLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor)
+        ])
+        
+        // Setup Segmented Control
+        segmentedControl = UISegmentedControl(items: ["Recent Logs", "Recommendations"])
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        let font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        segmentedControl.setTitleTextAttributes([.font: font], for: .normal)
+        segmentedControl.setTitleTextAttributes([.font: font], for: .selected)
+        segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        detailView.addSubview(segmentedControl)
+
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo: intensityImageView.bottomAnchor, constant: 20),
+            segmentedControl.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 20),
+            segmentedControl.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -20)
+        ])
+        
+        // Setup Tableview
+        tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.layer.cornerRadius = 10
+        tableView.clipsToBounds = true
+        detailView.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
+            tableView.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 15),
+            tableView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -15),
+            tableView.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -15)
+        ])
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = tableData[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func fillMuscle(name: String, level: Int) {
@@ -266,11 +329,8 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func updateView(layerId: String) {
-        
-        print("Updating detail view for \(layerId)")
-        
+
         highlightMuscle(layerId)
-        
         titleLabel.text = layerId
         
         let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
@@ -278,15 +338,17 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let intensityDescription: String
         switch intensity {
-        case 1: intensityDescription = "Rested"
-        case 2: intensityDescription = "Light fatigue"
-        case 3: intensityDescription = "Moderate fatigue"
-        case 4: intensityDescription = "High fatigue"
-        case 5: intensityDescription = "Extremely fatigued"
-        default: intensityDescription = "Unknown"
+            case 1: intensityDescription = "Rested"
+            case 2: intensityDescription = "Light fatigue"
+            case 3: intensityDescription = "Moderate fatigue"
+            case 4: intensityDescription = "High fatigue"
+            case 5: intensityDescription = "Extreme fatigue"
+            default: intensityDescription = "Unknown"
         }
         
-        subtitleLabel.text = "Intensity: \(intensityDescription)"
+        subtitleLabel.text = "\(intensityDescription)"
+        intensityImageView.image = UIImage(named: "\(intensity)")
+        loadTableData(forSegment: segmentedControl.selectedSegmentIndex, muscle: layerId)
     }
     
     func setOpacityRecursively(node: Node, opacity: Double) {
@@ -349,7 +411,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
             for nodeName in nodesToSet {
                 if let node = body.nodeBy(tag: nodeName) {
                     let targetOpacity: Double = (nodeName == selected || nodeName == "\(selected) (Stroke)") ? 1.0 : 0.2
-                    // Set opacity immediately without animation
                     setOpacityImmediately(node: node, opacity: targetOpacity)
                 }
             }
@@ -364,6 +425,31 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate {
                 setOpacityImmediately(node: child, opacity: opacity)
             }
         }
+    }
+    
+    @objc func segmentChanged() {
+        guard let muscle = highlightedMuscle else { return }
+        loadTableData(forSegment: segmentedControl.selectedSegmentIndex, muscle: muscle)
+    }
+
+    func loadTableData(forSegment index: Int, muscle: String) {
+        switch index {
+            case 0: // Recent Logs
+                tableData = [
+                    "\(muscle) - Log 1",
+                    "\(muscle) - Log 2",
+                    "\(muscle) - Log 3"
+                ]
+            case 1: // Recommendations
+                tableData = [
+                    "Workout A for \(muscle)",
+                    "Workout B for \(muscle)",
+                    "Workout C for \(muscle)"
+                ]
+            default:
+                tableData = []
+        }
+        tableView.reloadData()
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

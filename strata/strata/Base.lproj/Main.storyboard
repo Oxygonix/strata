@@ -306,9 +306,6 @@
             <point key="canvasLocation" x="988" y="537"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="MhQ-Tr-22y"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

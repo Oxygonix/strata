@@ -9,37 +9,59 @@ import UIKit
 import SwiftUI
 import Charts
 
-class ChosenWorkout: UIViewController {
+class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var dateRange: UISegmentedControl!
     @IBOutlet weak var currentWorkouts: UITableView!
-    
+
+    let workouts: [(name: String, muscle: String)] = [
+        ("Preacher Curl", "Biceps"),
+        ("Bench Press", "Chest")
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+
+        currentWorkouts.dataSource = self
+        currentWorkouts.delegate = self
 
         let hostingController = UIHostingController(rootView: WorkoutChartView())
 
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: dateRange.bottomAnchor, constant: 40),
             hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 250)])
-        
-        dateRange.translatesAutoresizingMaskIntoConstraints = false
+            hostingController.view.heightAnchor.constraint(equalToConstant: 250),
 
-        NSLayoutConstraint.activate([
-            dateRange.topAnchor.constraint(equalTo: view.topAnchor, constant: 125),
-            dateRange.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            dateRange.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            dateRange.heightAnchor.constraint(equalToConstant: 32)
+            currentWorkouts.topAnchor.constraint(equalTo: hostingController.view.bottomAnchor, constant: 20),
+            currentWorkouts.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            currentWorkouts.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            currentWorkouts.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
         hostingController.didMove(toParent: self)
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        workouts.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WorkoutRowCell", for: indexPath) as! WorkoutRowCell
+
+        let workout = workouts[indexPath.row]
+        cell.configure(workoutName: workout.name, muscleGroup: workout.muscle)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        110
     }
 }
 

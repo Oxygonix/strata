@@ -28,12 +28,16 @@ class ProfileSetttingsViewController: UIViewController {
     @IBOutlet weak var matButton: UIButton!
     @IBOutlet weak var cablesButton: UIButton!
     
+    @IBOutlet weak var maleButton: UIButton!
+    @IBOutlet weak var femaleButton: UIButton!
+    
     var benchSelected = false
     var barbellsSelected = false
     var kettlebellSelected = false
     var dumbbellsSelected = false
     var matSelected = false
     var cablesSelected = false
+    var sex = "male"
     
     let notificationKey = "notificationsEnabled"
     let darkModeKey = "darkModeEnabled"
@@ -53,6 +57,29 @@ class ProfileSetttingsViewController: UIViewController {
            let window = windowScene.windows.first {
             window.overrideUserInterfaceStyle = isDark ? .dark : .light
         }
+        
+        let user = Auth.auth().currentUser
+        let docRef = db.collection("users").document("\(user!.uid)")
+        docRef.getDocument { (document, err) in
+            if let document = document, document.exists {
+                let data = document.data()!
+                let name = data["name"] as! String
+                self.nameTextField.text = name
+                let age = data["age"] as! Int
+                self.ageTextField.text = "\(age)"
+                if let height = data["height"] as? [String: Any] {
+                    let heightFt = height["ft"] as? Int ?? 0
+                    let heightIn = height["in"] as? Int ?? 0
+                    self.heightFtTextField.text = "\(heightFt)"
+                    self.heightInTextField.text = "\(heightIn)"
+                }
+                let weight = data["weight"] as! Int
+                self.weightTextField.text = "\(weight)"
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
     }
     
     @IBAction func equipmentButton(_ sender: UIButton) {
@@ -161,6 +188,7 @@ class ProfileSetttingsViewController: UIViewController {
                 "ft": heightFt,
                 "in": heightIn
             ],
+//            "sex": sex,
             "weight": weight,
             "darkModeEnabled": isDark,
             "notificationsEnabled": notificationsOn,
@@ -179,14 +207,29 @@ class ProfileSetttingsViewController: UIViewController {
         saveProfileToFirestore()
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func logoutButtonPushed(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "logoutSegue", sender: self)
+        } catch {
+            print("Error logging out")
+        }
     }
-    */
-
+    
+    @IBAction func maleButtonPushed(_ sender: Any) {
+        sex = "male"
+        maleButton.backgroundColor = .red
+        femaleButton.backgroundColor = .clear
+        maleButton.tintColor = .white
+        femaleButton.tintColor = .red
+    }
+    
+    @IBAction func femaleButtonPushed(_ sender: Any) {
+        sex = "female"
+        femaleButton.backgroundColor = .red
+        maleButton.backgroundColor = .clear
+        femaleButton.tintColor = .white
+        maleButton.tintColor = .red
+    }
+    
 }

@@ -9,8 +9,5 @@ class WorkoutLogCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        activityImageView.layer.cornerRadius = 8
-        activityImageView.clipsToBounds = true
-        activityImageView.contentMode = .scaleAspectFill
     }
 }

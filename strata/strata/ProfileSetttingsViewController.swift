@@ -46,58 +46,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         loadProfileImage()
-        /*
-        guard let user = Auth.auth().currentUser else {
-            print("No logged in user")
-            return
-        }
-
-        let docRef = db.collection("users").document(user.uid)
-        
-        docRef.getDocument { (document, err) in
-            if let document = document, document.exists {
-                let data = document.data()!
-                
-                // Profile info
-                let name = data["name"] as? String ?? ""
-                self.nameTextField.text = name
-                
-                let age = data["age"] as? Int ?? 0
-                self.ageTextField.text = "\(age)"
-                
-                if let height = data["height"] as? [String: Any] {
-                    let heightFt = height["ft"] as? Int ?? 0
-                    let heightIn = height["in"] as? Int ?? 0
-                    self.heightFtTextField.text = "\(heightFt)"
-                    self.heightInTextField.text = "\(heightIn)"
-                }
-                
-                let weight = data["weight"] as? Int ?? 0
-                self.weightTextField.text = "\(weight)"
-                
-                // Equipment buttons
-                if let equipment = data["equipment"] as? [String: Bool] {
-                    self.benchSelected = equipment["bench"] ?? false
-                    self.barbellsSelected = equipment["barbells"] ?? false
-                    self.kettlebellSelected = equipment["kettlebell"] ?? false
-                    self.dumbbellsSelected = equipment["dumbbells"] ?? false
-                    self.matSelected = equipment["mat"] ?? false
-                    self.cablesSelected = equipment["cables"] ?? false
-                    
-                    // Update button images
-                    self.updateEquipmentButtons()
-                }
-                
-                // Sex buttons
-                if let savedSex = data["sex"] as? String {
-                    self.sex = savedSex
-                    self.updateSexButtons()
-                }
-                
-            } else {
-                print("Document does not exist")
-            }
-        } */
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -163,10 +111,8 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     
     @IBAction func donePressed(_ sender: UIButton) {
         saveProfileToFirestore()
-        // added
         onProfileUpdated?()
         navigationController?.popViewController(animated: true)
-        // added
     }
     
     @IBAction func maleButtonPushed(_ sender: Any) {
@@ -254,45 +200,74 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let selectedImage = info[.originalImage] as? UIImage {
-            profileImage.image = selectedImage
-            uploadImageToFirebase(image: selectedImage)
-        }
-        
-        dismiss(animated: true)
-    }
-    
-    func uploadImageToFirebase(image: UIImage) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
-        
-        let storageRef = Storage.storage().reference()
-            .child("profile_images/\(userID).jpg")
-        
-        storageRef.putData(imageData, metadata: nil) { metadata, error in
-            if let error = error {
-                print("Upload error: \(error.localizedDescription)")
-                return
+                profileImage.image = selectedImage
+                print("Image selected")
+                
+                // Save directly to Firestore as Base64
+                saveProfileImageToFirestore(image: selectedImage)
             }
             
+            dismiss(animated: true)
+    }
+    
+    func uploadImageToFirebase(image: UIImage, completion: @escaping (Bool) -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { completion(false); return }
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else { completion(false); return }
+
+        let storageRef = Storage.storage().reference().child("profile_images/\(userID).jpg")
+
+        storageRef.putData(imageData, metadata: nil) { _, error in
+            if let error = error {
+                print("Upload error: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+
             storageRef.downloadURL { url, error in
                 if let downloadURL = url {
-                    self.saveImageURLToFirestore(url: downloadURL.absoluteString)
+                    self.saveImageURLToFirestore(url: downloadURL.absoluteString) { success in
+                        completion(success)
+                    }
+                } else {
+                    completion(false)
                 }
             }
         }
     }
     
-    func saveImageURLToFirestore(url: String) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        
-        Firestore.firestore().collection("users").document(userID).updateData([
+    func saveImageURLToFirestore(url: String, completion: @escaping (Bool) -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { completion(false); return }
+
+        Firestore.firestore().collection("users").document(userID).setData([
             "profileImageURL": url
-        ]) { error in
+        ], merge: true) { error in
             if let error = error {
                 print("Firestore save error: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Profile image URL saved successfully")
+                completion(true)
+            }
+        }
+    }
+    
+    func saveProfileImageToFirestore(image: UIImage) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        // Compress image to reduce size
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+        
+        // Convert to Base64 string
+        let base64String = imageData.base64EncodedString()
+        
+        // Save to Firestore in the same document as user info
+        Firestore.firestore().collection("users").document(userID).setData([
+            "profileImageBase64": base64String
+        ], merge: true) { error in
+            if let error = error {
+                print("Error saving image: \(error.localizedDescription)")
+            } else {
+                print("Profile image saved in Firestore successfully")
             }
         }
     }
@@ -306,16 +281,12 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
             let docRef = Firestore.firestore().collection("users").document(userID)
             docRef.getDocument { snapshot, error in
                 if let data = snapshot?.data(),
-                   let imageURL = data["profileImageURL"] as? String,
-                   let url = URL(string: imageURL) {
-
-                    URLSession.shared.dataTask(with: url) { data, _, _ in
-                        if let data = data {
-                            DispatchQueue.main.async {
-                                self.profileImage.image = UIImage(data: data)
-                            }
-                        }
-                    }.resume()
+                   let base64String = data["profileImageBase64"] as? String,
+                   let imageData = Data(base64Encoded: base64String) {
+                    
+                    DispatchQueue.main.async {
+                        self.profileImage.image = UIImage(data: imageData)
+                    }
                 }
             }
     }

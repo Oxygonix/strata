@@ -186,7 +186,7 @@ class AddWorkout: UIViewController {
         nameContainer.backgroundColor = accentColor.withAlphaComponent(0.06)
         
         dateContainer.layer.cornerRadius = 22
-        dateContainer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
         dateContainer.layer.borderWidth = 1
         dateContainer.layer.borderColor = accentColor.withAlphaComponent(0.10).cgColor
         dateContainer.backgroundColor = UIColor.white.withAlphaComponent(0.72)

@@ -3,7 +3,6 @@
     <device id="retina6_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -356,15 +355,6 @@
                                     <action selector="femaleButtonPushed:" destination="Hwg-Jf-5uQ" eventType="touchUpInside" id="7VR-rc-d1h"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fy-eP-eGd">
-                                <rect key="frame" x="275" y="213" width="114" height="133"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="placeholderTextColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray">
-                                    <imageReference key="image" image="person.crop.circle.fill" catalog="system" symbolScale="large"/>
-                                </buttonConfiguration>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMi-Iz-4w4">
                                 <rect key="frame" x="188" y="743" width="64.333333333333314" height="34.333333333333371"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -373,6 +363,20 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Done"/>
                                 <connections>
                                     <action selector="donePressed:" destination="Hwg-Jf-5uQ" eventType="touchUpInside" id="ldM-eb-4m1"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.crop.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fDt-dF-Qlg">
+                                <rect key="frame" x="296" y="211.66666666666663" width="84" height="83"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.79460489749999996" green="0.16810321810000001" blue="0.19253867860000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vy-F1-H5a">
+                                <rect key="frame" x="246" y="303" width="185" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Change Profile Photo"/>
+                                <connections>
+                                    <action selector="changePhotoPressed:" destination="Hwg-Jf-5uQ" eventType="touchUpInside" id="JTg-hy-p1E"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -397,6 +401,7 @@
                         <outlet property="maleButton" destination="TRy-91-itm" id="hsW-Eg-T1m"/>
                         <outlet property="matButton" destination="P4P-gh-vTZ" id="Vhf-yn-cfO"/>
                         <outlet property="nameTextField" destination="GKM-FC-yf1" id="A4a-sO-GaC"/>
+                        <outlet property="profileImage" destination="fDt-dF-Qlg" id="LBZ-vX-yJv"/>
                         <outlet property="weightTextField" destination="qj7-Xy-dnc" id="KtG-By-HTK"/>
                     </connections>
                 </viewController>
@@ -433,9 +438,6 @@
         <image name="square" catalog="system" width="128" height="114"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="placeholderTextColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

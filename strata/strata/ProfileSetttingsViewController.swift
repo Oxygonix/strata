@@ -9,8 +9,9 @@ import UIKit
 import UserNotifications
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 
-class ProfileSetttingsViewController: UIViewController {
+class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var ageTextField: UITextField!
@@ -38,12 +39,20 @@ class ProfileSetttingsViewController: UIViewController {
     
     var onProfileUpdated: (() -> Void)?
     
+    @IBOutlet weak var profileImage: UIImageView!
+    
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let user = Auth.auth().currentUser
-        let docRef = db.collection("users").document("\(user!.uid)")
+        loadProfileImage()
+        /*
+        guard let user = Auth.auth().currentUser else {
+            print("No logged in user")
+            return
+        }
+
+        let docRef = db.collection("users").document(user.uid)
         
         docRef.getDocument { (document, err) in
             if let document = document, document.exists {
@@ -88,7 +97,12 @@ class ProfileSetttingsViewController: UIViewController {
             } else {
                 print("Document does not exist")
             }
-        }
+        } */
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadProfileData()
     }
     
     @IBAction func equipmentButton(_ sender: UIButton) {
@@ -112,10 +126,12 @@ class ProfileSetttingsViewController: UIViewController {
         default:
             break
         }
+        saveProfileToFirestore()
     }
     
     func saveProfileToFirestore() {
         guard let user = Auth.auth().currentUser else {
+            print("NOT GETTING PAST GUARD")
             return
         }
 
@@ -159,6 +175,7 @@ class ProfileSetttingsViewController: UIViewController {
         femaleButton.backgroundColor = .clear
         maleButton.tintColor = .white
         femaleButton.tintColor = .red
+        saveProfileToFirestore()
     }
     
     @IBAction func femaleButtonPushed(_ sender: Any) {
@@ -167,6 +184,7 @@ class ProfileSetttingsViewController: UIViewController {
         maleButton.backgroundColor = .clear
         femaleButton.tintColor = .white
         maleButton.tintColor = .red
+        saveProfileToFirestore()
     }
     
     func updateEquipmentButtons() {
@@ -197,6 +215,168 @@ class ProfileSetttingsViewController: UIViewController {
             maleButton.backgroundColor = .clear
             femaleButton.tintColor = .white
             maleButton.tintColor = .red
+        }
+    }
+    
+    @IBAction func changePhotoPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Select Photo", message: nil, preferredStyle: .actionSheet)
+            
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+                self.openCamera()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { _ in
+                self.openGallery()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            
+            present(alert, animated: true)
+    }
+    
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            present(picker, animated: true)
+        }
+    }
+    
+    func openGallery() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let selectedImage = info[.originalImage] as? UIImage {
+            profileImage.image = selectedImage
+            uploadImageToFirebase(image: selectedImage)
+        }
+        
+        dismiss(animated: true)
+    }
+    
+    func uploadImageToFirebase(image: UIImage) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+        
+        let storageRef = Storage.storage().reference()
+            .child("profile_images/\(userID).jpg")
+        
+        storageRef.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                print("Upload error: \(error.localizedDescription)")
+                return
+            }
+            
+            storageRef.downloadURL { url, error in
+                if let downloadURL = url {
+                    self.saveImageURLToFirestore(url: downloadURL.absoluteString)
+                }
+            }
+        }
+    }
+    
+    func saveImageURLToFirestore(url: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        Firestore.firestore().collection("users").document(userID).updateData([
+            "profileImageURL": url
+        ]) { error in
+            if let error = error {
+                print("Firestore save error: \(error.localizedDescription)")
+            } else {
+                print("Profile image URL saved successfully")
+            }
+        }
+    }
+    
+    func loadProfileImage() {
+        guard let userID = Auth.auth().currentUser?.uid else {
+                print("No logged in user to load image")
+                return
+            }
+
+            let docRef = Firestore.firestore().collection("users").document(userID)
+            docRef.getDocument { snapshot, error in
+                if let data = snapshot?.data(),
+                   let imageURL = data["profileImageURL"] as? String,
+                   let url = URL(string: imageURL) {
+
+                    URLSession.shared.dataTask(with: url) { data, _, _ in
+                        if let data = data {
+                            DispatchQueue.main.async {
+                                self.profileImage.image = UIImage(data: data)
+                            }
+                        }
+                    }.resume()
+                }
+            }
+    }
+    
+    func loadProfileData() {
+        guard let user = Auth.auth().currentUser else {
+            print("No logged in user")
+            return
+        }
+        
+        let docRef = db.collection("users").document(user.uid)
+        
+        docRef.getDocument { document, error in
+            if let document = document, document.exists {
+                let data = document.data() ?? [:]
+                
+                // Name
+                self.nameTextField.text = data["name"] as? String ?? ""
+                
+                // Age
+                if let age = data["age"] as? Int {
+                    self.ageTextField.text = "\(age)"
+                } else {
+                    self.ageTextField.text = ""
+                }
+                
+                // Height
+                if let height = data["height"] as? [String: Any] {
+                    let ft = height["ft"] as? Int ?? 0
+                    let inch = height["in"] as? Int ?? 0
+                    self.heightFtTextField.text = "\(ft)"
+                    self.heightInTextField.text = "\(inch)"
+                }
+                
+                // Weight
+                if let weight = data["weight"] as? Int {
+                    self.weightTextField.text = "\(weight)"
+                } else {
+                    self.weightTextField.text = ""
+                }
+                
+                // Equipment
+                if let equipment = data["equipment"] as? [String: Bool] {
+                    self.benchSelected = equipment["bench"] ?? false
+                    self.barbellsSelected = equipment["barbells"] ?? false
+                    self.kettlebellSelected = equipment["kettlebell"] ?? false
+                    self.dumbbellsSelected = equipment["dumbbells"] ?? false
+                    self.matSelected = equipment["mat"] ?? false
+                    self.cablesSelected = equipment["cables"] ?? false
+                    self.updateEquipmentButtons()
+                }
+                
+                // Sex
+                if let savedSex = data["sex"] as? String {
+                    self.sex = savedSex
+                    self.updateSexButtons()
+                }
+                
+            } else {
+                print("Document does not exist")
+            }
         }
     }
     

@@ -32,6 +32,7 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
             layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         }
 
+        // This gradient stuff doesn't work too well but ill leave for now if we can figure it out later
         selectedGradientLayer.colors = [
             UIColor(red: 0.98, green: 0.92, blue: 0.93, alpha: 1.0).cgColor,
             UIColor(red: 0.95, green: 0.86, blue: 0.88, alpha: 1.0).cgColor

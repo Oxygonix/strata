@@ -1,15 +1,17 @@
 import UIKit
 
-class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let activities: [WorkoutActivity] = [
-        WorkoutActivity(imageName: "Male-Front", title: "Chest Workout", subtitle: "March 10, 2026 at 6:30 PM"),
-        WorkoutActivity(imageName: "legs", title: "Leg Day", subtitle: "March 9, 2026 at 7:15 PM"),
-        WorkoutActivity(imageName: "back", title: "Back and Biceps", subtitle: "March 8, 2026 at 5:45 PM"),
-        WorkoutActivity(imageName: "run", title: "Evening Run", subtitle: "March 7, 2026 at 8:00 PM")
+    var activities: [WorkoutActivity] = [
+        WorkoutActivity(imageName: "Male-Front", title: "Chest Workout", subtitle: "March 10, 2026 at 6:30 PM", capturedImage: nil),
+        WorkoutActivity(imageName: "legs", title: "Leg Day", subtitle: "March 9, 2026 at 7:15 PM", capturedImage: nil),
+        WorkoutActivity(imageName: "back", title: "Back and Biceps", subtitle: "March 8, 2026 at 5:45 PM", capturedImage: nil),
+        WorkoutActivity(imageName: "run", title: "Evening Run", subtitle: "March 7, 2026 at 8:00 PM", capturedImage: nil)
     ]
+    
+    var selectedRow: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +34,55 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
         
         cell.titleLabel.text = activity.title
         cell.subtitleLabel.text = activity.subtitle
-        cell.activityImageView.image = UIImage(named: activity.imageName)
+        
+        if let capturedImage = activity.capturedImage {
+            cell.configureButton(with: capturedImage)
+        } else {
+            cell.configureButton(with: activity.capturedImage)
+        }
+        
+        cell.photoButton.tag = indexPath.row
+        cell.photoButton.addTarget(self, action: #selector(photoButtonTapped(_:)), for: .touchUpInside)
         
         return cell
+    }
+    
+    @objc func photoButtonTapped(_ sender: UIButton) {
+        selectedRow = sender.tag
+        
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            let alert = UIAlertController(
+                title: "Camera Not Available",
+                message: "This device does not have a camera.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
+        
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .camera
+        picker.allowsEditing = true
+        
+        present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage
+        
+        if let row = selectedRow, let image = chosenImage {
+            activities[row].capturedImage = image
+            tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .automatic)
+        }
+        
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
     }
 }

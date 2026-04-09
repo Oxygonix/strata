@@ -63,7 +63,7 @@
         <!--Workout Detail View Controller-->
         <scene sceneID="HEl-CY-gJA">
             <objects>
-                <viewController id="fjK-A9-kNN" customClass="WorkoutDetailViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WorkoutDetailViewController" id="fjK-A9-kNN" customClass="WorkoutDetailViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gQ1-Q3-3Fn">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

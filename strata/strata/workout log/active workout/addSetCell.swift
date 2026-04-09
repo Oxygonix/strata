@@ -1,8 +1,3 @@
-//
-//  AddSetCell.swift
-//  strata
-//
-
 import UIKit
 
 class AddSetCell: UICollectionViewCell {

@@ -137,11 +137,11 @@
             </objects>
             <point key="canvasLocation" x="3256.3636363636365" y="130.54393305439331"/>
         </scene>
-        <!--Recommendations-->
+        <!--Navigation Controller-->
         <scene sceneID="ava-2t-wgE">
             <objects>
                 <navigationController storyboardIdentifier="Recommendations" automaticallyAdjustsScrollViewInsets="NO" id="9Wa-7j-GCf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Recommendations" image="lightbulb.min.fill" catalog="system" id="q1m-Td-kK6"/>
+                    <tabBarItem key="tabBarItem" title="" image="lightbulb.min.fill" catalog="system" id="q1m-Td-kK6"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jWw-Th-DZE">
                         <rect key="frame" x="0.0" y="124" width="440" height="54"/>

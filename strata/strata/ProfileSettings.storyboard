@@ -406,11 +406,11 @@
             </objects>
             <point key="canvasLocation" x="1491.818181818182" y="826.56903765690379"/>
         </scene>
-        <!--Profile Settings-->
+        <!--Navigation Controller-->
         <scene sceneID="aCU-No-auT">
             <objects>
                 <navigationController storyboardIdentifier="ProfileSettings" automaticallyAdjustsScrollViewInsets="NO" id="Kf5-kR-VT9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile Settings" image="gearshape.fill" catalog="system" id="Vq3-O0-hhu"/>
+                    <tabBarItem key="tabBarItem" title="" image="gearshape.fill" catalog="system" id="Vq3-O0-hhu"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5VG-BE-dZm">

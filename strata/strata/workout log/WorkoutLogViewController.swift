@@ -18,6 +18,41 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(addWorkoutTapped)
+    }
+    
+    @objc private func addWorkoutTapped() {
+        let addWorkoutVC = AddWorkout()
+        
+        addWorkoutVC.onSave = { [weak self] workoutName, workoutDate in
+            guard let self = self else { return }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMMM d, yyyy 'at' h:mm a"
+            
+            let newActivity = WorkoutActivity(
+                imageName: "",
+                title: workoutName,
+                subtitle: formatter.string(from: workoutDate),
+                capturedImage: nil
+            )
+            
+            self.activities.insert(newActivity, at: 0)
+            self.tableView.reloadData()
+        }
+        
+        let navController = UINavigationController(rootViewController: addWorkoutVC)
+        navController.modalPresentationStyle = .pageSheet
+        
+        if let sheet = navController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 24
+        }
+        
+        present(navController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

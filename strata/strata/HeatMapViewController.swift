@@ -107,6 +107,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Thread.sleep(forTimeInterval: 1)
         let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:)))
         tap.delegate = self
         tap.cancelsTouchesInView = false

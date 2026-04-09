@@ -18,6 +18,14 @@
             </objects>
             <point key="canvasLocation" x="1242" y="474"/>
         </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="o62-hl-vZe">
+            <objects>
+                <viewControllerPlaceholder id="8gK-EO-bWQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hbc-s6-GkV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1805" y="491"/>
+        </scene>
         <!--Heat Map View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
@@ -27,15 +35,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9fv-8l-hOx" customClass="MacawView" customModule="Macaw">
-                                <rect key="frame" x="20" y="235" width="400" height="552"/>
+                                <rect key="frame" x="20" y="289" width="400" height="498"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="400" id="1w4-UU-272"/>
+                                    <constraint firstAttribute="height" constant="498" id="DyV-5p-tPf"/>
+                                </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="FTu-xG-9YP" appends="YES" id="LkU-4z-ZgN"/>
                                 </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ6-3U-mEw">
-                                <rect key="frame" x="20" y="148" width="400" height="62"/>
+                                <rect key="frame" x="20" y="202" width="400" height="62"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="62" id="Xwr-dY-VHg"/>
                                     <constraint firstAttribute="width" constant="400" id="d4A-Qg-7Tq"/>
@@ -57,22 +69,19 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="9fv-8l-hOx" firstAttribute="top" secondItem="QQ6-3U-mEw" secondAttribute="bottom" constant="25" id="Dgd-6s-y8Z"/>
-                            <constraint firstItem="9fv-8l-hOx" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="EaM-6u-zyt"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9fv-8l-hOx" secondAttribute="bottom" constant="52" id="R1E-IP-aVv"/>
                             <constraint firstItem="QQ6-3U-mEw" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="d6i-RO-35w"/>
                             <constraint firstItem="QQ6-3U-mEw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="24" id="fUX-aD-6CR"/>
+                            <constraint firstItem="9fv-8l-hOx" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="tEq-3e-HZl"/>
                             <constraint firstItem="9fv-8l-hOx" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="v2l-Pt-fQo"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="dLJ-XK-ENw" appends="YES" id="vqO-mR-Kvv"/>
-                            <outletCollection property="gestureRecognizers" destination="Tt1-Ve-fEd" appends="YES" id="ICq-27-Scn"/>
-                            <outletCollection property="gestureRecognizers" destination="Tt1-Ve-fEd" appends="YES" id="h7R-jU-Pz0"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="figure.stand" catalog="system" id="ggo-Rv-bCZ"/>
+                    <navigationItem key="navigationItem" id="9ac-X0-yzk"/>
                     <connections>
                         <outlet property="heatMapContainer" destination="9fv-8l-hOx" id="Lo7-ej-aXq"/>
-                        <outlet property="heatMapLeading" destination="EaM-6u-zyt" id="AXs-5S-XMc"/>
                         <outlet property="helloLabel" destination="QQ6-3U-mEw" id="Cbh-T1-Fpo"/>
                     </connections>
                 </viewController>
@@ -87,13 +96,8 @@
                         <action selector="swipe:" destination="Y6W-OH-hqX" id="49X-5V-vqC"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <tapGestureRecognizer id="Tt1-Ve-fEd">
-                    <connections>
-                        <action selector="backgroundTapped:" destination="Y6W-OH-hqX" id="C5f-fd-LfF"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1958.1818181818182" y="91.004184100418414"/>
+            <point key="canvasLocation" x="2850" y="91.004184100418414"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="I8T-ZN-PPO">
@@ -108,7 +112,7 @@
                         <color key="selectedImageTintColor" red="0.86539697650000003" green="0.0" blue="0.15132154140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="viewControllers" id="Kn0-bg-rmt"/>
+                        <segue destination="rMN-Ad-chd" kind="relationship" relationship="viewControllers" id="Kn0-bg-rmt"/>
                         <segue destination="niq-tx-vZo" kind="relationship" relationship="viewControllers" id="MMy-4w-wkk"/>
                         <segue destination="zqT-pR-5y1" kind="relationship" relationship="viewControllers" id="1DA-iA-qDs"/>
                         <segue destination="kF3-vn-viu" kind="relationship" relationship="viewControllers" id="is2-O1-9Gz"/>
@@ -137,6 +141,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nwo-Hh-Y0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1067" y="531"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2K0-Sa-yA0">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rMN-Ad-chd" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="figure.stand" catalog="system" id="ggo-Rv-bCZ"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="q3L-KG-bdd">
+                        <rect key="frame" x="0.0" y="124" width="440" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="ACy-CV-1vc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zet-cI-K3c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1958.1818181818182" y="91.004184100418414"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.86539697650000003" green="0.0" blue="0.15132154140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

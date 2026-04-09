@@ -19,48 +19,67 @@ class SignupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil {
-                self.performSegue(withIdentifier: "toProfileSegue", sender: self)
-            }
-        }
     }
 
     @IBAction func createAccountTapped(_ sender: UIButton) {
         guard let email = emailTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty,
-              let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else {
-            showAlert(title: "Missing Info", message: "Please fill in all fields.")
-            return
-        }
-
-        guard password == confirmPassword else {
-            showAlert(title: "Password Error", message: "Passwords do not match.")
-            return
-        }
-
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let error = error {
-                self.showAlert(title: "Signup Failed", message: error.localizedDescription)
+                  let password = passwordTextField.text, !password.isEmpty,
+                  let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else {
+                showAlert(title: "Missing Info", message: "Please fill in all fields.")
                 return
             }
 
-            guard let user = authResult?.user else {
-                self.showAlert(title: "Signup Failed", message: "Could not create user.")
+            guard password == confirmPassword else {
+                showAlert(title: "Password Error", message: "Passwords do not match.")
+                return
+            }
+            
+            guard password.count >= 6 else {
+                showAlert(title: "Password Error", message: "Password must be at least 6 characters long.")
+                return
+            }
+            
+            guard isValidEmail(email) else {
+                showAlert(title: "Email Error", message: "Please enter a valid email address.")
                 return
             }
 
-            self.db.collection("users").document(user.uid).setData([
-                "email": email,
-                "createdAt": Timestamp()
-            ]) { error in
+            sender.isEnabled = false
+
+            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                sender.isEnabled = true
+
                 if let error = error {
-                    self.showAlert(title: "Firestore Error", message: error.localizedDescription)
-                } else {
-                    self.showAlert(title: "Success", message: "Account created successfully.")
+                    self.showAlert(title: "Signup Failed", message: error.localizedDescription)
+                    return
+                }
+
+                guard let user = authResult?.user else {
+                    self.showAlert(title: "Signup Failed", message: "Could not create user.")
+                    return
+                }
+
+                let userData: [String: Any] = [
+                    "email": email,
+                    "createdAt": Timestamp()
+                ]
+
+                self.db.collection("users").document(user.uid).setData(userData) { error in
+                    if let error = error {
+                        self.showAlert(title: "Firestore Error", message: error.localizedDescription)
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "toProfileSegue", sender: self)
+                    }
                 }
             }
-        }
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     
     func showAlert(title: String, message: String) {

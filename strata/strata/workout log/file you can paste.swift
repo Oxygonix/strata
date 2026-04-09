@@ -1,0 +1,353 @@
+//<?xml version="1.0" encoding="UTF-8"?>
+//<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+//    <device id="retina6_9" orientation="portrait" appearance="light"/>
+//    <dependencies>
+//        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+//        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+//        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+//        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+//    </dependencies>
+//    <scenes>
+//        <!--Workout Log-->
+//        <scene sceneID="s0d-6b-0kx">
+//            <objects>
+//                <viewController storyboardIdentifier="mainWorkoutLogPage" id="Y6W-OH-hqX" customClass="WorkoutLogViewController" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+//                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+//                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+//                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                        <subviews>
+//                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="none" rowHeight="339" estimatedRowHeight="330" sectionHeaderHeight="14" estimatedSectionHeaderHeight="14" sectionFooterHeight="14" estimatedSectionFooterHeight="14" translatesAutoresizingMaskIntoConstraints="NO" id="tnd-Ty-Jfh">
+//                                <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+//                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                                <prototypes>
+//                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WorkoutCell" rowHeight="208" id="57g-F6-Z3v" customClass="WorkoutLogCell" customModule="strata" customModuleProvider="target">
+//                                        <rect key="frame" x="20" y="55.333332061767578" width="400" height="208"/>
+//                                        <autoresizingMask key="autoresizingMask"/>
+//                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="57g-F6-Z3v" id="NJ3-Ht-0cs">
+//                                            <rect key="frame" x="0.0" y="0.0" width="400" height="208"/>
+//                                            <autoresizingMask key="autoresizingMask"/>
+//                                            <subviews>
+//                                                <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="logCardView">
+//                                                    <rect key="frame" x="0.0" y="10" width="400" height="188"/>
+//                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                    <subviews>
+//                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="logTintGlow">
+//                                                            <rect key="frame" x="8" y="8" width="384" height="172"/>
+//                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                            <color key="backgroundColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
+//                                                            <userDefinedRuntimeAttributes>
+//                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                                    <real key="value" value="30"/>
+//                                                                </userDefinedRuntimeAttribute>
+//                                                            </userDefinedRuntimeAttributes>
+//                                                        </view>
+//                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="logSoftLayer">
+//                                                            <rect key="frame" x="18" y="18" width="364" height="152"/>
+//                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                            <subviews>
+//                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Today • Chest, Shoulders, Triceps" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Aa-an-kj6">
+//                                                                    <rect key="frame" x="19" y="39" width="250" height="18"/>
+//                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+//                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+//                                                                    <color key="textColor" white="0.25" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                </label>
+//                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Push Day" lineBreakMode="tailTruncation" numberOfLines="2" translatesAutoresizingMaskIntoConstraints="NO" id="77s-gA-McR">
+//                                                                    <rect key="frame" x="19" y="8" width="230" height="30"/>
+//                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+//                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+//                                                                    <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                </label>
+//                                                                <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="imageShell">
+//                                                                    <rect key="frame" x="7" y="65" width="350" height="207"/>
+//                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+//                                                                    <subviews>
+//                                                                        <view opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="imageTintLayer">
+//                                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="213"/>
+//                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                                            <subviews>
+//                                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NmV-nv-GdK">
+//                                                                                    <rect key="frame" x="0.0" y="0.0" width="350" height="213"/>
+//                                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+//                                                                                    <state key="normal" title="Button"/>
+//                                                                                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
+//                                                                                </button>
+//                                                                            </subviews>
+//                                                                            <color key="backgroundColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
+//                                                                        </view>
+//                                                                    </subviews>
+//                                                                    <color key="backgroundColor" white="1" alpha="0.38" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                    <userDefinedRuntimeAttributes>
+//                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                                            <real key="value" value="24"/>
+//                                                                        </userDefinedRuntimeAttribute>
+//                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+//                                                                    </userDefinedRuntimeAttributes>
+//                                                                </view>
+//                                                            </subviews>
+//                                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                            <userDefinedRuntimeAttributes>
+//                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                                    <real key="value" value="24"/>
+//                                                                </userDefinedRuntimeAttribute>
+//                                                            </userDefinedRuntimeAttributes>
+//                                                        </view>
+//                                                    </subviews>
+//                                                    <color key="backgroundColor" white="1" alpha="0.81999999999999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                    <userDefinedRuntimeAttributes>
+//                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                            <real key="value" value="30"/>
+//                                                        </userDefinedRuntimeAttribute>
+//                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+//                                                    </userDefinedRuntimeAttributes>
+//                                                </view>
+//                                            </subviews>
+//                                        </tableViewCellContentView>
+//                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+//                                        <connections>
+//                                            <outlet property="photoButton" destination="NmV-nv-GdK" id="aoF-lB-Ow9"/>
+//                                            <outlet property="subtitleLabel" destination="4Aa-an-kj6" id="k3E-0H-G3O"/>
+//                                            <outlet property="titleLabel" destination="77s-gA-McR" id="zhf-MQ-abI"/>
+//                                            <segue destination="o4C-Jb-u0T" kind="show" id="7LX-GO-PPu"/>
+//                                        </connections>
+//                                    </tableViewCell>
+//                                </prototypes>
+//                            </tableView>
+//                        </subviews>
+//                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+//                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                    </view>
+//                    <tabBarItem key="tabBarItem" title="" image="chart.line.text.clipboard.fill" catalog="system" id="r1s-zG-eQG"/>
+//                    <navigationItem key="navigationItem" title="Workout Log" largeTitleDisplayMode="always" id="uYm-Yy-miZ">
+//                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="QA0-rs-z1z"/>
+//                    </navigationItem>
+//                    <connections>
+//                        <outlet property="tableView" destination="tnd-Ty-Jfh" id="2fY-TK-l2f"/>
+//                    </connections>
+//                </viewController>
+//                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+//            </objects>
+//            <point key="canvasLocation" x="1153.6363636363637" y="129.91631799163181"/>
+//        </scene>
+//        <!--Workout Date-->
+//        <scene sceneID="wHL-ve-BKr">
+//            <objects>
+//                <viewController storyboardIdentifier="chosenWorkout" id="o4C-Jb-u0T" customClass="ChosenWorkout" customModule="strata" customModuleProvider="target" sceneMemberID="viewController">
+//                    <view key="view" contentMode="scaleToFill" id="4Re-my-n4Z">
+//                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+//                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                        <subviews>
+//                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="headerGlass">
+//                                <rect key="frame" x="20" y="108" width="400" height="72"/>
+//                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+//                                <color key="backgroundColor" white="1" alpha="0.62" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                <userDefinedRuntimeAttributes>
+//                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                        <real key="value" value="24"/>
+//                                    </userDefinedRuntimeAttribute>
+//                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+//                                </userDefinedRuntimeAttributes>
+//                            </view>
+//                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="none" rowHeight="108" estimatedRowHeight="108" sectionHeaderHeight="14" estimatedSectionHeaderHeight="14" sectionFooterHeight="14" estimatedSectionFooterHeight="14" translatesAutoresizingMaskIntoConstraints="NO" id="II5-7r-S5x">
+//                                <rect key="frame" x="0.0" y="547" width="440" height="409"/>
+//                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                                <prototypes>
+//                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutRowCell" rowHeight="108" id="dUo-gq-tB8" customClass="WorkoutRowCell" customModule="strata" customModuleProvider="target">
+//                                        <rect key="frame" x="20" y="55.333332061767578" width="400" height="108"/>
+//                                        <autoresizingMask key="autoresizingMask"/>
+//                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dUo-gq-tB8" id="Inu-1i-LbO">
+//                                            <rect key="frame" x="0.0" y="0.0" width="400" height="108"/>
+//                                            <autoresizingMask key="autoresizingMask"/>
+//                                            <subviews>
+//                                                <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rowCard">
+//                                                    <rect key="frame" x="0.0" y="6" width="400" height="96"/>
+//                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                    <subviews>
+//                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rowAccent">
+//                                                            <rect key="frame" x="12" y="12" width="6" height="72"/>
+//                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+//                                                            <color key="backgroundColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                                                            <userDefinedRuntimeAttributes>
+//                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                                    <real key="value" value="3"/>
+//                                                                </userDefinedRuntimeAttribute>
+//                                                            </userDefinedRuntimeAttributes>
+//                                                        </view>
+//                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Bench Press" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhl-ni-Bqi">
+//                                                            <rect key="frame" x="28" y="18" width="118" height="24"/>
+//                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+//                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+//                                                            <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                        </label>
+//                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Chest" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3y-l0-rdf">
+//                                                            <rect key="frame" x="28" y="45" width="90" height="18"/>
+//                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+//                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+//                                                            <color key="textColor" white="0.25" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                        </label>
+//                                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pEf-m5-M6A">
+//                                                            <rect key="frame" x="155" y="12" width="228" height="72"/>
+//                                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+//                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+//                                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dZm-sX-0lT">
+//                                                                <size key="itemSize" width="92" height="72"/>
+//                                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+//                                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+//                                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+//                                                            </collectionViewFlowLayout>
+//                                                            <cells>
+//                                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SetCell" id="erL-sS-6he" customClass="SetCell" customModule="strata" customModuleProvider="target">
+//                                                                    <rect key="frame" x="0.0" y="0.0" width="92" height="72"/>
+//                                                                    <autoresizingMask key="autoresizingMask"/>
+//                                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="66s-ff-Z9r">
+//                                                                        <rect key="frame" x="0.0" y="0.0" width="92" height="72"/>
+//                                                                        <autoresizingMask key="autoresizingMask"/>
+//                                                                        <subviews>
+//                                                                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="setGlass">
+//                                                                                <rect key="frame" x="0.0" y="0.0" width="92" height="72"/>
+//                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                                                <subviews>
+//                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="Set 1" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cp-a4-NEw">
+//                                                                                        <rect key="frame" x="8" y="10" width="76" height="13"/>
+//                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+//                                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
+//                                                                                        <color key="textColor" white="0.25" alpha="0.75" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                                    </label>
+//                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="135 lb" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b2x-uJ-n36">
+//                                                                                        <rect key="frame" x="8" y="27" width="76" height="17"/>
+//                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+//                                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+//                                                                                        <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                                    </label>
+//                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="8 reps" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0a1-IA-xGG">
+//                                                                                        <rect key="frame" x="8" y="47" width="76" height="13"/>
+//                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+//                                                                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+//                                                                                        <color key="textColor" white="0.29999999999999999" alpha="0.68000000000000005" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                                    </label>
+//                                                                                </subviews>
+//                                                                                <color key="backgroundColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="0.089999999999999997" colorSpace="custom" customColorSpace="sRGB"/>
+//                                                                                <userDefinedRuntimeAttributes>
+//                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                                                        <real key="value" value="18"/>
+//                                                                                    </userDefinedRuntimeAttribute>
+//                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+//                                                                                </userDefinedRuntimeAttributes>
+//                                                                            </view>
+//                                                                        </subviews>
+//                                                                    </collectionViewCellContentView>
+//                                                                    <connections>
+//                                                                        <outlet property="poundsLabel" destination="b2x-uJ-n36" id="Rf2-KM-ShO"/>
+//                                                                        <outlet property="repsLabel" destination="0a1-IA-xGG" id="vrc-In-xSk"/>
+//                                                                        <outlet property="setTitleLabel" destination="1cp-a4-NEw" id="QoV-Ti-4g0"/>
+//                                                                    </connections>
+//                                                                </collectionViewCell>
+//                                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddSetCell" id="dXu-A7-JTs" customClass="AddSetCell" customModule="strata" customModuleProvider="target">
+//                                                                    <rect key="frame" x="102" y="0.0" width="92" height="72"/>
+//                                                                    <autoresizingMask key="autoresizingMask"/>
+//                                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="jJC-1W-qIi">
+//                                                                        <rect key="frame" x="0.0" y="0.0" width="92" height="72"/>
+//                                                                        <autoresizingMask key="autoresizingMask"/>
+//                                                                        <subviews>
+//                                                                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="addGlass">
+//                                                                                <rect key="frame" x="0.0" y="0.0" width="92" height="72"/>
+//                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+//                                                                                <subviews>
+//                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="+" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myG-aF-g48">
+//                                                                                        <rect key="frame" x="0.0" y="19" width="92" height="32"/>
+//                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+//                                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+//                                                                                        <color key="textColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                                                                                    </label>
+//                                                                                </subviews>
+//                                                                                <color key="backgroundColor" white="1" alpha="0.41999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                                                <userDefinedRuntimeAttributes>
+//                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                                                        <real key="value" value="18"/>
+//                                                                                    </userDefinedRuntimeAttribute>
+//                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+//                                                                                </userDefinedRuntimeAttributes>
+//                                                                            </view>
+//                                                                        </subviews>
+//                                                                    </collectionViewCellContentView>
+//                                                                    <connections>
+//                                                                        <outlet property="plusLabel" destination="myG-aF-g48" id="bPc-kr-hZR"/>
+//                                                                    </connections>
+//                                                                </collectionViewCell>
+//                                                            </cells>
+//                                                        </collectionView>
+//                                                    </subviews>
+//                                                    <color key="backgroundColor" white="1" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+//                                                    <userDefinedRuntimeAttributes>
+//                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+//                                                            <real key="value" value="24"/>
+//                                                        </userDefinedRuntimeAttribute>
+//                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+//                                                    </userDefinedRuntimeAttributes>
+//                                                </view>
+//                                            </subviews>
+//                                        </tableViewCellContentView>
+//                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+//                                        <connections>
+//                                            <outlet property="muscleGroupLabel" destination="i3y-l0-rdf" id="mjT-vr-8Bm"/>
+//                                            <outlet property="rowCardView" destination="rowAccent" id="7qL-0R-S17"/>
+//                                            <outlet property="setsCollectionView" destination="pEf-m5-M6A" id="xBd-PH-2es"/>
+//                                            <outlet property="workoutNameLabel" destination="lhl-ni-Bqi" id="wf7-4p-BuG"/>
+//                                        </connections>
+//                                    </tableViewCell>
+//                                </prototypes>
+//                            </tableView>
+//                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Edw-0p-ZgH">
+//                                <rect key="frame" x="56" y="171" width="328" height="32"/>
+//                                <constraints>
+//                                    <constraint firstAttribute="width" constant="328" id="F3X-pA-a5l"/>
+//                                </constraints>
+//                                <segments>
+//                                    <segment title="Week"/>
+//                                    <segment title="Month"/>
+//                                    <segment title="Year"/>
+//                                </segments>
+//                                <color key="selectedSegmentTintColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                            </segmentedControl>
+//                        </subviews>
+//                        <viewLayoutGuide key="safeArea" id="gKa-Xk-4bC"/>
+//                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+//                        <constraints>
+//                            <constraint firstItem="gKa-Xk-4bC" firstAttribute="top" secondItem="Edw-0p-ZgH" secondAttribute="top" constant="7" id="PQI-ni-HNh"/>
+//                            <constraint firstItem="Edw-0p-ZgH" firstAttribute="centerX" secondItem="gKa-Xk-4bC" secondAttribute="centerX" id="dK0-F1-Pqa"/>
+//                            <constraint firstItem="gKa-Xk-4bC" firstAttribute="bottom" secondItem="Edw-0p-ZgH" secondAttribute="bottom" constant="686" id="qr3-FG-9ak"/>
+//                        </constraints>
+//                    </view>
+//                    <navigationItem key="navigationItem" title="Workout Date" largeTitleDisplayMode="always" id="3lP-4T-cXE"/>
+//                    <connections>
+//                        <outlet property="currentWorkouts" destination="II5-7r-S5x" id="24A-9E-lSR"/>
+//                        <outlet property="dateRange" destination="Edw-0p-ZgH" id="tCc-4y-sam"/>
+//                    </connections>
+//                </viewController>
+//                <placeholder placeholderIdentifier="IBFirstResponder" id="mnj-X2-VJ3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+//            </objects>
+//            <point key="canvasLocation" x="2132.727272727273" y="459.41422594142261"/>
+//        </scene>
+//        <!--Item-->
+//        <scene sceneID="NPk-qn-i8B">
+//            <objects>
+//                <navigationController storyboardIdentifier="WorkoutLog" id="cHd-zN-bcH" sceneMemberID="viewController">
+//                    <tabBarItem key="tabBarItem" title="Item" id="xZD-xv-dXN"/>
+//                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XoU-ac-8wq">
+//                        <rect key="frame" x="0.0" y="124" width="440" height="54"/>
+//                        <autoresizingMask key="autoresizingMask"/>
+//                    </navigationBar>
+//                    <connections>
+//                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="rDV-s3-oS2"/>
+//                    </connections>
+//                </navigationController>
+//                <placeholder placeholderIdentifier="IBFirstResponder" id="2Ro-zL-n38" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+//            </objects>
+//            <point key="canvasLocation" x="254" y="131"/>
+//        </scene>
+//    </scenes>
+//    <resources>
+//        <image name="chart.line.text.clipboard.fill" catalog="system" width="103" height="128"/>
+//    </resources>
+//</document>

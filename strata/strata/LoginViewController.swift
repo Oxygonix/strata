@@ -17,20 +17,34 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-    @IBAction func signInPressed(_ sender: UIButton) {
-        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
-            // Add an alert display to screen showing result in future
-            if let error = error as NSError? {
-                print("Error: \(error.localizedDescription)")
-            } else {
-                print("Success")
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
             }
         }
     }
     
+    @IBAction func signInPressed(_ sender: UIButton) {
+        guard let email = emailTextField.text, !email.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty else {
+            showAlert(title: "Missing Info", message: "Please enter email and password.")
+            return
+        }
+
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                self.showAlert(title: "Login Failed", message: error.localizedDescription)
+                return
+            }
+            self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
     
 }
 

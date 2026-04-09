@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E17DF7B52F6241550020F6BD /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7B42F6241550020F6BD /* Macaw */; };
-		E17DF7C72F6277B20020F6BD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7C62F6277B20020F6BD /* FirebaseAuth */; };
-		E17DF7C92F6277B20020F6BD /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7C82F6277B20020F6BD /* FirebaseCore */; };
-		E17DF7CB2F6277B20020F6BD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E17DF7CA2F6277B20020F6BD /* FirebaseFirestore */; };
+		E159917F2F7609E800C69F9C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E159917E2F7609E800C69F9C /* FirebaseAuth */; };
+		E15991812F7609E800C69F9C /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = E15991802F7609E800C69F9C /* FirebaseCore */; };
+		E15991832F7609E800C69F9C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E15991822F7609E800C69F9C /* FirebaseFirestore */; };
+		E15991862F760CC700C69F9C /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = E15991852F760CC700C69F9C /* Macaw */; };
+		F57A6CC52F8723380071B8A4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F57A6CC42F8723380071B8A4 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,10 +44,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E17DF7B52F6241550020F6BD /* Macaw in Frameworks */,
-				E17DF7CB2F6277B20020F6BD /* FirebaseFirestore in Frameworks */,
-				E17DF7C92F6277B20020F6BD /* FirebaseCore in Frameworks */,
-				E17DF7C72F6277B20020F6BD /* FirebaseAuth in Frameworks */,
+				E15991812F7609E800C69F9C /* FirebaseCore in Frameworks */,
+				E159917F2F7609E800C69F9C /* FirebaseAuth in Frameworks */,
+				E15991862F760CC700C69F9C /* Macaw in Frameworks */,
+				F57A6CC52F8723380071B8A4 /* FirebaseStorage in Frameworks */,
+				E15991832F7609E800C69F9C /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				475ED5EA2F5A6B6400679A42 /* strata */,
+				F57A6CC32F8723380071B8A4 /* Frameworks */,
 				475ED5E92F5A6B6400679A42 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,6 +70,13 @@
 				475ED5E82F5A6B6400679A42 /* strata.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F57A6CC32F8723380071B8A4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,10 +99,11 @@
 			);
 			name = strata;
 			packageProductDependencies = (
-				E17DF7B42F6241550020F6BD /* Macaw */,
-				E17DF7C62F6277B20020F6BD /* FirebaseAuth */,
-				E17DF7C82F6277B20020F6BD /* FirebaseCore */,
-				E17DF7CA2F6277B20020F6BD /* FirebaseFirestore */,
+				E159917E2F7609E800C69F9C /* FirebaseAuth */,
+				E15991802F7609E800C69F9C /* FirebaseCore */,
+				E15991822F7609E800C69F9C /* FirebaseFirestore */,
+				E15991852F760CC700C69F9C /* Macaw */,
+				F57A6CC42F8723380071B8A4 /* FirebaseStorage */,
 			);
 			productName = strata;
 			productReference = 475ED5E82F5A6B6400679A42 /* strata.app */;
@@ -123,8 +134,8 @@
 			mainGroup = 475ED5DF2F5A6B6400679A42;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E17DF7B32F6241550020F6BD /* XCRemoteSwiftPackageReference "Macaw" */,
-				E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E159917D2F7609E800C69F9C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E15991842F760CC700C69F9C /* XCRemoteSwiftPackageReference "Macaw" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 475ED5E92F5A6B6400679A42 /* Products */;
@@ -164,14 +175,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5R5GNH3W52;
+				DEVELOPMENT_TEAM = LF5Z2Q789N;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = strata/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow access to camera for profile photos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow access to photo library for profile photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -196,14 +210,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5R5GNH3W52;
+				DEVELOPMENT_TEAM = LF5Z2Q789N;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = strata/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow access to camera for profile photos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow access to photo library for profile photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -366,7 +383,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E17DF7B32F6241550020F6BD /* XCRemoteSwiftPackageReference "Macaw" */ = {
+		E159917D2F7609E800C69F9C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
+		E15991842F760CC700C69F9C /* XCRemoteSwiftPackageReference "Macaw" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/Macaw";
 			requirement = {
@@ -374,36 +399,33 @@
 				minimumVersion = 0.9.10;
 			};
 		};
-		E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.10.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E17DF7B42F6241550020F6BD /* Macaw */ = {
+		E159917E2F7609E800C69F9C /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E17DF7B32F6241550020F6BD /* XCRemoteSwiftPackageReference "Macaw" */;
-			productName = Macaw;
-		};
-		E17DF7C62F6277B20020F6BD /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = E159917D2F7609E800C69F9C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		E17DF7C82F6277B20020F6BD /* FirebaseCore */ = {
+		E15991802F7609E800C69F9C /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = E159917D2F7609E800C69F9C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
 		};
-		E17DF7CA2F6277B20020F6BD /* FirebaseFirestore */ = {
+		E15991822F7609E800C69F9C /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E17DF7C52F6277B20020F6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = E159917D2F7609E800C69F9C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		E15991852F760CC700C69F9C /* Macaw */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15991842F760CC700C69F9C /* XCRemoteSwiftPackageReference "Macaw" */;
+			productName = Macaw;
+		};
+		F57A6CC42F8723380071B8A4 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E159917D2F7609E800C69F9C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

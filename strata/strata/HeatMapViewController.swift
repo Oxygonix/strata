@@ -48,7 +48,7 @@ let muscleHeatmapBack: [String: Int] = [
 ]
 
 // Single or Group of Muscles
-let musclesFront: [String: Int] = [
+var musclesFront: [String: Int] = [
     "Chest": 1,
     "Biceps": 0,
     "Shoulders": 0,
@@ -84,11 +84,14 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     var bodyNode: Node!
     var showingFront = true
     var isDetailVisible = false
+    var frontSVG: String = ""
+    var backSVG: String = ""
     
     var detailView = UIView()
     var trailingConstraint: NSLayoutConstraint?
     let detailViewWidth: CGFloat = 250
     let detailViewHeight: CGFloat = 600
+    var hasInitializedDetailView: Bool = false
     
     var titleLabel = UILabel()
     var subtitleLabel = UILabel()
@@ -97,38 +100,34 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     
     var segmentedControl: UISegmentedControl!
     var tableView: UITableView!
-    var tableData: [String] = []
+    var tableDataWorkouts: [Workout] = []
     
-    @IBOutlet weak var heatMapLeading: NSLayoutConstraint!
     @IBOutlet weak var heatMapContainer: MacawView!
     @IBOutlet weak var helloLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let user = Auth.auth().currentUser
-//        let docRef = db.collection("users").document("\(user!.uid)")
-//        docRef.getDocument { (document, err) in
-//            if let document = document, document.exists {
-//                let name = document.data()!["name"] as! String
-//                self.helloLabel.text = "Hello \(name)!"
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-        if let tap = view.gestureRecognizers?.first as? UITapGestureRecognizer {
-            tap.delegate = self
-            tap.cancelsTouchesInView = false
-        }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:)))
+        tap.delegate = self
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         setupDetailView()
-        loadBodySVG(named: "Male-Front")
-        attachTapHandlers(view: heatMapContainer)
-        fillAllMuscles(front: showingFront)
+        detailView.isUserInteractionEnabled = true
+        heatMapContainer.isUserInteractionEnabled = true
+        tableView.isUserInteractionEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if isDetailVisible, highlightedMuscle != nil {
+            helloLabel.alpha = 0
+            applyHighlightMode()
+        }
+        
         let isDark = UserDefaults.standard.bool(forKey: "darkModeEnabled")
         helloLabel.textColor = isDark ? .white : .black
+        getUserInfo()
+        getWorkoutLogs()
     }
     
     func setupDetailView() {
@@ -223,18 +222,86 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        return tableDataWorkouts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = tableData[indexPath.row]
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        let workout = tableDataWorkouts[indexPath.row] // we'll define this below
+        
+        cell.textLabel?.text = workout.name
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        cell.detailTextLabel?.text = "\(workout.duration) min • \(workout.difficulty)"
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 12)
+        cell.detailTextLabel?.textColor = .darkGray
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedWorkout = tableDataWorkouts[indexPath.row]
+
+        let storyboard = UIStoryboard(name: "Recommendations", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "WorkoutDetailViewController") as? WorkoutDetailViewController else { return }
+        vc.workout = selectedWorkout
+
+        if let nav = self.navigationController {
+            nav.pushViewController(vc, animated: true)
+        } else {
+            print("No navigation controller found")
+        }
+    }
+    
+    func difficultyRank(_ difficulty: String) -> Int {
+        switch difficulty {
+        case "Beginner": return 1
+        case "Intermediate": return 2
+        case "Advanced": return 3
+        default: return 0
+        }
+    }
+    
+    func getUserInfo() {
+        let user = Auth.auth().currentUser
+        let docRef = db.collection("users").document("\(user!.uid)")
+        docRef.getDocument { (document, err) in
+            if let document = document, document.exists {
+                let name = document.data()!["name"] as? String ?? "User"
+                self.helloLabel.text = "Hello \(name)!"
+
+                let sex = document.data()!["sex"] as? String ?? "female"
+                if sex == "male" {
+                    self.frontSVG = "Male-Front"
+                    self.backSVG = "Male-Back"
+                    musclesFront["Traps"] = 0
+                } else {
+                    self.frontSVG = "Female-Front"
+                    self.backSVG = "Female-Back"
+                    musclesFront["Traps"] = 1
+                }
+
+                if !self.isDetailVisible {
+                    UIView.animate(withDuration: 0.8) {
+                        self.helloLabel.alpha = 1
+                    }
+                } else {
+                    self.helloLabel.alpha = 0
+                }
+
+                self.loadBodySVG(named: self.frontSVG)
+                self.attachTapHandlers(view: self.heatMapContainer)
+                self.fillAllMuscles(front: self.showingFront)
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func getWorkoutLogs() {
+        // Get "logs" collection from firestore and get the workout logs from the past week to update the heatmaps muscles, and recent logs for the detail view
+        // Figure out a way to automatically reduce the intensity based on how long ago the workout was logged
+        // It would be like a shade lighter every day i think
     }
     
     func fillMuscle(name: String, level: Int) {
@@ -284,6 +351,9 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         for (muscle, intensity) in data {
             fillMuscle(name: muscle, level: intensity)
         }
+        if let highlighted = highlightedMuscle, isDetailVisible {
+            applyHighlightMode()
+        }
     }
     
     func attachTapHandlers(view: MacawView) {
@@ -313,7 +383,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     func handleLayerTap(layerId: String) {
 
         highlightedMuscle = layerId
-        updateView(layerId: layerId)
+        if isDetailVisible {
+            updateView(layerId: layerId)
+            return
+        }
         
         let container = self.view!
         let shift = container.frame.width / 2
@@ -323,15 +396,15 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
             self.heatMapContainer.transform = CGAffineTransform(translationX: -shift, y: 0)
             self.trailingConstraint?.constant = 0
             self.view.layoutIfNeeded()
+            self.updateView(layerId: layerId)
+            self.helloLabel.alpha = 0
         }
-        
         isDetailVisible = true
     }
     
     func updateView(layerId: String) {
 
         highlightMuscle(layerId)
-        titleLabel.text = layerId
         
         let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
         let intensity = data[layerId] ?? 1
@@ -345,15 +418,44 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
             case 5: intensityDescription = "Extreme fatigue"
             default: intensityDescription = "Unknown"
         }
-        
-        subtitleLabel.text = "\(intensityDescription)"
-        intensityImageView.image = UIImage(named: "\(intensity)")
+
+        // 🧠 FIRST TIME: no animation
+        if !hasInitializedDetailView {
+            titleLabel.text = layerId
+            subtitleLabel.text = intensityDescription
+            intensityImageView.image = UIImage(named: "\(intensity)")
+            
+            titleLabel.alpha = 1
+            subtitleLabel.alpha = 1
+            intensityImageView.alpha = 1
+            
+            hasInitializedDetailView = true
+        } else {
+            
+            UIView.animate(withDuration: 0.15, animations: {
+                self.titleLabel.alpha = 0
+                self.subtitleLabel.alpha = 0
+                self.intensityImageView.alpha = 0
+            }) { _ in
+                
+                self.titleLabel.text = layerId
+                self.subtitleLabel.text = intensityDescription
+                self.intensityImageView.image = UIImage(named: "\(intensity)")
+                
+                UIView.animate(withDuration: 0.25) {
+                    self.titleLabel.alpha = 1
+                    self.subtitleLabel.alpha = 1
+                    self.intensityImageView.alpha = 1
+                }
+            }
+        }
+
         loadTableData(forSegment: segmentedControl.selectedSegmentIndex, muscle: layerId)
     }
     
     func setOpacityRecursively(node: Node, opacity: Double) {
         if let shape = node as? Shape {
-            shape.opacityVar.animation(to: opacity, during: 0.2).play()
+            shape.opacityVar.animation(to: opacity, during: 0.5).play()
         } else if let group = node as? Group {
             for child in group.contents {
                 setOpacityRecursively(node: child, opacity: opacity)
@@ -434,28 +536,53 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
 
     func loadTableData(forSegment index: Int, muscle: String) {
         switch index {
-            case 0: // Recent Logs
-                tableData = [
-                    "\(muscle) - Log 1",
-                    "\(muscle) - Log 2",
-                    "\(muscle) - Log 3"
-                ]
-            case 1: // Recommendations
-                tableData = [
-                    "Workout A for \(muscle)",
-                    "Workout B for \(muscle)",
-                    "Workout C for \(muscle)"
-                ]
-            default:
-                tableData = []
+            
+        case 0:
+            // Recent Logs (leave as-is or connect to Firestore later)
+            tableDataWorkouts = []
+//                "\(muscle) - Log 1",
+//                "\(muscle) - Log 2",
+//                "\(muscle) - Log 3"
+//            ]
+            
+        case 1:
+            // Recommendations
+            let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
+            let intensity = data[muscle] ?? 1
+            
+            var filtered = workouts.filter { workout in
+                workout.bodyPartsWorked.contains { $0.localizedCaseInsensitiveContains(muscle) }
+            }
+            
+            if intensity == 5 || intensity == 4 {
+                filtered.sort {
+                    difficultyRank($0.difficulty) < difficultyRank($1.difficulty)
+                }
+            } else {
+                filtered.sort {
+                    difficultyRank($0.difficulty) > difficultyRank($1.difficulty)
+                }
+            }
+            
+//            let selected = Array(filtered.prefix(8))
+            
+            tableDataWorkouts = Array(filtered)
+            
+        default:
+            tableDataWorkouts = []
         }
         tableView.reloadData()
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if touch.view?.isDescendant(of: heatMapContainer) == true {
-            return false
-        }
+        // Ignore touches inside heatMapContainer or detailView
+        if touch.view?.isDescendant(of: heatMapContainer) == true { return false }
+        if touch.view?.isDescendant(of: detailView) == true { return false }
+        return true
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
@@ -472,6 +599,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
             self.heatMapContainer.transform = .identity
             self.trailingConstraint?.constant = self.detailViewWidth
             self.view.layoutIfNeeded()
+            self.helloLabel.alpha = 1
         })
         
         resetMuscleOpacity()
@@ -480,7 +608,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
 
     @IBAction func swipe(_ sender: UISwipeGestureRecognizer) {
         showingFront.toggle()
-        let svgName = showingFront ? "Male-Front" : "Male-Back"
+        let svgName = showingFront ? frontSVG : backSVG
         loadBodySVG(named: svgName)
         attachTapHandlers(view: heatMapContainer)
         fillAllMuscles(front: showingFront)

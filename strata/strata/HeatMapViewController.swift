@@ -268,7 +268,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         let docRef = db.collection("users").document("\(user!.uid)")
         docRef.getDocument { (document, err) in
             if let document = document, document.exists {
-                let name = document.data()!["name"] as? String ?? "User"
+                var name = document.data()!["name"] as? String ?? "User"
+                if name == "" {
+                    name = "User"
+                }
                 self.helloLabel.text = "Hello \(name)!"
 
                 let sex = document.data()!["sex"] as? String ?? "female"
@@ -289,8 +292,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
                 } else {
                     self.helloLabel.alpha = 0
                 }
-
-                self.loadBodySVG(named: self.frontSVG)
+                
+                let svgName = self.showingFront ? self.frontSVG : self.backSVG
+                self.loadBodySVG(named: svgName)
+                
                 self.attachTapHandlers(view: self.heatMapContainer)
                 self.fillAllMuscles(front: self.showingFront)
             } else {
@@ -588,7 +593,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     }
     
     @IBAction func backgroundTapped(_ sender: Any) {
-        
         guard isDetailVisible else { return }
         guard let recognizer = sender as? UITapGestureRecognizer else { return }
         let location = recognizer.location(in: view)

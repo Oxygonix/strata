@@ -220,6 +220,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
             tableView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -15),
             tableView.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -15)
         ])
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleDetailSwipe(_:)))
+        swipeRight.direction = .right
+        detailView.addGestureRecognizer(swipeRight)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -425,7 +429,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
             default: intensityDescription = "Unknown"
         }
 
-        // 🧠 FIRST TIME: no animation
         if !hasInitializedDetailView {
             titleLabel.text = layerId
             subtitleLabel.text = intensityDescription
@@ -544,7 +547,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         switch index {
             
         case 0:
-            // Recent Logs (leave as-is or connect to Firestore later)
+            // Recent Logs (connect to Firestore later)
             tableDataWorkouts = []
 //                "\(muscle) - Log 1",
 //                "\(muscle) - Log 2",
@@ -609,6 +612,21 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         
         resetMuscleOpacity()
         isDetailVisible = false
+    }
+    
+    @objc func handleDetailSwipe(_ sender: UISwipeGestureRecognizer) {
+        guard isDetailVisible else { return }
+
+        UIView.animate(withDuration: 0.75, animations: {
+            self.heatMapContainer.transform = .identity
+            self.trailingConstraint?.constant = self.detailViewWidth
+            self.view.layoutIfNeeded()
+            self.helloLabel.alpha = 1
+        })
+
+        resetMuscleOpacity()
+        isDetailVisible = false
+        highlightedMuscle = nil
     }
 
     @IBAction func swipe(_ sender: UISwipeGestureRecognizer) {

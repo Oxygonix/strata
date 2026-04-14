@@ -9,8 +9,14 @@ import Foundation
 
 struct Workout {
     var name: String
-        var bodyPartsWorked: [String]
-        var difficulty: String
-        var duration: Int
-        var exercises: [Exercise]
+    var bodyPartsWorked: [String]
+    var difficulty: String
+    var duration: Int
+    var exercises: [Exercise]
+//    var usesCables: Bool
+//    var usesBarbell: Bool
+//    var usesDumbbells: Bool
+//    var usesKettlebells: Bool
+//    var usesMat: Bool
+//    var usesBench: Bool
 }

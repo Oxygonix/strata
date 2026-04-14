@@ -227,8 +227,25 @@
                                                                                         <rect key="frame" x="8" y="47" width="76" height="13"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                                                        <color key="textColor" white="0.29999999999999999" alpha="0.68000000000000005" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     </label>
+                                                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4i-rd-Xmf">
+                                                                                        <rect key="frame" x="66" y="2.6666666666666665" width="15" height="15"/>
+                                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                                        <state key="normal" title="Button"/>
+                                                                                        <buttonConfiguration key="configuration" style="plain" titleAlignment="center">
+                                                                                            <attributedString key="attributedSubtitle">
+                                                                                                <fragment content="x">
+                                                                                                    <attributes>
+                                                                                                        <font key="NSFont" metaFont="smallSystem"/>
+                                                                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                                    </attributes>
+                                                                                                </fragment>
+                                                                                            </attributedString>
+                                                                                            <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        </buttonConfiguration>
+                                                                                    </button>
                                                                                 </subviews>
                                                                                 <color key="backgroundColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="0.089999999999999997" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <userDefinedRuntimeAttributes>
@@ -241,6 +258,7 @@
                                                                         </subviews>
                                                                     </collectionViewCellContentView>
                                                                     <connections>
+                                                                        <outlet property="deleteSetBtn" destination="c4i-rd-Xmf" id="iAE-B7-yTs"/>
                                                                         <outlet property="poundsLabel" destination="b2x-uJ-n36" id="Rf2-KM-ShO"/>
                                                                         <outlet property="repsLabel" destination="0a1-IA-xGG" id="vrc-In-xSk"/>
                                                                         <outlet property="setTitleLabel" destination="1cp-a4-NEw" id="QoV-Ti-4g0"/>
@@ -280,6 +298,10 @@
                                                                 </collectionViewCell>
                                                             </cells>
                                                         </collectionView>
+                                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nQN-7f-P1b">
+                                                            <rect key="frame" x="28" y="71" width="71" height="4"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </progressView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <userDefinedRuntimeAttributes>
@@ -330,7 +352,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mnj-X2-VJ3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2089" y="131"/>
+            <point key="canvasLocation" x="2087.727272727273" y="130.54393305439331"/>
         </scene>
         <!--Item-->
         <scene sceneID="NPk-qn-i8B">

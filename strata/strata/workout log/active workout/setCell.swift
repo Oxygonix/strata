@@ -6,6 +6,7 @@ class SetCell: UICollectionViewCell {
     @IBOutlet weak var poundsLabel: UILabel!
     @IBOutlet weak var repsLabel: UILabel!
 
+    @IBOutlet weak var deleteSetBtn: UIButton!
     var onValueChanged: ((_ weight: Int, _ reps: Int) -> Void)?
 
     private let weightTitleLabel = UILabel()

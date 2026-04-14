@@ -160,7 +160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="627.27272727272737" y="131.17154811715483"/>
+            <point key="canvasLocation" x="713" y="158"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="DLt-yS-2ho">
@@ -307,7 +307,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a0R-wk-k5R"/>
+        <segue reference="RRq-ou-Swi"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

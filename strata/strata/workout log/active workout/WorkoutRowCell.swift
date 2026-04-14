@@ -34,11 +34,13 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
 
         // This gradient stuff doesn't work too well but ill leave for now if we can figure it out later
         selectedGradientLayer.colors = [
-            UIColor(red: 0.98, green: 0.92, blue: 0.93, alpha: 1.0).cgColor,
-            UIColor(red: 0.95, green: 0.86, blue: 0.88, alpha: 1.0).cgColor
+            UIColor(red: 0.97, green: 0.42, blue: 0.44, alpha: 1.0).cgColor,
+            UIColor(red: 0.84, green: 0.24, blue: 0.29, alpha: 1.0).cgColor
         ]
-        selectedGradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        selectedGradientLayer.endPoint = CGPoint(x: 1, y: 1)
+
+        selectedGradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        selectedGradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        selectedGradientLayer.locations = [0.0, 1.0]
 
         applyDeselectedStyle()
     }

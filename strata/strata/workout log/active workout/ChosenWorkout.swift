@@ -81,6 +81,15 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
         }
     }
+    
+    private func deleteSet(from workoutIndex: Int, setIndex: Int) {
+        guard workouts.indices.contains(workoutIndex),
+              workouts[workoutIndex].sets.indices.contains(setIndex) else { return }
+
+        workouts[workoutIndex].sets.remove(at: setIndex)
+
+        currentWorkouts.reloadRows(at: [IndexPath(row: workoutIndex, section: 0)], with: .automatic)
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -216,6 +225,10 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
 
         cell.onSetChanged = { [weak self] setIndex, weight, reps in
             self?.updateSet(at: indexPath.row, setIndex: setIndex, weight: weight, reps: reps)
+        }
+        
+        cell.onDeleteSet = { [weak self] setIndex in
+            self?.deleteSet(from: indexPath.row, setIndex: setIndex)
         }
 
         return cell

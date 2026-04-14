@@ -183,12 +183,6 @@
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                             <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Chest" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3y-l0-rdf">
-                                                            <rect key="frame" x="28" y="45" width="90" height="18"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                            <color key="textColor" white="0.25" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </label>
                                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pEf-m5-M6A">
                                                             <rect key="frame" x="155" y="12" width="228" height="72"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
@@ -298,10 +292,17 @@
                                                                 </collectionViewCell>
                                                             </cells>
                                                         </collectionView>
-                                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nQN-7f-P1b">
-                                                            <rect key="frame" x="28" y="71" width="71" height="4"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="MuscleGrouplabel" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U53-yg-7L0">
+                                                            <rect key="frame" x="28" y="36" width="90" height="18"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </progressView>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                            <color key="textColor" white="0.25" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </label>
+                                                        <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="vVl-UV-1cx">
+                                                            <rect key="frame" x="26" y="54" width="121" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="minimumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </slider>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <userDefinedRuntimeAttributes>
@@ -315,7 +316,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <outlet property="muscleGroupLabel" destination="i3y-l0-rdf" id="mjT-vr-8Bm"/>
+                                            <outlet property="IntensityLevel" destination="vVl-UV-1cx" id="hVu-2Q-OPx"/>
+                                            <outlet property="muscleGroupLabel" destination="U53-yg-7L0" id="mEe-CM-qeP"/>
                                             <outlet property="rowCardView" destination="rowAccent" id="7qL-0R-S17"/>
                                             <outlet property="setsCollectionView" destination="pEf-m5-M6A" id="xBd-PH-2es"/>
                                             <outlet property="workoutNameLabel" destination="lhl-ni-Bqi" id="wf7-4p-BuG"/>

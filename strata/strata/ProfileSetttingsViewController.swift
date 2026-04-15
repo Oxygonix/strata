@@ -38,14 +38,34 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     var sex = "male"
     
     var onProfileUpdated: (() -> Void)?
-    
+    var pendingProfileImage: UIImage?
     @IBOutlet weak var profileImage: UIImageView!
+    
+    var cameFromSignup = false
     
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadProfileImage()
+
+            navigationController?.navigationBar.prefersLargeTitles = false
+            navigationItem.largeTitleDisplayMode = .never
+
+            let titleLabel = UILabel()
+            titleLabel.text = cameFromSignup ? "Set Profile" : "Edit Profile"
+            titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+            titleLabel.textColor = .label
+            titleLabel.textAlignment = .center
+            titleLabel.sizeToFit()
+
+            navigationItem.titleView = titleLabel
+
+            loadProfileImage()
+            updateSexButtons()
+
+            profileImage.layer.cornerRadius = profileImage.frame.width / 2
+            profileImage.clipsToBounds = true
+            profileImage.contentMode = .scaleAspectFill
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,26 +131,79 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     
     @IBAction func donePressed(_ sender: UIButton) {
         saveProfileToFirestore()
-        onProfileUpdated?()
-        navigationController?.popViewController(animated: true)
+
+            let finishNavigation = {
+                print("cameFromSignup =", self.cameFromSignup)
+                self.onProfileUpdated?()
+
+                if self.cameFromSignup {
+                    self.goToHeatMap()
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+
+            if let image = pendingProfileImage {
+                uploadImageToFirebase(image: image) { success in
+                    DispatchQueue.main.async {
+                        if !success {
+                            print("Image upload failed, but profile info was saved.")
+                        }
+
+                        self.pendingProfileImage = nil
+                        finishNavigation()
+                    }
+                }
+            } else {
+                finishNavigation()
+            }
+    }
+    
+    private func goToHeatMap() {
+        let storyboard = UIStoryboard(name: "HeatMap", bundle: nil)
+        let heatMapNav = storyboard.instantiateViewController(withIdentifier: "HeatMapNavBar")
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = windowScene.delegate as? SceneDelegate else {
+            return
+        }
+
+        sceneDelegate.window?.rootViewController = heatMapNav
+        sceneDelegate.window?.makeKeyAndVisible()
     }
     
     @IBAction func maleButtonPushed(_ sender: Any) {
         sex = "male"
-        maleButton.backgroundColor = .red
-        femaleButton.backgroundColor = .clear
-        maleButton.tintColor = .white
-        femaleButton.tintColor = .red
+        updateSexButtons()
         saveProfileToFirestore()
     }
     
     @IBAction func femaleButtonPushed(_ sender: Any) {
         sex = "female"
-        femaleButton.backgroundColor = .red
-        maleButton.backgroundColor = .clear
-        femaleButton.tintColor = .white
-        maleButton.tintColor = .red
+        updateSexButtons()
         saveProfileToFirestore()
+    }
+    
+    func updateSexButtons() {
+        var maleConfig = maleButton.configuration ?? UIButton.Configuration.filled()
+        maleConfig.title = "Male"
+        maleConfig.image = UIImage(systemName: "figure.stand")
+        maleConfig.imagePlacement = .leading
+        maleConfig.imagePadding = 8
+        maleConfig.cornerStyle = .large
+        maleConfig.baseBackgroundColor = (sex == "male") ? .systemRed : .systemGray6
+        maleConfig.baseForegroundColor = (sex == "male") ? .white : .label
+        maleButton.configuration = maleConfig
+
+        var femaleConfig = femaleButton.configuration ?? UIButton.Configuration.filled()
+        femaleConfig.title = "Female"
+        femaleConfig.image = UIImage(systemName: "figure.stand.dress")
+        femaleConfig.imagePlacement = .leading
+        femaleConfig.imagePadding = 8
+        femaleConfig.cornerStyle = .large
+        femaleConfig.baseBackgroundColor = (sex == "female") ? .systemRed : .systemGray6
+        femaleConfig.baseForegroundColor = (sex == "female") ? .white : .label
+        femaleButton.configuration = femaleConfig
     }
     
     func updateEquipmentButtons() {
@@ -147,20 +220,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
             let imageName = isSelected ? "checkmark.square.fill" : "square"
             button?.setImage(UIImage(systemName: imageName), for: .normal)
             button?.isSelected = isSelected
-        }
-    }
-
-    func updateSexButtons() {
-        if sex == "male" {
-            maleButton.backgroundColor = .red
-            femaleButton.backgroundColor = .clear
-            maleButton.tintColor = .white
-            femaleButton.tintColor = .red
-        } else {
-            femaleButton.backgroundColor = .red
-            maleButton.backgroundColor = .clear
-            femaleButton.tintColor = .white
-            maleButton.tintColor = .red
         }
     }
     
@@ -201,10 +260,8 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         
         if let selectedImage = info[.originalImage] as? UIImage {
                 profileImage.image = selectedImage
-                print("Image selected")
-                
-                // Save directly to Firestore as Base64
-                saveProfileImageToFirestore(image: selectedImage)
+                pendingProfileImage = selectedImage
+                print("Image selected and waiting to save on Done")
             }
             
             dismiss(animated: true)
@@ -280,14 +337,19 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
 
             let docRef = Firestore.firestore().collection("users").document(userID)
             docRef.getDocument { snapshot, error in
-                if let data = snapshot?.data(),
-                   let base64String = data["profileImageBase64"] as? String,
-                   let imageData = Data(base64Encoded: base64String) {
-                    
-                    DispatchQueue.main.async {
-                        self.profileImage.image = UIImage(data: imageData)
-                    }
+                guard let data = snapshot?.data(),
+                      let urlString = data["profileImageURL"] as? String,
+                      let url = URL(string: urlString) else {
+                    return
                 }
+
+                URLSession.shared.dataTask(with: url) { data, _, error in
+                    guard let data = data, error == nil else { return }
+
+                    DispatchQueue.main.async {
+                        self.profileImage.image = UIImage(data: data)
+                    }
+                }.resume()
             }
     }
     

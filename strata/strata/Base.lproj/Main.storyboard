@@ -58,7 +58,6 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="createAccountTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="36R-CX-tRr"/>
-                                            <segue destination="W2v-N8-dZM" kind="presentation" identifier="toProfileSegue" modalPresentationStyle="fullScreen" id="RRq-ou-Swi"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEf-VO-R5A">
@@ -156,11 +155,12 @@
                         <outlet property="confirmPasswordTextField" destination="h5Q-8I-6FE" id="YIF-KR-4KY"/>
                         <outlet property="emailTextField" destination="3gL-AO-3tC" id="MAr-sD-9fY"/>
                         <outlet property="passwordTextField" destination="Paj-JX-vxZ" id="udc-ls-cVm"/>
+                        <segue destination="W2v-N8-dZM" kind="presentation" identifier="toHeatmapSegue" modalPresentationStyle="fullScreen" id="5kL-tv-GSN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="627.27272727272737" y="131.17154811715483"/>
+            <point key="canvasLocation" x="608" y="144"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="DLt-yS-2ho">
@@ -295,6 +295,14 @@
             </objects>
             <point key="canvasLocation" x="1628" y="158"/>
         </scene>
+        <!--EditProfile-->
+        <scene sceneID="D5q-gp-WBB">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ProfileSettings" referencedIdentifier="EditProfile" id="IJq-Rg-3hL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ROP-jt-RoD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="402" y="614"/>
+        </scene>
         <!--HeatMapNavBar-->
         <scene sceneID="EXe-nM-wOq">
             <objects>
@@ -303,11 +311,11 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hA-Eh-cQT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="988" y="537"/>
+            <point key="canvasLocation" x="1094" y="577"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a0R-wk-k5R"/>
+        <segue reference="5kL-tv-GSN"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

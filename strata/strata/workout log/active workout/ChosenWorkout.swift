@@ -39,6 +39,7 @@ struct WorkoutExercise {
     var muscle: String
     var muscles: [String: Int]
     var sets: [WorkoutSet]
+    var intensity: Int
     var chartPoints: [WorkoutPoint]
 
     init(
@@ -46,12 +47,14 @@ struct WorkoutExercise {
         muscle: String,
         muscles: [String: Int],
         sets: [WorkoutSet],
+        intensity: Int,
         chartPoints: [WorkoutPoint]
     ) {
         self.name = name
         self.muscle = muscle
         self.muscles = muscles
         self.sets = sets
+        self.intensity = intensity
         self.chartPoints = chartPoints
     }
 
@@ -65,6 +68,7 @@ struct WorkoutExercise {
 
         let setsArray = dictionary["sets"] as? [[String: Any]] ?? []
         let parsedSets = setsArray.compactMap { WorkoutSet(dictionary: $0) }
+        let intensity = dictionary["intensity"] as? Int ?? 1
 
         let primaryMuscle = muscles
             .max(by: { $0.value < $1.value })?
@@ -76,6 +80,7 @@ struct WorkoutExercise {
         self.muscle = primaryMuscle
         self.muscles = muscles
         self.sets = parsedSets
+        self.intensity = intensity
         self.chartPoints = ChosenWorkout.makeChartPoints(from: parsedSets)
     }
 
@@ -83,7 +88,8 @@ struct WorkoutExercise {
         [
             "name": name,
             "muscles": muscles,
-            "sets": sets.map(\.dictionary)
+            "sets": sets.map(\.dictionary),
+            "intensity": intensity
         ]
     }
 }
@@ -161,6 +167,13 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateFooterLayout()
+    }
+    
+    private func updateIntensity(at exerciseIndex: Int, intensity: Int) {
+        guard exercisesForWorkout.indices.contains(exerciseIndex) else { return }
+
+        exercisesForWorkout[exerciseIndex].intensity = intensity
+        saveExercisesToFirestore()
     }
 
     private func fetchWorkout() {
@@ -349,6 +362,7 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
                 muscle: primaryMuscle,
                 muscles: selectedExercise.muscles,
                 sets: [WorkoutSet(weight: 0, reps: 0)],
+                intensity: 1,
                 chartPoints: [WorkoutPoint(day: 1, weight: 0)]
             )
 
@@ -410,7 +424,8 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
         cell.configure(
             workoutName: exercise.name,
             muscleGroup: exercise.muscle,
-            sets: exercise.sets
+            sets: exercise.sets,
+            intensity: exercise.intensity
         )
 
         cell.onAddSet = { [weak self] in
@@ -423,6 +438,10 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
 
         cell.onDeleteSet = { [weak self] setIndex in
             self?.deleteSet(from: indexPath.row, setIndex: setIndex)
+        }
+
+        cell.onIntensityChanged = { [weak self] intensity in
+            self?.updateIntensity(at: indexPath.row, intensity: intensity)
         }
 
         return cell

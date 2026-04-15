@@ -15,6 +15,7 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
     var onAddSet: (() -> Void)?
     var onSetChanged: ((_ setIndex: Int, _ weight: Int, _ reps: Int) -> Void)?
     var onDeleteSet: ((_ setIndex: Int) -> Void)?
+    var onIntensityChanged: ((_ intensity: Int) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,6 +47,10 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
     override func prepareForReuse() {
         super.prepareForReuse()
         selectedSetIndex = nil
+        onAddSet = nil
+        onSetChanged = nil
+        onDeleteSet = nil
+        onIntensityChanged = nil
     }
 
     override func layoutSubviews() {
@@ -92,13 +97,17 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
     }
 
     @objc private func intensitySliderChanged(_ sender: UISlider) {
-        sender.value = max(1, round(sender.value))
+        sender.value = max(1, min(5, round(sender.value)))
+        onIntensityChanged?(Int(sender.value))
     }
 
-    func configure(workoutName: String, muscleGroup: String, sets: [WorkoutSet]) {
+    func configure(workoutName: String, muscleGroup: String, sets: [WorkoutSet], intensity: Int) {
         workoutNameLabel.text = workoutName
         muscleGroupLabel.text = muscleGroup
         self.sets = sets
+        IntensityLevel.minimumValue = 1
+        IntensityLevel.maximumValue = 5
+        IntensityLevel.value = Float(intensity)
 
         if let selectedSetIndex, selectedSetIndex >= sets.count {
             self.selectedSetIndex = nil

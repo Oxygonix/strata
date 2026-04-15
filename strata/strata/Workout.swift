@@ -13,10 +13,5 @@ struct Workout {
     var difficulty: String
     var duration: Int
     var exercises: [Exercise]
-//    var usesCables: Bool
-//    var usesBarbell: Bool
-//    var usesDumbbells: Bool
-//    var usesKettlebells: Bool
-//    var usesMat: Bool
-//    var usesBench: Bool
+    var equipmentUsed: Set<String>
 }

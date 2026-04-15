@@ -20,11 +20,23 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     private let bottomButtonContainer = UIView()
     private let addToWorkoutLogButton = UIButton(type: .system)
 
+    private let summaryCardView = UIView()
+    private let summaryStackView = UIStackView()
+
+    private let bodyPartsTitleLabel = UILabel()
+    private let bodyPartsValueLabel = UILabel()
+
+    private let difficultyTitleLabel = UILabel()
+    private let difficultyValueLabel = UILabel()
+
+    private let durationTitleLabel = UILabel()
+    private let durationValueLabel = UILabel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
-        setupLabels()
+        setupSummaryCard()
         setupTableView()
         setupBottomButton()
         populateWorkoutInfo()
@@ -44,14 +56,91 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         navigationController?.navigationBar.prefersLargeTitles = false
 
         workoutLabel.isHidden = true
+        bodyPartsWorkedLabel.isHidden = true
+        difficultyLevelLabel.isHidden = true
+        durationLabel.isHidden = true
     }
 
-    private func setupLabels() {
-        [bodyPartsWorkedLabel, difficultyLevelLabel, durationLabel].forEach { label in
-            label?.textColor = .label
-            label?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-            label?.numberOfLines = 0
-        }
+    private func setupSummaryCard() {
+        summaryCardView.translatesAutoresizingMaskIntoConstraints = false
+        summaryCardView.backgroundColor = .secondarySystemGroupedBackground
+        summaryCardView.layer.cornerRadius = 24
+        summaryCardView.layer.cornerCurve = .continuous
+        summaryCardView.layer.borderWidth = 1
+        summaryCardView.layer.borderColor = UIColor.separator.withAlphaComponent(0.10).cgColor
+        summaryCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.04).cgColor
+        summaryCardView.layer.shadowOpacity = 1
+        summaryCardView.layer.shadowRadius = 12
+        summaryCardView.layer.shadowOffset = CGSize(width: 0, height: 4)
+
+        view.addSubview(summaryCardView)
+
+        NSLayoutConstraint.activate([
+            summaryCardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            summaryCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            summaryCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
+
+        summaryStackView.translatesAutoresizingMaskIntoConstraints = false
+        summaryStackView.axis = .vertical
+        summaryStackView.spacing = 18
+        summaryStackView.alignment = .fill
+        summaryStackView.distribution = .fill
+
+        summaryCardView.addSubview(summaryStackView)
+
+        NSLayoutConstraint.activate([
+            summaryStackView.topAnchor.constraint(equalTo: summaryCardView.topAnchor, constant: 22),
+            summaryStackView.leadingAnchor.constraint(equalTo: summaryCardView.leadingAnchor, constant: 22),
+            summaryStackView.trailingAnchor.constraint(equalTo: summaryCardView.trailingAnchor, constant: -22),
+            summaryStackView.bottomAnchor.constraint(equalTo: summaryCardView.bottomAnchor, constant: -22)
+        ])
+
+        let bodyPartsRow = makeInfoRow(titleLabel: bodyPartsTitleLabel, valueLabel: bodyPartsValueLabel)
+        let difficultyRow = makeInfoRow(titleLabel: difficultyTitleLabel, valueLabel: difficultyValueLabel)
+        let durationRow = makeInfoRow(titleLabel: durationTitleLabel, valueLabel: durationValueLabel)
+
+        summaryStackView.addArrangedSubview(bodyPartsRow)
+        summaryStackView.addArrangedSubview(difficultyRow)
+        summaryStackView.addArrangedSubview(durationRow)
+
+        bodyPartsTitleLabel.text = "BODY PARTS WORKED"
+        difficultyTitleLabel.text = "DIFFICULTY LEVEL"
+        durationTitleLabel.text = "DURATION"
+    }
+
+    private func makeInfoRow(titleLabel: UILabel, valueLabel: UILabel) -> UIView {
+        let container = UIView()
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        valueLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        titleLabel.textColor = .secondaryLabel
+
+        let titleKerning = NSMutableAttributedString(string: titleLabel.text ?? "")
+        titleKerning.addAttribute(.kern, value: 0.8, range: NSRange(location: 0, length: titleKerning.length))
+        titleLabel.attributedText = titleKerning
+
+        valueLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        valueLabel.textColor = .label
+        valueLabel.numberOfLines = 0
+
+        container.addSubview(titleLabel)
+        container.addSubview(valueLabel)
+
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: container.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+
+            valueLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            valueLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            valueLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
+
+        return container
     }
 
     private func setupTableView() {
@@ -61,9 +150,9 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.rowHeight = 96
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 110, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 110, right: 0)
+        tableView.rowHeight = 124
+        tableView.contentInset = UIEdgeInsets(top: 125, left: 0, bottom: 110, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 125, left: 0, bottom: 110, right: 0)
     }
 
     private func setupBottomButton() {
@@ -109,62 +198,27 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     }
 
     private func populateWorkoutInfo() {
-        if let bodyParts = workout?.bodyPartsWorked {
-            setBoldTitle(
-                for: bodyPartsWorkedLabel,
-                title: "Body Parts Worked",
-                value: bodyParts.joined(separator: ", ")
-            )
-        }
-
-        setBoldTitle(
-            for: difficultyLevelLabel,
-            title: "Difficulty Level",
-            value: workout?.difficulty ?? ""
-        )
+        bodyPartsValueLabel.text = workout?.bodyPartsWorked.joined(separator: ", ") ?? "Unknown"
+        difficultyValueLabel.text = workout?.difficulty ?? "Unknown"
 
         if let duration = workout?.duration {
-            setBoldTitle(
-                for: durationLabel,
-                title: "Duration",
-                value: "\(duration) mins"
-            )
+            durationValueLabel.text = "\(duration) mins"
+        } else {
+            durationValueLabel.text = "Unknown"
         }
 
         tableView.reloadData()
     }
 
-    func setBoldTitle(for label: UILabel, title: String, value: String) {
-        let fullText = "\(title): \(value)"
-        let attributedText = NSMutableAttributedString(string: fullText)
-
-        let titleRange = NSRange(location: 0, length: title.count)
-        attributedText.addAttribute(
-            .font,
-            value: UIFont.systemFont(ofSize: 17, weight: .bold),
-            range: titleRange
-        )
-
-        let valueRange = NSRange(location: title.count, length: fullText.count - title.count)
-        attributedText.addAttribute(
-            .font,
-            value: UIFont.systemFont(ofSize: 17, weight: .regular),
-            range: valueRange
-        )
-
-        attributedText.addAttribute(
-            .foregroundColor,
-            value: UIColor.label,
-            range: titleRange
-        )
-
-        attributedText.addAttribute(
-            .foregroundColor,
-            value: UIColor.secondaryLabel,
-            range: valueRange
-        )
-
-        label.attributedText = attributedText
+    private func intensityText(for value: Int) -> String {
+        switch value {
+        case 1: return "Very Light"
+        case 2: return "Light"
+        case 3: return "Moderate"
+        case 4: return "Hard"
+        case 5: return "Very Hard"
+        default: return "Unknown"
+        }
     }
 
     @objc private func addToWorkoutLogTapped() {
@@ -180,7 +234,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 96
+        return 124
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -192,7 +246,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
         var content = UIListContentConfiguration.subtitleCell()
         content.text = exercise.name
-        content.secondaryText = "\(exercise.sets) sets • \(exercise.reps) reps • Rest: \(exercise.rest)"
+        content.secondaryText = "\(exercise.sets) sets • \(exercise.reps) reps • Rest: \(exercise.rest) \n Intensity: \(exercise.intensity)/5"
         content.image = UIImage(systemName: iconName(for: exercise.name))
 
         content.imageProperties.tintColor = .systemRed
@@ -206,6 +260,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
         content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         content.secondaryTextProperties.color = .secondaryLabel
+        content.secondaryTextProperties.numberOfLines = 2
 
         content.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 18,

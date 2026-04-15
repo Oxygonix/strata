@@ -180,15 +180,15 @@ class RecommendationsViewController: UIViewController, UITableViewDataSource, UI
                 let hasCables = equipment["cables"] ?? false
                 let hasMat = equipment["mat"] ?? false
                 let hasBench = equipment["bench"] ?? false
-                let hasBarbell = equipment["barbells"] ?? false
+                let hasBarbells = equipment["barbells"] ?? false
                 let hasDumbbells = equipment["dumbbells"] ?? false
-                let hasKettlebells = equipment["kettlebell"] ?? false
+                let hasKettleBell = equipment["kettlebell"] ?? false
 
                 if hasCables { self.userEquipment.insert("Cables") }
                 if hasMat { self.userEquipment.insert("Mat") }
                 if hasDumbbells { self.userEquipment.insert("Dumbbells") }
-                if hasBarbell { self.userEquipment.insert("Barbell") }
-                if hasKettlebells { self.userEquipment.insert("Kettlebells") }
+                if hasBarbells { self.userEquipment.insert("Barbells") }
+                if hasKettleBell { self.userEquipment.insert("Kettle Bell") }
                 if hasBench { self.userEquipment.insert("Bench") }
 
                 self.getRecommendations()
@@ -200,10 +200,14 @@ class RecommendationsViewController: UIViewController, UITableViewDataSource, UI
 
     func getRecommendations() {
         recommendations = workouts.filter { workout in
-            for item in workout.equipmentUsed {
-                if item == "Machine" { continue }
-                if !userEquipment.contains(item) { return false }
+            let requiredEquipment = Set(workout.exercises.flatMap { $0.equipment })
+
+            for item in requiredEquipment {
+                if !userEquipment.contains(item) {
+                    return false
+                }
             }
+
             return true
         }
 

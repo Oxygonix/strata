@@ -17,12 +17,16 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
 
+    private let bottomButtonContainer = UIView()
+    private let addToWorkoutLogButton = UIButton(type: .system)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
         setupLabels()
         setupTableView()
+        setupBottomButton()
         populateWorkoutInfo()
     }
 
@@ -39,7 +43,6 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         navigationItem.titleView = titleLabel
         navigationController?.navigationBar.prefersLargeTitles = false
 
-        // Hide the old title label in the body since the nav title replaces it
         workoutLabel.isHidden = true
     }
 
@@ -59,7 +62,50 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 96
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 24, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 110, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 110, right: 0)
+    }
+
+    private func setupBottomButton() {
+        bottomButtonContainer.translatesAutoresizingMaskIntoConstraints = false
+        bottomButtonContainer.backgroundColor = .clear
+
+        addToWorkoutLogButton.translatesAutoresizingMaskIntoConstraints = false
+        addToWorkoutLogButton.setTitle("Add to Workout Log", for: .normal)
+        addToWorkoutLogButton.setTitleColor(.systemRed, for: .normal)
+        addToWorkoutLogButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        addToWorkoutLogButton.backgroundColor = .secondarySystemGroupedBackground
+        addToWorkoutLogButton.layer.cornerRadius = 20
+        addToWorkoutLogButton.layer.cornerCurve = .continuous
+        addToWorkoutLogButton.layer.borderWidth = 1
+        addToWorkoutLogButton.layer.borderColor = UIColor.separator.withAlphaComponent(0.12).cgColor
+        addToWorkoutLogButton.layer.shadowColor = UIColor.black.withAlphaComponent(0.05).cgColor
+        addToWorkoutLogButton.layer.shadowOpacity = 1
+        addToWorkoutLogButton.layer.shadowRadius = 10
+        addToWorkoutLogButton.layer.shadowOffset = CGSize(width: 0, height: 4)
+        addToWorkoutLogButton.tintColor = .systemRed
+
+        let plusImage = UIImage(systemName: "plus")
+        addToWorkoutLogButton.setImage(plusImage, for: .normal)
+        addToWorkoutLogButton.semanticContentAttribute = .forceLeftToRight
+        addToWorkoutLogButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 6)
+
+        addToWorkoutLogButton.addTarget(self, action: #selector(addToWorkoutLogTapped), for: .touchUpInside)
+
+        view.addSubview(bottomButtonContainer)
+        bottomButtonContainer.addSubview(addToWorkoutLogButton)
+
+        NSLayoutConstraint.activate([
+            bottomButtonContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            bottomButtonContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            bottomButtonContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+
+            addToWorkoutLogButton.topAnchor.constraint(equalTo: bottomButtonContainer.topAnchor),
+            addToWorkoutLogButton.leadingAnchor.constraint(equalTo: bottomButtonContainer.leadingAnchor),
+            addToWorkoutLogButton.trailingAnchor.constraint(equalTo: bottomButtonContainer.trailingAnchor),
+            addToWorkoutLogButton.bottomAnchor.constraint(equalTo: bottomButtonContainer.bottomAnchor),
+            addToWorkoutLogButton.heightAnchor.constraint(equalToConstant: 56)
+        ])
     }
 
     private func populateWorkoutInfo() {
@@ -119,6 +165,10 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         )
 
         label.attributedText = attributedText
+    }
+
+    @objc private func addToWorkoutLogTapped() {
+        print("Add to Workout Log tapped for \(workout?.name ?? "Unknown Workout")")
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -201,7 +251,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
             return "figure.run"
         }
 
-        if name.contains("curl") || name.contains("tricep") || name.contains("bicep") || name.contains("forearm") || name.contains("dumbbell"){
+        if name.contains("curl") || name.contains("tricep") || name.contains("bicep") || name.contains("forearm") || name.contains("dumbbell") {
             return "dumbbell"
         }
 

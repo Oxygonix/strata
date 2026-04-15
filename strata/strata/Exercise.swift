@@ -12,4 +12,5 @@ struct Exercise {
     let sets: Int
     let reps: String
     let rest: String
+    let equipmentUsed: Set<String>
 }

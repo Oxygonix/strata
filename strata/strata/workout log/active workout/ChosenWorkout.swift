@@ -144,22 +144,57 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
         footerView.frame = frame
         currentWorkouts.tableFooterView = footerView
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 
-    @objc private func addExerciseTapped() {
-        let alert = UIAlertController(title: "New Exercise", message: "Enter the workout name.", preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.placeholder = "Workout name"
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+            guard let self = self else {
+                completionHandler(false)
+                return
+            }
+
+            self.workouts.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+
+            if let firstWorkout = self.workouts.first {
+                self.updateChart(for: firstWorkout)
+
+                let firstIndexPath = IndexPath(row: 0, section: 0)
+                tableView.selectRow(at: firstIndexPath, animated: false, scrollPosition: .none)
+            } else {
+                self.chartModel.title = "No Exercise Selected"
+                self.chartModel.points = []
+            }
+
+            completionHandler(true)
         }
 
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak self, weak alert] _ in
-            guard let self,
-                  let name = alert?.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-                  !name.isEmpty else { return }
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+
+    @objc private func addExerciseTapped() {
+        let picker = ExercisePickerViewController()
+        picker.modalPresentationStyle = .pageSheet
+
+        picker.onExerciseSelected = { [weak self] selectedExercise in
+            guard let self = self else { return }
+
+            let primaryMuscle = selectedExercise.muscles
+                .max(by: { $0.value < $1.value })?
+                .key
+                .replacingOccurrences(of: "_", with: " ")
+                .capitalized ?? "Custom"
 
             let newExercise = WorkoutExercise(
-                name: name,
-                muscle: "Custom",
+                name: selectedExercise.name,
+                muscle: primaryMuscle,
                 sets: [WorkoutSet(weight: 0, reps: 0)],
                 chartPoints: self.generateDummyPoints(seed: self.workouts.count + 1)
             )
@@ -170,9 +205,9 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
             let newIndexPath = IndexPath(row: self.workouts.count - 1, section: 0)
             self.currentWorkouts.selectRow(at: newIndexPath, animated: true, scrollPosition: .bottom)
             self.tableView(self.currentWorkouts, didSelectRowAt: newIndexPath)
-        }))
+        }
 
-        present(alert, animated: true)
+        present(picker, animated: true)
     }
 
     private func generateDummyPoints(seed: Int) -> [WorkoutPoint] {

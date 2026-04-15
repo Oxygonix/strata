@@ -109,7 +109,6 @@
                                             <outlet property="photoButton" destination="NmV-nv-GdK" id="aoF-lB-Ow9"/>
                                             <outlet property="subtitleLabel" destination="4Aa-an-kj6" id="k3E-0H-G3O"/>
                                             <outlet property="titleLabel" destination="77s-gA-McR" id="zhf-MQ-abI"/>
-                                            <segue destination="o4C-Jb-u0T" kind="show" id="7LX-GO-PPu"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -326,7 +325,7 @@
                                 </prototypes>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Edw-0p-ZgH">
-                                <rect key="frame" x="56" y="171" width="328" height="32"/>
+                                <rect key="frame" x="56" y="117" width="328" height="86"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="328" id="F3X-pA-a5l"/>
                                 </constraints>

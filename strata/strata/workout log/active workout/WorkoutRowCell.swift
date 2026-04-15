@@ -1,10 +1,5 @@
 import UIKit
 
-struct WorkoutSet {
-    var weight: Int
-    var reps: Int
-}
-
 class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var workoutNameLabel: UILabel!

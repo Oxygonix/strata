@@ -1,8 +1,12 @@
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class AddWorkout: UIViewController {
     
-    var onSave: ((_ workoutName: String, _ workoutDate: Date) -> Void)?
+    var onWorkoutCreated: (() -> Void)?
+    
+    private let db = Firestore.firestore()
     
     private let accentColor = UIColor(red: 0.792, green: 0.169, blue: 0.192, alpha: 1.0)
     private let accentLight = UIColor(red: 0.92, green: 0.45, blue: 0.50, alpha: 1.0)
@@ -186,7 +190,6 @@ class AddWorkout: UIViewController {
         nameContainer.backgroundColor = accentColor.withAlphaComponent(0.06)
         
         dateContainer.layer.cornerRadius = 22
-        
         dateContainer.layer.borderWidth = 1
         dateContainer.layer.borderColor = accentColor.withAlphaComponent(0.10).cgColor
         dateContainer.backgroundColor = UIColor.white.withAlphaComponent(0.72)
@@ -230,8 +233,38 @@ class AddWorkout: UIViewController {
     @objc private func saveTapped() {
         let trimmed = workoutNameField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         guard !trimmed.isEmpty else { return }
+        guard let user = Auth.auth().currentUser else { return }
         
-        onSave?(trimmed, datePicker.date)
-        dismiss(animated: true)
+        createButton.isEnabled = false
+        
+        let workoutData: [String: Any] = [
+            "title": trimmed,
+            "workoutDate": Timestamp(date: datePicker.date),
+            "createdAt": Timestamp(date: Date()),
+            "exercises": []
+        ]
+        
+        db.collection("users")
+            .document(user.uid)
+            .collection("WorkoutLogs")
+            .addDocument(data: workoutData) { [weak self] error in
+                guard let self = self else { return }
+                
+                self.createButton.isEnabled = true
+                
+                if let error = error {
+                    let alert = UIAlertController(
+                        title: "Could Not Save Workout",
+                        message: error.localizedDescription,
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                    return
+                }
+                
+                self.onWorkoutCreated?()
+                self.dismiss(animated: true)
+            }
     }
 }

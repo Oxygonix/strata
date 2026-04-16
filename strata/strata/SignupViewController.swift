@@ -10,6 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class SignupViewController: UIViewController {
+    
+    var isSigningUp = false
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -20,7 +22,7 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil {
+            if user != nil && !self.isSigningUp {
                 self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
             }
         }
@@ -50,6 +52,8 @@ class SignupViewController: UIViewController {
         }
 
         sender.isEnabled = false
+        
+        isSigningUp = true
 
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             sender.isEnabled = true

@@ -96,8 +96,15 @@ struct WorkoutExercise {
 
 struct WorkoutPoint: Identifiable {
     let id = UUID()
-    let day: Int
+    let bucketDate: Date
     let weight: Double
+    let label: String
+}
+
+enum ChartRange {
+    case week
+    case month
+    case year
 }
 
 final class WorkoutChartModel: ObservableObject {
@@ -121,14 +128,24 @@ struct WorkoutChartView: View {
             } else {
                 Chart(model.points) { point in
                     LineMark(
-                        x: .value("Set", point.day),
+                        x: .value("Date", point.bucketDate),
                         y: .value("Weight", point.weight)
                     )
 
                     PointMark(
-                        x: .value("Set", point.day),
+                        x: .value("Date", point.bucketDate),
                         y: .value("Weight", point.weight)
                     )
+                }
+                .chartXAxis {
+                    AxisMarks(values: model.points.map(\.bucketDate)) { value in
+                        AxisGridLine()
+                        AxisTick()
+                        if let dateValue = value.as(Date.self),
+                           let point = model.points.first(where: { Calendar.current.isDate($0.bucketDate, equalTo: dateValue, toGranularity: .day) || $0.bucketDate == dateValue }) {
+                            AxisValueLabel(point.label)
+                        }
+                    }
                 }
                 .frame(height: 220)
                 .padding(.horizontal)
@@ -150,6 +167,7 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
     private var chartHost: UIHostingController<WorkoutChartView>?
     private let chartModel = WorkoutChartModel()
     private var exercisesForWorkout: [WorkoutExercise] = []
+    private var selectedExerciseName: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,6 +176,7 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
 
         currentWorkouts.dataSource = self
         currentWorkouts.delegate = self
+        dateRange.addTarget(self, action: #selector(dateRangeChanged), for: .valueChanged)
 
         setUpChart()
         setUpAddExerciseFooter()
@@ -174,6 +193,161 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
 
         exercisesForWorkout[exerciseIndex].intensity = intensity
         saveExercisesToFirestore()
+    }
+    
+    private func loadHistoryForExercise(named exerciseName: String) {
+        guard let user = Auth.auth().currentUser else { return }
+
+        selectedWorkoutDate { [weak self] anchorDate in
+            guard let self = self, let anchorDate = anchorDate else { return }
+
+            self.db.collection("users")
+                .document(user.uid)
+                .collection("WorkoutLogs")
+                .order(by: "workoutDate", descending: false)
+                .getDocuments { snapshot, error in
+                    if let error = error {
+                        print("Failed to load exercise history: \(error.localizedDescription)")
+                        return
+                    }
+
+                    let documents = snapshot?.documents ?? []
+                    let calendar = Calendar.current
+                    let range = self.currentChartRange()
+
+                    var bestByBucket: [Date: Double] = [:]
+                    let formatter = DateFormatter()
+
+                    switch range {
+                    case .week:
+                        formatter.dateFormat = "M/d"
+                    case .month:
+                        formatter.dateFormat = "M/yy"
+                    case .year:
+                        formatter.dateFormat = "yyyy"
+                    }
+
+                    for doc in documents {
+                        guard
+                            let data = doc.data() as? [String: Any],
+                            let workoutTimestamp = data["workoutDate"] as? Timestamp
+                        else {
+                            continue
+                        }
+
+                        let workoutDate = workoutTimestamp.dateValue()
+
+                        if workoutDate > anchorDate {
+                            continue
+                        }
+
+                        let exercises = data["exercises"] as? [[String: Any]] ?? []
+
+                        guard let exercise = exercises.first(where: {
+                            ($0["name"] as? String) == exerciseName
+                        }) else {
+                            continue
+                        }
+
+                        let sets = exercise["sets"] as? [[String: Any]] ?? []
+                        let maxWeight = sets.compactMap { $0["weight"] as? Int }.max() ?? 0
+
+                        let bucketStart: Date?
+
+                        switch range {
+                        case .week:
+                            let startOfAnchorDay = calendar.startOfDay(for: anchorDate)
+                            let startOfWorkoutDay = calendar.startOfDay(for: workoutDate)
+                            let daysDiff = calendar.dateComponents([.day], from: startOfWorkoutDay, to: startOfAnchorDay).day ?? 0
+
+                            guard daysDiff >= 0 && daysDiff < 7 else { continue }
+                            bucketStart = startOfWorkoutDay
+
+                        case .month:
+                            guard let anchorWeek = calendar.dateInterval(of: .weekOfYear, for: anchorDate)?.start,
+                                  let workoutWeek = calendar.dateInterval(of: .weekOfYear, for: workoutDate)?.start
+                            else { continue }
+
+                            let weeksDiff = calendar.dateComponents([.weekOfYear], from: workoutWeek, to: anchorWeek).weekOfYear ?? 0
+                            guard weeksDiff >= 0 && weeksDiff < 8 else { continue }
+                            bucketStart = workoutWeek
+
+                        case .year:
+                            guard let anchorYear = calendar.dateInterval(of: .year, for: anchorDate)?.start,
+                                  let workoutYear = calendar.dateInterval(of: .year, for: workoutDate)?.start
+                            else { continue }
+
+                            let yearDiff = calendar.dateComponents([.year], from: workoutYear, to: anchorYear).year ?? 0
+                            guard yearDiff >= 0 else { continue }
+                            bucketStart = workoutYear
+                        }
+
+                        guard let bucket = bucketStart else { continue }
+
+                        if let existing = bestByBucket[bucket] {
+                            bestByBucket[bucket] = max(existing, Double(maxWeight))
+                        } else {
+                            bestByBucket[bucket] = Double(maxWeight)
+                        }
+                    }
+
+                    let points = bestByBucket.keys.sorted().map { bucketDate in
+                        WorkoutPoint(
+                            bucketDate: bucketDate,
+                            weight: bestByBucket[bucketDate] ?? 0,
+                            label: formatter.string(from: bucketDate)
+                        )
+                    }
+
+                    self.chartModel.title = exerciseName
+                    self.chartModel.points = points
+                }
+        }
+    }
+    
+    @objc private func dateRangeChanged() {
+        guard let exerciseName = selectedExerciseName else { return }
+        loadHistoryForExercise(named: exerciseName)
+    }
+    
+    private func currentChartRange() -> ChartRange {
+        switch dateRange.selectedSegmentIndex {
+        case 0: return .week
+        case 1: return .month
+        default: return .year
+        }
+    }
+
+    private func selectedWorkoutDate(completion: @escaping (Date?) -> Void) {
+        guard
+            let user = Auth.auth().currentUser,
+            let workoutDocumentId = workoutDocumentId
+        else {
+            completion(nil)
+            return
+        }
+
+        db.collection("users")
+            .document(user.uid)
+            .collection("WorkoutLogs")
+            .document(workoutDocumentId)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("Failed to fetch selected workout date: \(error.localizedDescription)")
+                    completion(nil)
+                    return
+                }
+
+                guard
+                    let data = snapshot?.data(),
+                    let timestamp = data["workoutDate"] as? Timestamp
+                else {
+                    completion(nil)
+                    return
+                }
+
+                completion(timestamp.dateValue())
+            }
     }
 
     private func fetchWorkout() {
@@ -215,7 +389,7 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
     }
 
-    private func saveExercisesToFirestore() {
+    private func saveExercisesToFirestore(completion: (() -> Void)? = nil) {
         guard
             let user = Auth.auth().currentUser,
             let workoutDocumentId = workoutDocumentId
@@ -232,7 +406,10 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
             ]) { error in
                 if let error = error {
                     print("Failed to save exercises: \(error.localizedDescription)")
+                    return
                 }
+
+                completion?()
             }
     }
 
@@ -286,31 +463,31 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
 
     static func makeChartPoints(from sets: [WorkoutSet]) -> [WorkoutPoint] {
-        guard !sets.isEmpty else { return [] }
-
-        return sets.enumerated().map { index, set in
-            WorkoutPoint(day: index + 1, weight: Double(set.weight))
-        }
+        []
     }
 
     private func updateChart(for workout: WorkoutExercise) {
-        chartModel.title = workout.name
-        chartModel.points = Self.makeChartPoints(from: workout.sets)
+        selectedExerciseName = workout.name
+        loadHistoryForExercise(named: workout.name)
     }
-
+    
     private func addSet(to exerciseIndex: Int) {
         guard exercisesForWorkout.indices.contains(exerciseIndex) else { return }
 
+        view.endEditing(true)
+
         exercisesForWorkout[exerciseIndex].sets.append(WorkoutSet(weight: 0, reps: 0))
-        exercisesForWorkout[exerciseIndex].chartPoints = Self.makeChartPoints(from: exercisesForWorkout[exerciseIndex].sets)
+        exercisesForWorkout[exerciseIndex].chartPoints = []
 
         currentWorkouts.reloadRows(at: [IndexPath(row: exerciseIndex, section: 0)], with: .automatic)
 
-        if let selected = currentWorkouts.indexPathForSelectedRow, selected.row == exerciseIndex {
-            updateChart(for: exercisesForWorkout[exerciseIndex])
+        saveExercisesToFirestore { [weak self] in
+            guard let self = self else { return }
+            if let selected = self.currentWorkouts.indexPathForSelectedRow, selected.row == exerciseIndex {
+                self.selectedExerciseName = self.exercisesForWorkout[exerciseIndex].name
+                self.loadHistoryForExercise(named: self.exercisesForWorkout[exerciseIndex].name)
+            }
         }
-
-        saveExercisesToFirestore()
     }
 
     private func updateSet(at exerciseIndex: Int, setIndex: Int, weight: Int, reps: Int) {
@@ -319,29 +496,35 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
 
         exercisesForWorkout[exerciseIndex].sets[setIndex].weight = weight
         exercisesForWorkout[exerciseIndex].sets[setIndex].reps = reps
-        exercisesForWorkout[exerciseIndex].chartPoints = Self.makeChartPoints(from: exercisesForWorkout[exerciseIndex].sets)
+        exercisesForWorkout[exerciseIndex].chartPoints = []
 
-        if let selected = currentWorkouts.indexPathForSelectedRow, selected.row == exerciseIndex {
-            updateChart(for: exercisesForWorkout[exerciseIndex])
+        saveExercisesToFirestore { [weak self] in
+            guard let self = self else { return }
+            if let selected = self.currentWorkouts.indexPathForSelectedRow, selected.row == exerciseIndex {
+                self.selectedExerciseName = self.exercisesForWorkout[exerciseIndex].name
+                self.loadHistoryForExercise(named: self.exercisesForWorkout[exerciseIndex].name)
+            }
         }
-
-        saveExercisesToFirestore()
     }
 
     private func deleteSet(from exerciseIndex: Int, setIndex: Int) {
         guard exercisesForWorkout.indices.contains(exerciseIndex),
               exercisesForWorkout[exerciseIndex].sets.indices.contains(setIndex) else { return }
 
+        view.endEditing(true)
+
         exercisesForWorkout[exerciseIndex].sets.remove(at: setIndex)
-        exercisesForWorkout[exerciseIndex].chartPoints = Self.makeChartPoints(from: exercisesForWorkout[exerciseIndex].sets)
+        exercisesForWorkout[exerciseIndex].chartPoints = []
 
         currentWorkouts.reloadRows(at: [IndexPath(row: exerciseIndex, section: 0)], with: .automatic)
 
-        if let selected = currentWorkouts.indexPathForSelectedRow, selected.row == exerciseIndex {
-            updateChart(for: exercisesForWorkout[exerciseIndex])
+        saveExercisesToFirestore { [weak self] in
+            guard let self = self else { return }
+            if let selected = self.currentWorkouts.indexPathForSelectedRow, selected.row == exerciseIndex {
+                self.selectedExerciseName = self.exercisesForWorkout[exerciseIndex].name
+                self.loadHistoryForExercise(named: self.exercisesForWorkout[exerciseIndex].name)
+            }
         }
-
-        saveExercisesToFirestore()
     }
 
     @objc private func addExerciseTapped() {
@@ -363,12 +546,14 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
                 muscles: selectedExercise.muscles,
                 sets: [WorkoutSet(weight: 0, reps: 0)],
                 intensity: 1,
-                chartPoints: [WorkoutPoint(day: 1, weight: 0)]
+                chartPoints: []
             )
 
             self.exercisesForWorkout.append(newExercise)
             self.currentWorkouts.reloadData()
             self.saveExercisesToFirestore()
+            self.selectedExerciseName = newExercise.name
+            self.loadHistoryForExercise(named: newExercise.name)
 
             let newIndexPath = IndexPath(row: self.exercisesForWorkout.count - 1, section: 0)
             self.currentWorkouts.selectRow(at: newIndexPath, animated: true, scrollPosition: .bottom)
@@ -448,7 +633,11 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateChart(for: exercisesForWorkout[indexPath.row])
+        view.endEditing(true)
+
+        let exercise = exercisesForWorkout[indexPath.row]
+        selectedExerciseName = exercise.name
+        loadHistoryForExercise(named: exercise.name)
 
         if let cell = tableView.cellForRow(at: indexPath) as? WorkoutRowCell {
             cell.setSelected(true, animated: true)

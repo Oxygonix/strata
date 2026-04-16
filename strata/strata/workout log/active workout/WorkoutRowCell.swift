@@ -151,6 +151,8 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        contentView.endEditing(true)
+
         if indexPath.item == sets.count {
             onAddSet?()
         } else {

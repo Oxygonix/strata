@@ -1,17 +1,15 @@
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var activities: [WorkoutActivity] = [
-        WorkoutActivity(imageName: "Male-Front", title: "Chest Workout", subtitle: "March 10, 2026 at 6:30 PM", capturedImage: nil),
-        WorkoutActivity(imageName: "legs", title: "Leg Day", subtitle: "March 9, 2026 at 7:15 PM", capturedImage: nil),
-        WorkoutActivity(imageName: "back", title: "Back and Biceps", subtitle: "March 8, 2026 at 5:45 PM", capturedImage: nil),
-        WorkoutActivity(imageName: "run", title: "Evening Run", subtitle: "March 7, 2026 at 8:00 PM", capturedImage: nil)
-    ]
-    
-    var selectedRow: Int?
+    private let db = Firestore.firestore()
+    private var activities: [WorkoutActivity] = []
+    private var selectedRow: Int?
+    private var isOpeningWorkout = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,26 +19,51 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
         
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(addWorkoutTapped)
+        
+        fetchWorkoutLogs()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchWorkoutLogs()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        isOpeningWorkout = false
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
+    private func fetchWorkoutLogs() {
+        guard let user = Auth.auth().currentUser else { return }
+        
+        db.collection("users")
+            .document(user.uid)
+            .collection("WorkoutLogs")
+            .order(by: "workoutDate", descending: true)
+            .getDocuments { [weak self] snapshot, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Failed to fetch workout logs: \(error.localizedDescription)")
+                    return
+                }
+                
+                let docs = snapshot?.documents ?? []
+                self.activities = docs.compactMap { WorkoutActivity(document: $0) }
+                self.tableView.reloadData()
+            }
     }
     
     @objc private func addWorkoutTapped() {
         let addWorkoutVC = AddWorkout()
         
-        addWorkoutVC.onSave = { [weak self] workoutName, workoutDate in
-            guard let self = self else { return }
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMMM d, yyyy 'at' h:mm a"
-            
-            let newActivity = WorkoutActivity(
-                imageName: "",
-                title: workoutName,
-                subtitle: formatter.string(from: workoutDate),
-                capturedImage: nil
-            )
-            
-            self.activities.insert(newActivity, at: 0)
-            self.tableView.reloadData()
+        addWorkoutVC.onWorkoutCreated = { [weak self] in
+            self?.fetchWorkoutLogs()
         }
         
         let navController = UINavigationController(rootViewController: addWorkoutVC)
@@ -56,11 +79,10 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activities.count
+        activities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkoutCell", for: indexPath) as? WorkoutLogCell else {
             return UITableViewCell()
         }
@@ -69,17 +91,55 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
         
         cell.titleLabel.text = activity.title
         cell.subtitleLabel.text = activity.subtitle
-        
-        if let capturedImage = activity.capturedImage {
-            cell.configureButton(with: capturedImage)
-        } else {
-            cell.configureButton(with: activity.capturedImage)
-        }
+        cell.configureButton(with: nil)
         
         cell.photoButton.tag = indexPath.row
+        cell.photoButton.removeTarget(nil, action: nil, for: .allEvents)
         cell.photoButton.addTarget(self, action: #selector(photoButtonTapped(_:)), for: .touchUpInside)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !isOpeningWorkout else { return }
+        isOpeningWorkout = true
+        
+        let activity = activities[indexPath.row]
+        
+        guard let chosenWorkoutVC = storyboard?.instantiateViewController(withIdentifier: "chosenWorkout") as? ChosenWorkout else {
+            isOpeningWorkout = false
+            return
+        }
+        
+        chosenWorkoutVC.workoutDocumentId = activity.id
+        chosenWorkoutVC.workoutTitle = activity.title
+        navigationController?.pushViewController(chosenWorkoutVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        
+        guard editingStyle == .delete else { return }
+        guard let user = Auth.auth().currentUser else { return }
+        
+        let workout = activities[indexPath.row]
+        
+        db.collection("users")
+            .document(user.uid)
+            .collection("WorkoutLogs")
+            .document(workout.id)
+            .delete { [weak self] error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Failed to delete workout: \(error.localizedDescription)")
+                    return
+                }
+                
+                self.activities.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
     }
     
     @objc func photoButtonTapped(_ sender: UIButton) {
@@ -106,14 +166,6 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        let chosenImage = (info[.editedImage] ?? info[.originalImage]) as? UIImage
-        
-        if let row = selectedRow, let image = chosenImage {
-            activities[row].capturedImage = image
-            tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .automatic)
-        }
-        
         picker.dismiss(animated: true)
     }
     

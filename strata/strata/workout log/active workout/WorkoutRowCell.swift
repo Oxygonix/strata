@@ -1,22 +1,21 @@
 import UIKit
 
-struct WorkoutSet {
-    var weight: Int
-    var reps: Int
-}
-
 class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var workoutNameLabel: UILabel!
     @IBOutlet weak var muscleGroupLabel: UILabel!
     @IBOutlet weak var setsCollectionView: UICollectionView!
     @IBOutlet weak var rowCardView: UIView!
+    @IBOutlet weak var IntensityLevel: UISlider!
 
     private var sets: [WorkoutSet] = []
     private let selectedGradientLayer = CAGradientLayer()
+    private var selectedSetIndex: Int?
 
     var onAddSet: (() -> Void)?
     var onSetChanged: ((_ setIndex: Int, _ weight: Int, _ reps: Int) -> Void)?
+    var onDeleteSet: ((_ setIndex: Int) -> Void)?
+    var onIntensityChanged: ((_ intensity: Int) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,15 +31,26 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
             layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         }
 
-        // This gradient stuff doesn't work too well but ill leave for now if we can figure it out later
         selectedGradientLayer.colors = [
-            UIColor(red: 0.98, green: 0.92, blue: 0.93, alpha: 1.0).cgColor,
-            UIColor(red: 0.95, green: 0.86, blue: 0.88, alpha: 1.0).cgColor
+            UIColor(red: 0.97, green: 0.42, blue: 0.44, alpha: 1.0).cgColor,
+            UIColor(red: 0.84, green: 0.24, blue: 0.29, alpha: 1.0).cgColor
         ]
-        selectedGradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        selectedGradientLayer.endPoint = CGPoint(x: 1, y: 1)
 
+        selectedGradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        selectedGradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        selectedGradientLayer.locations = [0.0, 1.0]
+
+        setUpIntensitySlider()
         applyDeselectedStyle()
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        selectedSetIndex = nil
+        onAddSet = nil
+        onSetChanged = nil
+        onDeleteSet = nil
+        onIntensityChanged = nil
     }
 
     override func layoutSubviews() {
@@ -73,10 +83,36 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
         rowCardView.backgroundColor = UIColor.white.withAlphaComponent(0.72)
     }
 
-    func configure(workoutName: String, muscleGroup: String, sets: [WorkoutSet]) {
+    private func setUpIntensitySlider() {
+        let transparentThumb = UIGraphicsImageRenderer(size: CGSize(width: 24, height: 24)).image { _ in
+            UIColor.clear.setFill()
+            UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 24, height: 24)).fill()
+        }
+
+        IntensityLevel.setThumbImage(transparentThumb, for: .normal)
+        IntensityLevel.setThumbImage(transparentThumb, for: .highlighted)
+        
+        IntensityLevel.isContinuous = true
+        IntensityLevel.addTarget(self, action: #selector(intensitySliderChanged(_:)), for: .valueChanged)
+    }
+
+    @objc private func intensitySliderChanged(_ sender: UISlider) {
+        sender.value = max(1, min(5, round(sender.value)))
+        onIntensityChanged?(Int(sender.value))
+    }
+
+    func configure(workoutName: String, muscleGroup: String, sets: [WorkoutSet], intensity: Int) {
         workoutNameLabel.text = workoutName
         muscleGroupLabel.text = muscleGroup
         self.sets = sets
+        IntensityLevel.minimumValue = 1
+        IntensityLevel.maximumValue = 5
+        IntensityLevel.value = Float(intensity)
+
+        if let selectedSetIndex, selectedSetIndex >= sets.count {
+            self.selectedSetIndex = nil
+        }
+
         setsCollectionView.reloadData()
     }
 
@@ -88,10 +124,22 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
         if indexPath.item < sets.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SetCell", for: indexPath) as! SetCell
             let set = sets[indexPath.item]
+            let isSelectedSet = selectedSetIndex == indexPath.item
 
-            cell.configure(setNumber: indexPath.item + 1, weight: set.weight, reps: set.reps)
+            cell.configure(
+                setNumber: indexPath.item + 1,
+                weight: set.weight,
+                reps: set.reps,
+                showDeleteButton: isSelectedSet
+            )
+
             cell.onValueChanged = { [weak self] weight, reps in
                 self?.onSetChanged?(indexPath.item, weight, reps)
+            }
+
+            cell.onDeleteTapped = { [weak self] in
+                self?.selectedSetIndex = nil
+                self?.onDeleteSet?(indexPath.item)
             }
 
             return cell
@@ -103,8 +151,17 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        contentView.endEditing(true)
+
         if indexPath.item == sets.count {
             onAddSet?()
+        } else {
+            if selectedSetIndex == indexPath.item {
+                selectedSetIndex = nil
+            } else {
+                selectedSetIndex = indexPath.item
+            }
+            collectionView.reloadData()
         }
     }
 
@@ -113,4 +170,5 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: 85, height: 72)
     }
+    
 }

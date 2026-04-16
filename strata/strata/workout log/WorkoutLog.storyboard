@@ -109,7 +109,6 @@
                                             <outlet property="photoButton" destination="NmV-nv-GdK" id="aoF-lB-Ow9"/>
                                             <outlet property="subtitleLabel" destination="4Aa-an-kj6" id="k3E-0H-G3O"/>
                                             <outlet property="titleLabel" destination="77s-gA-McR" id="zhf-MQ-abI"/>
-                                            <segue destination="o4C-Jb-u0T" kind="show" id="7LX-GO-PPu"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -183,12 +182,6 @@
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                             <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Chest" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3y-l0-rdf">
-                                                            <rect key="frame" x="28" y="45" width="90" height="18"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                            <color key="textColor" white="0.25" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </label>
                                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pEf-m5-M6A">
                                                             <rect key="frame" x="155" y="12" width="228" height="72"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
@@ -227,8 +220,25 @@
                                                                                         <rect key="frame" x="8" y="47" width="76" height="13"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                                                        <color key="textColor" white="0.29999999999999999" alpha="0.68000000000000005" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     </label>
+                                                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4i-rd-Xmf">
+                                                                                        <rect key="frame" x="66" y="2.6666666666666665" width="15" height="15"/>
+                                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                                        <state key="normal" title="Button"/>
+                                                                                        <buttonConfiguration key="configuration" style="plain" titleAlignment="center">
+                                                                                            <attributedString key="attributedSubtitle">
+                                                                                                <fragment content="x">
+                                                                                                    <attributes>
+                                                                                                        <font key="NSFont" metaFont="smallSystem"/>
+                                                                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                                    </attributes>
+                                                                                                </fragment>
+                                                                                            </attributedString>
+                                                                                            <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        </buttonConfiguration>
+                                                                                    </button>
                                                                                 </subviews>
                                                                                 <color key="backgroundColor" red="0.792156862745098" green="0.16862745098039217" blue="0.19215686274509805" alpha="0.089999999999999997" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <userDefinedRuntimeAttributes>
@@ -241,6 +251,7 @@
                                                                         </subviews>
                                                                     </collectionViewCellContentView>
                                                                     <connections>
+                                                                        <outlet property="deleteSetBtn" destination="c4i-rd-Xmf" id="iAE-B7-yTs"/>
                                                                         <outlet property="poundsLabel" destination="b2x-uJ-n36" id="Rf2-KM-ShO"/>
                                                                         <outlet property="repsLabel" destination="0a1-IA-xGG" id="vrc-In-xSk"/>
                                                                         <outlet property="setTitleLabel" destination="1cp-a4-NEw" id="QoV-Ti-4g0"/>
@@ -280,6 +291,17 @@
                                                                 </collectionViewCell>
                                                             </cells>
                                                         </collectionView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="MuscleGrouplabel" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U53-yg-7L0">
+                                                            <rect key="frame" x="28" y="36" width="90" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                            <color key="textColor" white="0.25" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </label>
+                                                        <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="vVl-UV-1cx">
+                                                            <rect key="frame" x="26" y="54" width="121" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="minimumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </slider>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="0.71999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <userDefinedRuntimeAttributes>
@@ -293,7 +315,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <outlet property="muscleGroupLabel" destination="i3y-l0-rdf" id="mjT-vr-8Bm"/>
+                                            <outlet property="IntensityLevel" destination="vVl-UV-1cx" id="hVu-2Q-OPx"/>
+                                            <outlet property="muscleGroupLabel" destination="U53-yg-7L0" id="mEe-CM-qeP"/>
                                             <outlet property="rowCardView" destination="rowAccent" id="7qL-0R-S17"/>
                                             <outlet property="setsCollectionView" destination="pEf-m5-M6A" id="xBd-PH-2es"/>
                                             <outlet property="workoutNameLabel" destination="lhl-ni-Bqi" id="wf7-4p-BuG"/>
@@ -302,7 +325,7 @@
                                 </prototypes>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Edw-0p-ZgH">
-                                <rect key="frame" x="56" y="171" width="328" height="32"/>
+                                <rect key="frame" x="56" y="117" width="328" height="86"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="328" id="F3X-pA-a5l"/>
                                 </constraints>
@@ -330,7 +353,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mnj-X2-VJ3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2089" y="131"/>
+            <point key="canvasLocation" x="2087.727272727273" y="130.54393305439331"/>
         </scene>
         <!--Item-->
         <scene sceneID="NPk-qn-i8B">

@@ -5,8 +5,10 @@ class SetCell: UICollectionViewCell {
     @IBOutlet weak var setTitleLabel: UILabel!
     @IBOutlet weak var poundsLabel: UILabel!
     @IBOutlet weak var repsLabel: UILabel!
+    @IBOutlet weak var deleteSetBtn: UIButton!
 
     var onValueChanged: ((_ weight: Int, _ reps: Int) -> Void)?
+    var onDeleteTapped: (() -> Void)?
 
     private let weightTitleLabel = UILabel()
     private let repsTitleLabel = UILabel()
@@ -18,6 +20,7 @@ class SetCell: UICollectionViewCell {
 
         poundsLabel.isHidden = true
         repsLabel.isHidden = true
+        deleteSetBtn.isHidden = true
 
         setTitleLabel.textAlignment = .center
 
@@ -34,6 +37,19 @@ class SetCell: UICollectionViewCell {
 
         weightField.addTarget(self, action: #selector(fieldChanged), for: .editingChanged)
         repsField.addTarget(self, action: #selector(fieldChanged), for: .editingChanged)
+        weightField.addTarget(self, action: #selector(fieldChanged), for: .editingDidEnd)
+        repsField.addTarget(self, action: #selector(fieldChanged), for: .editingDidEnd)
+        deleteSetBtn.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
+
+        contentView.layer.cornerRadius = 12
+        contentView.layer.masksToBounds = true
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        deleteSetBtn.isHidden = true
+        onDeleteTapped = nil
+        onValueChanged = nil
     }
 
     override func layoutSubviews() {
@@ -66,15 +82,20 @@ class SetCell: UICollectionViewCell {
         field.placeholder = placeholder
     }
 
-    func configure(setNumber: Int, weight: Int, reps: Int) {
+    func configure(setNumber: Int, weight: Int, reps: Int, showDeleteButton: Bool) {
         setTitleLabel.text = "Set \(setNumber)"
         weightField.text = weight == 0 ? "" : "\(weight)"
         repsField.text = reps == 0 ? "" : "\(reps)"
+        deleteSetBtn.isHidden = !showDeleteButton
     }
 
     @objc private func fieldChanged() {
         let weight = Int(weightField.text ?? "") ?? 0
         let reps = Int(repsField.text ?? "") ?? 0
         onValueChanged?(weight, reps)
+    }
+
+    @objc private func deleteTapped() {
+        onDeleteTapped?()
     }
 }

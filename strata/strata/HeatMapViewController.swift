@@ -29,42 +29,16 @@ struct ExerciseSet {
     let weight: Double
 }
 
-let redHeatmap: [Int: Color] = [
-    1: Color.rgb(r: 255, g: 255, b: 255),
-    2: Color.rgb(r: 255, g: 230, b: 230),
-    3: Color.rgb(r: 255, g: 200, b: 200),
-    4: Color.rgb(r: 255, g: 160, b: 160),
-    5: Color.rgb(r: 255, g: 100, b: 100)
-]
+struct WorkoutLogCellModel {
+    let workoutTitle: String
+    let exercises: [ExerciseSummary]
+    let isEmptyState: Bool
+}
 
-// Sample heatmap data: muscle name -> intensity
-let muscleHeatmapFront: [String: Int] = [
-    "Chest": 4,
-    "Biceps": 3,
-    "Shoulders": 3,
-    "Traps": 2,
-    "Forearms": 1,
-    "Abs": 5,
-    "Obliques": 3,
-    "Adductors": 2,
-    "Abductors": 2,
-    "Calves": 4,
-    "Quads": 5
-]
-
-let muscleHeatmapBack: [String: Int] = [
-    "Glutes": 4,
-    "Hamstrings": 3,
-    "Rear Delts": 3,
-    "Lats": 5,
-    "Triceps": 2,
-    "Traps": 2,
-    "Forearms": 1,
-    "Adductors": 2,
-    "Abductors": 2,
-    "Calves": 4,
-    "Obliques": 3
-]
+struct ExerciseSummary {
+    let name: String
+    let setsSummary: String
+}
 
 // Single or Group of Muscles
 var musclesFront: [String: Int] = [
@@ -121,7 +95,8 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     
     var segmentedControl: UISegmentedControl!
     var tableView: UITableView!
-    var tableDataWorkouts: [Workout] = []
+    var recentLogItems: [WorkoutLogCellModel] = []
+    var recommendationItems: [Workout] = []
     
     @IBOutlet weak var heatMapContainer: MacawView!
     @IBOutlet weak var helloLabel: UILabel!
@@ -245,6 +220,8 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.layer.cornerRadius = 10
         tableView.clipsToBounds = true
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 80
         detailView.addSubview(tableView)
 
         NSLayoutConstraint.activate([
@@ -260,34 +237,104 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableDataWorkouts.count
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            return recentLogItems.count
+        case 1:
+            return recommendationItems.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        let workout = tableDataWorkouts[indexPath.row] // we'll define this below
         
-        cell.textLabel?.text = workout.name
+        cell.textLabel?.textAlignment = .left
+        cell.textLabel?.textColor = .label
+
+        switch segmentedControl.selectedSegmentIndex {
+
+        case 0:
+            let item = recentLogItems[indexPath.row]
+
+            if item.isEmptyState {
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+
+                let label = UILabel()
+                label.text = "No recent logs for this muscle"
+                label.textAlignment = .center
+                label.textColor = .gray
+                label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+                label.numberOfLines = 0
+
+                label.translatesAutoresizingMaskIntoConstraints = false
+
+                cell.contentView.addSubview(label)
+
+                NSLayoutConstraint.activate([
+                    label.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+                    label.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
+                    label.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 12),
+                    label.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -12)
+                ])
+
+                return cell
+            }
+
+            let exercisesText = item.exercises.map {
+                "\($0.name): \($0.setsSummary)"
+            }.joined(separator: "\n")
+
+            cell.textLabel?.textAlignment = .left
+            cell.textLabel?.textColor = .label
+
+            cell.textLabel?.text = item.workoutTitle
+            cell.detailTextLabel?.text = exercisesText
+            cell.detailTextLabel?.numberOfLines = 0
+
+        case 1:
+            let workout = recommendationItems[indexPath.row]
+            cell.textLabel?.text = workout.name
+            cell.detailTextLabel?.text = "\(workout.duration) min • \(workout.difficulty)"
+
+        default:
+            break
+        }
+
         cell.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        cell.detailTextLabel?.text = "\(workout.duration) min • \(workout.difficulty)"
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 12)
         cell.detailTextLabel?.textColor = .darkGray
-        
+
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedWorkout = tableDataWorkouts[indexPath.row]
 
-        let storyboard = UIStoryboard(name: "Recommendations", bundle: nil)
-        guard let vc = storyboard.instantiateViewController(withIdentifier: "WorkoutDetailViewController") as? WorkoutDetailViewController else { return }
-        vc.workout = selectedWorkout
+        switch segmentedControl.selectedSegmentIndex {
 
-        if let nav = self.navigationController {
-            nav.pushViewController(vc, animated: true)
-        } else {
-            print("No navigation controller found")
+        case 0:
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+
+        case 1:
+            let selectedWorkout = recommendationItems[indexPath.row]
+
+            let storyboard = UIStoryboard(name: "Recommendations", bundle: nil)
+            guard let vc = storyboard.instantiateViewController(withIdentifier: "WorkoutDetailViewController") as? WorkoutDetailViewController else { return }
+
+            vc.workout = selectedWorkout
+
+            if let nav = self.navigationController {
+                nav.pushViewController(vc, animated: true)
+            } else {
+                print("No navigation controller found")
+            }
+
+        default:
+            return
         }
     }
     
@@ -398,41 +445,94 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
             }
             
             print("Loaded \(self.workoutLogs.count) workout logs")
-            
-            // Optional: refresh UI depending on selected muscle
-            if let muscle = self.highlightedMuscle {
-                self.loadTableData(forSegment: self.segmentedControl.selectedSegmentIndex, muscle: muscle)
+            DispatchQueue.main.async {
+                let svgName = self.showingFront ? self.frontSVG : self.backSVG
+                self.loadBodySVG(named: svgName)
+                self.attachTapHandlers(view: self.heatMapContainer)
+                self.fillAllMuscles(front: self.showingFront)
             }
         }
     }
     
-    func fillMuscle(name: String, level: Int) {
-        let clampedLevel = max(1, min(level, 10))
-        guard let color = redHeatmap[clampedLevel] else { return }
+    func computeFatiguePerMuscle(from logs: [WorkoutLog]) -> [String: Double] {
+        
+        var fatigue: [String: Double] = [:]
+        for muscle in allMuscles {
+            fatigue[muscle] = 0
+        }
+        
+        let now = Date()
+        
+        for log in logs {
+            
+            let daysAgo = Calendar.current.dateComponents([.day], from: log.date, to: now).day ?? 0
+            let decayRate = 0.5
+            let timeDecay = exp(-decayRate * Double(daysAgo))
+            
+            for exercise in log.exercises {
+                for (muscle, activation) in exercise.muscles {
+                    guard fatigue[muscle] != nil else { continue }
+                    
+                    let intensity = exercise.intensity
+                    let constant = 2.5
+                    let stimulus = Double(activation * intensity) * constant
+                    let weightedStimulus = stimulus * timeDecay
+                    
+                    let currentFatigue = fatigue[muscle] ?? 0
+                    let adjusted = weightedStimulus * (1.0 - currentFatigue / 100.0)
+                    
+                    fatigue[muscle]! += adjusted
+                    fatigue[muscle]! = min(fatigue[muscle]!, 100)
+                }
+            }
+        }
+        
+        return fatigue
+    }
+    
+    func fatigueToLevel(_ fatigue: Double) -> Int {
+        switch fatigue {
+        case 0..<20: return 1
+        case 20..<40: return 2
+        case 40..<60: return 3
+        case 60..<80: return 4
+        default: return 5
+        }
+    }
+    
+    func fatigueToColor(_ fatigue: Double) -> Color {
+        let normalized = min(max(fatigue / 100.0, 0.0), 1.0)
+
+        // optional: makes the ramp feel less linear / more natural
+        let t = pow(normalized, 1.5)
+
+        let r = 255
+        let g = Int(255 * (1.0 - t))
+        let b = Int(255 * (1.0 - t))
+
+        return Color.rgb(r: r, g: g, b: b)
+    }
+    
+    func fillMuscleWithFatigue(name: String, fatigue: Double) {
+        let color = fatigueToColor(fatigue)
         let structureMap = showingFront ? musclesFront : musclesBack
         
         guard let isSingleLayer = structureMap[name] else {
-                print("Warning: \(name) not defined in structure map")
-                return
-            }
+            print("Warning: \(name) not defined in structure map")
+            return
+        }
         
         if isSingleLayer == 1 {
-            // Single muscle
             if let shape = bodyNode.nodeBy(tag: name) as? Shape {
                 shape.fill = color
-            } else {
-                print("Warning: shape \(name) not found")
             }
         } else {
-            // Separate muscles
             if let group = bodyNode.nodeBy(tag: name) as? Group {
                 for node in group.contents {
                     if let shape = node as? Shape {
                         shape.fill = color
                     }
                 }
-            } else {
-                print("Warning: group \(name) not found")
             }
         }
     }
@@ -449,10 +549,14 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     }
     
     func fillAllMuscles(front: Bool) {
-        let data = front ? muscleHeatmapFront : muscleHeatmapBack
-        for (muscle, intensity) in data {
-            fillMuscle(name: muscle, level: intensity)
+        
+        let fatigueMap = computeFatiguePerMuscle(from: workoutLogs)
+        let musclesToRender = front ? musclesFront : musclesBack
+        for muscle in musclesToRender.keys {
+            let fatigue = fatigueMap[muscle] ?? 0
+            fillMuscleWithFatigue(name: muscle, fatigue: fatigue)
         }
+        
         if let highlighted = highlightedMuscle, isDetailVisible {
             applyHighlightMode()
         }
@@ -508,8 +612,12 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
 
         highlightMuscle(layerId)
         
-        let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
-        let intensity = data[layerId] ?? 1
+//        let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
+//        let intensity = data[layerId] ?? 1
+        
+        let fatigueMap = computeFatiguePerMuscle(from: workoutLogs)
+        let fatigue = fatigueMap[layerId] ?? 0
+        let intensity = fatigueToLevel(fatigue)
         
         let intensityDescription: String
         switch intensity {
@@ -637,37 +745,69 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
 
     func loadTableData(forSegment index: Int, muscle: String) {
         switch index {
-            
+        // Recent Logs
         case 0:
-            // Recent Logs
-            tableDataWorkouts = []
-//                "\(muscle) - Log 1",
-//                "\(muscle) - Log 2",
-//                "\(muscle) - Log 3"
-//            ]
-            
-        case 1:
-            // Recommendations
-            let data = showingFront ? muscleHeatmapFront : muscleHeatmapBack
-            let intensity = data[muscle] ?? 1
-            
-            var filtered = workouts.filter { workout in
-                workout.bodyPartsWorked.contains { $0.localizedCaseInsensitiveContains(muscle) }
-            }
-            
-            if intensity == 5 || intensity == 4 {
-                filtered.sort {
-                    difficultyRank($0.difficulty) < difficultyRank($1.difficulty)
+            var results: [WorkoutLogCellModel] = []
+
+            for log in workoutLogs {
+                var exercises: [ExerciseSummary] = []
+
+                for exercise in log.exercises {
+                    guard exercise.muscles[muscle] != nil else { continue }
+
+                    let setsSummary = exercise.sets
+                        .map { "\($0.reps)x\($0.weight)lb" }
+                        .joined(separator: ", ")
+
+                    exercises.append(
+                        ExerciseSummary(name: exercise.name,
+                                        setsSummary: setsSummary)
+                    )
                 }
+
+                if !exercises.isEmpty {
+                    results.append(
+                        WorkoutLogCellModel(
+                            workoutTitle: log.title,
+                            exercises: exercises,
+                            isEmptyState: false
+                        )
+                    )
+                }
+            }
+
+            if results.isEmpty {
+                recentLogItems = [
+                    WorkoutLogCellModel(
+                        workoutTitle: "No recent logs for this muscle",
+                        exercises: [],
+                        isEmptyState: true
+                    )
+                ]
             } else {
-                filtered.sort {
-                    difficultyRank($0.difficulty) > difficultyRank($1.difficulty)
-                }
+                recentLogItems = results
             }
-            tableDataWorkouts = Array(filtered)
+            
+        // Recommendations
+        case 1:
+            let fatigueMap = computeFatiguePerMuscle(from: workoutLogs)
+            let fatigue = fatigueMap[muscle] ?? 0
+            let intensity = fatigueToLevel(fatigue)
+
+            var filtered = workouts.filter {
+                $0.bodyPartsWorked.contains { $0.localizedCaseInsensitiveContains(muscle) }
+            }
+
+            if intensity >= 4 {
+                filtered.sort { difficultyRank($0.difficulty) < difficultyRank($1.difficulty) }
+            } else {
+                filtered.sort { difficultyRank($0.difficulty) > difficultyRank($1.difficulty) }
+            }
+            recommendationItems = filtered
             
         default:
-            tableDataWorkouts = []
+//            tableDataWorkouts = []
+            print("ERROR BROKEN")
         }
         tableView.reloadData()
     }

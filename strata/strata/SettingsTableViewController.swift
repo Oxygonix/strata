@@ -22,6 +22,8 @@ class SettingsTableViewController: UITableViewController {
     let darkModeKey = "darkModeEnabled"
     let notificationKey = "notificationsEnabled"
     
+    private let db = Firestore.firestore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,20 +33,26 @@ class SettingsTableViewController: UITableViewController {
         setupProfileHeader()
         setupControls()
         
-        applyDarkMode(isDark: UserDefaults.standard.bool(forKey: darkModeKey))
+        // Apply local fallback immediately
+        let localDarkMode = UserDefaults.standard.bool(forKey: darkModeKey)
+        let localNotifications = UserDefaults.standard.bool(forKey: notificationKey)
+        
+        darkModeSwitch.isOn = localDarkMode
+        notificationSwitch.isOn = localNotifications
+        applyDarkMode(isDark: localDarkMode)
         
         if let imageData = UserDefaults.standard.data(forKey: "profileImage"),
            let savedImage = UIImage(data: imageData) {
             profileImage.image = savedImage
         }
+        
+        loadSettingsFromFirestore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        darkModeSwitch.isOn = UserDefaults.standard.bool(forKey: darkModeKey)
-        notificationSwitch.isOn = UserDefaults.standard.bool(forKey: notificationKey)
         updateUserProfileLabels()
+        loadSettingsFromFirestore()
     }
     
     override func viewDidLayoutSubviews() {
@@ -102,7 +110,7 @@ class SettingsTableViewController: UITableViewController {
     
     func updateUserProfileLabels() {
         guard let user = Auth.auth().currentUser else { return }
-        let docRef = Firestore.firestore().collection("users").document(user.uid)
+        let docRef = db.collection("users").document(user.uid)
         
         docRef.getDocument { [weak self] document, error in
             guard let self = self else { return }
@@ -122,10 +130,64 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    private func loadSettingsFromFirestore() {
+        guard let user = Auth.auth().currentUser else { return }
+        
+        db.collection("users").document(user.uid).getDocument { [weak self] document, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Failed to load settings: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = document?.data() else { return }
+            
+            let firestoreDarkMode = data["darkModeEnabled"] as? Bool
+            let firestoreNotifications = data["notificationsEnabled"] as? Bool
+            
+            DispatchQueue.main.async {
+                if let isDark = firestoreDarkMode {
+                    self.darkModeSwitch.isOn = isDark
+                    UserDefaults.standard.set(isDark, forKey: self.darkModeKey)
+                    self.applyDarkMode(isDark: isDark)
+                }
+                
+                if let notificationsOn = firestoreNotifications {
+                    self.notificationSwitch.isOn = notificationsOn
+                    UserDefaults.standard.set(notificationsOn, forKey: self.notificationKey)
+                }
+            }
+        }
+    }
+    
+    private func saveSettingsToFirestore(darkMode: Bool? = nil, notifications: Bool? = nil) {
+        guard let user = Auth.auth().currentUser else { return }
+        
+        var updates: [String: Any] = [:]
+        
+        if let darkMode = darkMode {
+            updates["darkModeEnabled"] = darkMode
+        }
+        
+        if let notifications = notifications {
+            updates["notificationsEnabled"] = notifications
+        }
+        
+        guard !updates.isEmpty else { return }
+        
+        db.collection("users").document(user.uid).setData(updates, merge: true) { error in
+            if let error = error {
+                print("Failed to save settings: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     @IBAction func darkModeChanged(_ sender: UISwitch) {
         let isDark = sender.isOn
         UserDefaults.standard.set(isDark, forKey: darkModeKey)
         applyDarkMode(isDark: isDark)
+        saveSettingsToFirestore(darkMode: isDark)
     }
     
     func applyDarkMode(isDark: Bool) {
@@ -144,14 +206,17 @@ class SettingsTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     if granted {
                         self.scheduleDailyNotification()
+                        self.saveSettingsToFirestore(notifications: true)
                     } else {
                         sender.isOn = false
                         UserDefaults.standard.set(false, forKey: self.notificationKey)
+                        self.saveSettingsToFirestore(notifications: false)
                     }
                 }
             }
         } else {
             removeDailyNotification()
+            saveSettingsToFirestore(notifications: false)
         }
     }
     

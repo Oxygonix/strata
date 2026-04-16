@@ -19,11 +19,50 @@ class SignupViewController: UIViewController {
     
     let db = Firestore.firestore()
     
+    private var hasNavigated = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil && !self.isSigningUp {
-                self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
+        Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+                guard let self = self else { return }
+                guard let user = user else { return }
+                guard !self.isSigningUp else { return }
+                guard !self.hasNavigated else { return }
+
+                self.applySavedPreferences(for: user.uid) {
+                    self.hasNavigated = true
+                    self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
+                }
+            }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        overrideUserInterfaceStyle = .light
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        overrideUserInterfaceStyle = .unspecified
+    }
+    
+    private func applySavedPreferences(for uid: String, completion: @escaping () -> Void) {
+        db.collection("users").document(uid).getDocument { document, error in
+            let data = document?.data() ?? [:]
+
+            let isDarkModeEnabled = data["darkModeEnabled"] as? Bool ?? false
+            let notificationsEnabled = data["notificationsEnabled"] as? Bool ?? false
+
+            UserDefaults.standard.set(isDarkModeEnabled, forKey: "darkModeEnabled")
+            UserDefaults.standard.set(notificationsEnabled, forKey: "notificationsEnabled")
+
+            DispatchQueue.main.async {
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    window.overrideUserInterfaceStyle = isDarkModeEnabled ? .dark : .light
+                }
+
+                completion()
             }
         }
     }

@@ -19,61 +19,78 @@ class SignupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
+            }
+        }
     }
 
     @IBAction func createAccountTapped(_ sender: UIButton) {
         guard let email = emailTextField.text, !email.isEmpty,
-                  let password = passwordTextField.text, !password.isEmpty,
-                  let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else {
-                showAlert(title: "Missing Info", message: "Please fill in all fields.")
+              let password = passwordTextField.text, !password.isEmpty,
+              let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else {
+            showAlert(title: "Missing Info", message: "Please fill in all fields.")
+            return
+        }
+
+        guard password == confirmPassword else {
+            showAlert(title: "Password Error", message: "Passwords do not match.")
+            return
+        }
+        
+        guard password.count >= 6 else {
+            showAlert(title: "Password Error", message: "Password must be at least 6 characters long.")
+            return
+        }
+        
+        guard isValidEmail(email) else {
+            showAlert(title: "Email Error", message: "Please enter a valid email address.")
+            return
+        }
+
+        sender.isEnabled = false
+
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            sender.isEnabled = true
+
+            if let error = error {
+                self.showAlert(title: "Signup Failed", message: error.localizedDescription)
                 return
             }
 
-            guard password == confirmPassword else {
-                showAlert(title: "Password Error", message: "Passwords do not match.")
-                return
-            }
-            
-            guard password.count >= 6 else {
-                showAlert(title: "Password Error", message: "Password must be at least 6 characters long.")
-                return
-            }
-            
-            guard isValidEmail(email) else {
-                showAlert(title: "Email Error", message: "Please enter a valid email address.")
+            guard let user = authResult?.user else {
+                self.showAlert(title: "Signup Failed", message: "Could not create user.")
                 return
             }
 
-            sender.isEnabled = false
+            let userData: [String: Any] = [
+                "email": email,
+                "createdAt": Timestamp()
+            ]
 
-            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                sender.isEnabled = true
-
+            self.db.collection("users").document(user.uid).setData(userData) { error in
                 if let error = error {
-                    self.showAlert(title: "Signup Failed", message: error.localizedDescription)
+                    self.showAlert(title: "Firestore Error", message: error.localizedDescription)
                     return
                 }
 
-                guard let user = authResult?.user else {
-                    self.showAlert(title: "Signup Failed", message: "Could not create user.")
-                    return
-                }
+                DispatchQueue.main.async {
+                    let storyboard = UIStoryboard(name: "ProfileSettings", bundle: nil)
 
-                let userData: [String: Any] = [
-                    "email": email,
-                    "createdAt": Timestamp()
-                ]
+                    if let editProfileVC = storyboard.instantiateViewController(withIdentifier: "EditProfile") as? ProfileSetttingsViewController {
+                        editProfileVC.cameFromSignup = true
 
-                self.db.collection("users").document(user.uid).setData(userData) { error in
-                    if let error = error {
-                        self.showAlert(title: "Firestore Error", message: error.localizedDescription)
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.performSegue(withIdentifier: "toProfileSegue", sender: self)
+                        let navController = UINavigationController(rootViewController: editProfileVC)
+                        navController.modalPresentationStyle = .fullScreen
+
+                        self.present(navController, animated: true)
+                    } else {
+                        self.showAlert(title: "Navigation Error", message: "Could not open Edit Profile.")
                     }
                 }
             }
+        }
     }
     
     func isValidEmail(_ email: String) -> Bool {
@@ -87,6 +104,4 @@ class SignupViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-    
 }
-

@@ -8,728 +8,618 @@
 import Foundation
 
 let workouts: [Workout] = [
-    
-    // CHEST WORKOUTS
+
+    // MARK: - CHEST (8)
+
     Workout(
-        name: "Chest Builder",
-        bodyPartsWorked: ["Chest", "Triceps"],
-        difficulty: "Intermediate",
-        duration: 40,
-        exercises: [
-            Exercise(name: "Barbell Bench Press", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Incline Dumbbell Press", sets: 3, reps: "10-12", rest: "75s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Chest Fly (Dumbbell or Cable)", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Dumbbells", "Cables"]),
-            Exercise(name: "Push-up Burnout", sets: 2, reps: "AMRAP", rest: "60s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Cables", "Mat"]
-    ),
-    Workout(
-        name: "Chest Shred",
-        bodyPartsWorked: ["Chest", "Triceps"],
+        name: "Chest Strength A",
+        bodyPartsWorked: ["Chest", "Triceps", "Shoulders"],
         difficulty: "Advanced",
         duration: 45,
         exercises: [
-            Exercise(name: "Barbell Bench Press", sets: 5, reps: "6-8", rest: "120s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Incline Dumbbell Press", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Weighted Dips", sets: 3, reps: "8-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Cable Fly (Slow Tempo)", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Push-up Drop Set", sets: 2, reps: "AMRAP", rest: "60s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Machine", "Cables", "Mat"]
+            Exercise(name: "Barbell Bench Press", sets: 4, reps: "5-8", rest: "120s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Incline Bench Press", sets: 3, reps: "8-10", rest: "90s", intensity: 4, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Cable Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
     Workout(
-        name: "Push Power",
-        bodyPartsWorked: ["Chest", "Shoulders", "Triceps"],
-        difficulty: "Beginner",
-        duration: 35,
+        name: "Chest Builder",
+        bodyPartsWorked: ["Chest", "Triceps", "Shoulders"],
+        difficulty: "Intermediate",
+        duration: 42,
         exercises: [
-            Exercise(name: "Push-ups", sets: 3, reps: "10-15", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Dumbbell Bench Press", sets: 3, reps: "8-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Incline Push-ups", sets: 2, reps: "10-12", rest: "45s", equipmentUsed: ["Bench"])
-        ],
-        equipmentUsed: ["Mat", "Dumbbells", "Bench"]
+            Exercise(name: "Dumbbell Bench Press", sets: 4, reps: "8-10", rest: "90s", intensity: 4, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Chest Fly", sets: 3, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Push-Up", sets: 3, reps: "12-20", rest: "45s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
+
     Workout(
-        name: "Upper Chest Pump",
+        name: "Upper Chest Focus",
+        bodyPartsWorked: ["Chest", "Shoulders", "Triceps"],
+        difficulty: "Advanced",
+        duration: 44,
+        exercises: [
+            Exercise(name: "Incline Bench Press", sets: 4, reps: "6-10", rest: "90s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Incline Cable Fly", sets: 3, reps: "10-15", rest: "45s", intensity: 3, equipment: ["Cables", "Bench"]),
+            Exercise(name: "Incline Push-Up", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Bench", "Mat"])
+        ]
+    ),
+
+    Workout(
+        name: "Chest Volume Day",
+        bodyPartsWorked: ["Chest", "Triceps", "Shoulders"],
+        difficulty: "Intermediate",
+        duration: 46,
+        exercises: [
+            Exercise(name: "Machine Chest Press", sets: 4, reps: "8-12", rest: "75s", intensity: 4, equipment: []),
+            Exercise(name: "Chest Fly", sets: 4, reps: "10-15", rest: "45s", intensity: 3, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Decline Push-Up", sets: 3, reps: "10-15", rest: "45s", intensity: 3, equipment: ["Bench", "Mat"])
+        ]
+    ),
+
+    Workout(
+        name: "Chest Press Mix",
+        bodyPartsWorked: ["Chest", "Triceps", "Shoulders"],
+        difficulty: "Advanced",
+        duration: 48,
+        exercises: [
+            Exercise(name: "Barbell Bench Press", sets: 4, reps: "6-8", rest: "120s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Dumbbell Bench Press", sets: 3, reps: "8-12", rest: "75s", intensity: 4, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Decline Cable Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables", "Bench"])
+        ]
+    ),
+
+    Workout(
+        name: "Chest Pump",
         bodyPartsWorked: ["Chest", "Shoulders", "Triceps"],
         difficulty: "Intermediate",
         duration: 40,
         exercises: [
-            Exercise(name: "Incline Barbell Press", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Incline Dumbbell Fly", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Low-to-High Cable Fly", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Feet-Elevated Push-ups", sets: 2, reps: "12-15", rest: "45s", equipmentUsed: ["Bench"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Cables"]
+            Exercise(name: "Machine Chest Press", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Cable Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"]),
+            Exercise(name: "Push-Up", sets: 2, reps: "AMRAP", rest: "45s", intensity: 3, equipment: ["Mat"])
+        ]
     ),
+
+    Workout(
+        name: "Decline Chest Day",
+        bodyPartsWorked: ["Chest", "Triceps", "Shoulders"],
+        difficulty: "Intermediate",
+        duration: 43,
+        exercises: [
+            Exercise(name: "Decline Bench Press", sets: 4, reps: "6-10", rest: "90s", intensity: 4, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Decline Cable Fly", sets: 3, reps: "10-15", rest: "45s", intensity: 3, equipment: ["Cables", "Bench"]),
+            Exercise(name: "Close Grip Push-Up", sets: 3, reps: "10-15", rest: "45s", intensity: 2, equipment: ["Mat"])
+        ]
+    ),
+
     Workout(
         name: "Chest Finisher",
         bodyPartsWorked: ["Chest", "Triceps", "Shoulders"],
-        difficulty: "Advanced",
-        duration: 50,
+        difficulty: "Intermediate",
+        duration: 38,
         exercises: [
-            Exercise(name: "Barbell Bench Press", sets: 5, reps: "6-8", rest: "120s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Incline Dumbbell Press", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Cable Crossovers", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Dumbbell Fly (Slow Eccentric)", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Dips", sets: 3, reps: "8-12", rest: "60s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Push-up Burnout", sets: 2, reps: "AMRAP", rest: "60s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Cables", "Machine", "Mat"]
+            Exercise(name: "Dumbbell Bench Press", sets: 3, reps: "8-10", rest: "75s", intensity: 4, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Chest Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Push-Up", sets: 3, reps: "AMRAP", rest: "30s", intensity: 3, equipment: ["Mat"])
+        ]
     ),
 
-    // BACK WORKOUTS
+    // MARK: - BACK (8)
+
     Workout(
-        name: "Back Builder",
-        bodyPartsWorked: ["Lats", "Rear Delts", "Traps", "Biceps"],
-        difficulty: "Intermediate",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Pull-ups", sets: 4, reps: "6-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Barbell Rows", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Lat Pulldown (Wide Grip)", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Seated Cable Row", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Machine", "Barbell", "Cables"]
-    ),
-    Workout(
-        name: "Back Strength",
-        bodyPartsWorked: ["Lats", "Rear Delts", "Traps", "Biceps"],
+        name: "Back Strength A",
+        bodyPartsWorked: ["Lats", "Biceps", "Rear Delts", "Traps"],
         difficulty: "Advanced",
-        duration: 50,
+        duration: 48,
         exercises: [
-            Exercise(name: "Deadlifts", sets: 4, reps: "4-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "T-Bar Rows", sets: 4, reps: "6-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Weighted Pull-ups", sets: 4, reps: "6-8", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Chest-Supported Row", sets: 3, reps: "8-10", rest: "75s", equipmentUsed: ["Machine", "Bench"])
-        ],
-        equipmentUsed: ["Barbell", "Machine", "Bench"]
+            Exercise(name: "Pull-Up", sets: 4, reps: "6-8", rest: "120s", intensity: 5, equipment: []),
+            Exercise(name: "Lat Pulldown", sets: 3, reps: "8-12", rest: "75s", intensity: 4, equipment: []),
+            Exercise(name: "Face Pull", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
+    Workout(
+        name: "Wide Back Builder",
+        bodyPartsWorked: ["Lats", "Biceps", "Rear Delts"],
+        difficulty: "Intermediate",
+        duration: 44,
+        exercises: [
+            Exercise(name: "Wide Grip Lat Pulldown", sets: 4, reps: "8-12", rest: "75s", intensity: 4, equipment: []),
+            Exercise(name: "Single Arm Lat Pulldown", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Straight Arm Pulldown", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
+    ),
+
+    Workout(
+        name: "Pull and Grip",
+        bodyPartsWorked: ["Lats", "Biceps", "Forearms", "Traps"],
+        difficulty: "Intermediate",
+        duration: 46,
+        exercises: [
+            Exercise(name: "Chin-Up", sets: 4, reps: "6-10", rest: "90s", intensity: 4, equipment: []),
+            Exercise(name: "Close Grip Lat Pulldown", sets: 3, reps: "8-12", rest: "75s", intensity: 3, equipment: []),
+            Exercise(name: "Dead Hang", sets: 3, reps: "30-45s", rest: "45s", intensity: 2, equipment: [])
+        ]
+    ),
+
+    Workout(
+        name: "Trap Builder",
+        bodyPartsWorked: ["Traps", "Forearms", "Rear Delts"],
+        difficulty: "Intermediate",
+        duration: 40,
+        exercises: [
+            Exercise(name: "Barbell Shrug", sets: 4, reps: "10-12", rest: "60s", intensity: 4, equipment: ["Barbells"]),
+            Exercise(name: "Dumbbell Shrug", sets: 3, reps: "12-15", rest: "45s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Reverse Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Dumbbells", "Bench"])
+        ]
+    ),
+
     Workout(
         name: "Back Basics",
-        bodyPartsWorked: ["Lats", "Rear Delts", "Biceps"],
+        bodyPartsWorked: ["Lats", "Biceps", "Rear Delts"],
         difficulty: "Beginner",
-        duration: 35,
+        duration: 38,
         exercises: [
-            Exercise(name: "Assisted Pull-ups", sets: 3, reps: "6-10", rest: "60s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Dumbbell Row (Light)", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Band Pull-Aparts", sets: 2, reps: "15-20", rest: "45s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Machine", "Dumbbells", "Bench", "Cables"]
-    ),
-    Workout(
-        name: "Lats & Traps",
-        bodyPartsWorked: ["Lats", "Traps", "Rear Delts"],
-        difficulty: "Intermediate",
-        duration: 40,
-        exercises: [
-            Exercise(name: "Lat Pulldown (Neutral Grip)", sets: 4, reps: "10-12", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "One-Arm Dumbbell Row", sets: 3, reps: "10-12 each side", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Dumbbell Shrugs", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Face Pulls", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Cables", "Dumbbells", "Bench"]
-    ),
-    Workout(
-        name: "Pull Power",
-        bodyPartsWorked: ["Lats", "Biceps", "Traps"],
-        difficulty: "Advanced",
-        duration: 55,
-        exercises: [
-            Exercise(name: "Weighted Pull-ups", sets: 4, reps: "5-8", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Barbell Deadlift", sets: 4, reps: "4-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Bent-Over Rows", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Cable Row (Slow Eccentric)", sets: 3, reps: "10-12", rest: "75s", equipmentUsed: ["Cables"]),
-            Exercise(name: "EZ-Bar Curl Finisher", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Barbell"])
-        ],
-        equipmentUsed: ["Machine", "Barbell", "Cables"]
+            Exercise(name: "Resistance Band Pulldown", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: []),
+            Exercise(name: "Lat Pulldown", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Cable Rear Delt Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
 
-    // LEGS WORKOUTS
     Workout(
-        name: "Leg Strength",
-        bodyPartsWorked: ["Quads", "Hamstrings", "Glutes", "Calves"],
+        name: "Rear Delt and Lats",
+        bodyPartsWorked: ["Rear Delts", "Lats", "Traps"],
         difficulty: "Intermediate",
+        duration: 42,
+        exercises: [
+            Exercise(name: "Single Arm Lat Pulldown", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Face Pull", sets: 4, reps: "12-15", rest: "45s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Rear Delt Machine Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: [])
+        ]
+    ),
+
+    Workout(
+        name: "Loaded Pull Day",
+        bodyPartsWorked: ["Lats", "Biceps", "Forearms", "Traps"],
+        difficulty: "Advanced",
         duration: 50,
         exercises: [
-            Exercise(name: "Barbell Squats", sets: 4, reps: "6-10", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Leg Press", sets: 3, reps: "10-12", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Romanian Deadlifts", sets: 3, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Walking Lunges", sets: 3, reps: "10 per leg", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Seated Calf Raises", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Machine"])
-        ],
-        equipmentUsed: ["Barbell", "Machine", "Dumbbells"]
+            Exercise(name: "Pull-Up", sets: 4, reps: "6-8", rest: "120s", intensity: 5, equipment: []),
+            Exercise(name: "Farmer’s Carry", sets: 4, reps: "30-40s", rest: "60s", intensity: 4, equipment: ["Dumbbells"]),
+            Exercise(name: "Straight Arm Pulldown", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
     Workout(
-        name: "Leg Endurance",
-        bodyPartsWorked: ["Quads", "Hamstrings", "Calves"],
-        difficulty: "Beginner",
-        duration: 40,
+        name: "Back Finisher",
+        bodyPartsWorked: ["Lats", "Biceps", "Forearms", "Traps"],
+        difficulty: "Intermediate",
+        duration: 43,
         exercises: [
-            Exercise(name: "Bodyweight Squats", sets: 3, reps: "15-20", rest: "45s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Walking Lunges", sets: 3, reps: "10 per leg", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Glute Bridges", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Standing Calf Raises", sets: 3, reps: "15-20", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat"]
+            Exercise(name: "Chin-Up", sets: 3, reps: "6-10", rest: "90s", intensity: 4, equipment: []),
+            Exercise(name: "Wide Grip Lat Pulldown", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Towel Hang", sets: 3, reps: "20-30s", rest: "45s", intensity: 2, equipment: [])
+        ]
     ),
+
+    // MARK: - LEGS (8)
+
     Workout(
-        name: "Leg Power",
-        bodyPartsWorked: ["Quads", "Hamstrings", "Glutes"],
+        name: "Leg Strength A",
+        bodyPartsWorked: ["Quads", "Glutes", "Hamstrings", "Calves"],
         difficulty: "Advanced",
-        duration: 55,
+        duration: 52,
         exercises: [
-            Exercise(name: "Barbell Squats", sets: 5, reps: "4-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Romanian Deadlifts", sets: 4, reps: "6-8", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Leg Press (Heavy)", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Bulgarian Split Squats", sets: 3, reps: "8 each leg", rest: "75s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Standing Calf Raises", sets: 4, reps: "12-15", rest: "45s", equipmentUsed: ["Machine"])
-        ],
-        equipmentUsed: ["Barbell", "Machine", "Dumbbells", "Bench"]
+            Exercise(name: "Back Squat", sets: 4, reps: "5-8", rest: "120s", intensity: 5, equipment: ["Barbells"]),
+            Exercise(name: "Walking Lunge", sets: 3, reps: "10 per leg", rest: "75s", intensity: 4, equipment: ["Dumbbells"]),
+            Exercise(name: "Standing Calf Raise", sets: 3, reps: "12-20", rest: "30s", intensity: 2, equipment: [])
+        ]
     ),
+
+    Workout(
+        name: "Quad Builder",
+        bodyPartsWorked: ["Quads", "Glutes", "Hamstrings"],
+        difficulty: "Advanced",
+        duration: 48,
+        exercises: [
+            Exercise(name: "Front Squat", sets: 4, reps: "6-8", rest: "120s", intensity: 5, equipment: ["Barbells"]),
+            Exercise(name: "Leg Press", sets: 3, reps: "10-12", rest: "90s", intensity: 4, equipment: []),
+            Exercise(name: "Leg Extension", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: [])
+        ]
+    ),
+
+    Workout(
+        name: "Hamstring Focus",
+        bodyPartsWorked: ["Hamstrings", "Glutes"],
+        difficulty: "Advanced",
+        duration: 47,
+        exercises: [
+            Exercise(name: "Romanian Deadlift", sets: 4, reps: "6-10", rest: "120s", intensity: 5, equipment: ["Barbells"]),
+            Exercise(name: "Seated Leg Curl", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Glute Bridge", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Mat"])
+        ]
+    ),
+
     Workout(
         name: "Glute Builder",
         bodyPartsWorked: ["Glutes", "Hamstrings", "Quads"],
         difficulty: "Intermediate",
         duration: 45,
         exercises: [
-            Exercise(name: "Barbell Hip Thrusts", sets: 4, reps: "8-12", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Bulgarian Split Squats", sets: 3, reps: "8-10 per leg", rest: "75s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Step-Ups", sets: 3, reps: "10 per leg", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Cable Kickbacks", sets: 3, reps: "12-15 per leg", rest: "45s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Cables"]
+            Exercise(name: "Barbell Hip Thrust", sets: 4, reps: "8-10", rest: "90s", intensity: 4, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Reverse Lunge", sets: 3, reps: "10 per leg", rest: "75s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Cable Kickback", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
     Workout(
-        name: "Leg Finisher",
+        name: "Leg Power",
         bodyPartsWorked: ["Quads", "Glutes", "Hamstrings", "Calves"],
         difficulty: "Advanced",
         duration: 50,
         exercises: [
-            Exercise(name: "Front Squats", sets: 4, reps: "6-8", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Deadlifts", sets: 4, reps: "5-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Walking Lunges (Weighted)", sets: 3, reps: "12 per leg", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Jump Squats", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Calf Raise Burnout", sets: 3, reps: "20-25", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Dumbbells", "Mat"]
+            Exercise(name: "Hack Squat", sets: 4, reps: "6-10", rest: "120s", intensity: 5, equipment: []),
+            Exercise(name: "Jump Squat", sets: 3, reps: "10-12", rest: "60s", intensity: 4, equipment: ["Mat"]),
+            Exercise(name: "Single Leg Calf Raise", sets: 3, reps: "12-15", rest: "30s", intensity: 2, equipment: [])
+        ]
     ),
 
-    // ARMS WORKOUTS
     Workout(
-        name: "Arm Builder",
-        bodyPartsWorked: ["Biceps", "Triceps", "Forearms"],
+        name: "Adductor and Glute Day",
+        bodyPartsWorked: ["Adductors", "Glutes", "Quads", "Hamstrings"],
         difficulty: "Intermediate",
-        duration: 40,
+        duration: 43,
         exercises: [
-            Exercise(name: "Barbell Curl", sets: 4, reps: "8-10", rest: "60s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Tricep Dips", sets: 4, reps: "8-12", rest: "60s", equipmentUsed: ["Bench"]),
-            Exercise(name: "Hammer Curls", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Cable Rope Pushdowns", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Cables"]
-    ),
-    Workout(
-        name: "Arm Sculpt",
-        bodyPartsWorked: ["Biceps", "Triceps", "Forearms"],
-        difficulty: "Advanced",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Barbell Curl (Heavy)", sets: 4, reps: "6-8", rest: "75s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Skull Crushers", sets: 4, reps: "8-10", rest: "75s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Preacher Curl", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Overhead Cable Tricep Extension", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Concentration Curl Burnout", sets: 2, reps: "12-15", rest: "45s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Machine", "Cables", "Dumbbells"]
-    ),
-    Workout(
-        name: "Arm Basics",
-        bodyPartsWorked: ["Biceps", "Triceps", "Forearms"],
-        difficulty: "Beginner",
-        duration: 35,
-        exercises: [
-            Exercise(name: "Dumbbell Bicep Curls", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Tricep Kickbacks", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Assisted Bench Dips", sets: 3, reps: "8-10", rest: "60s", equipmentUsed: ["Bench"]),
-            Exercise(name: "Wrist Circles", sets: 2, reps: "30s", rest: "0s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Dumbbells", "Bench", "Mat"]
-    ),
-    Workout(
-        name: "Biceps Blast",
-        bodyPartsWorked: ["Biceps", "Forearms"],
-        difficulty: "Intermediate",
-        duration: 40,
-        exercises: [
-            Exercise(name: "EZ-Bar Curl", sets: 4, reps: "8-10", rest: "60s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Incline Dumbbell Curl", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Hammer Curl", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Cable Curl (Slow Eccentric)", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Barbell", "Dumbbells", "Bench", "Cables"]
-    ),
-    Workout(
-        name: "Triceps Finisher",
-        bodyPartsWorked: ["Triceps", "Forearms"],
-        difficulty: "Advanced",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Close-Grip Bench Press", sets: 4, reps: "6-8", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Weighted Dips", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Rope Pushdowns", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Overhead Dumbbell Extension", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Bench Dip Burnout", sets: 2, reps: "AMRAP", rest: "45s", equipmentUsed: ["Bench"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Machine", "Cables", "Dumbbells"]
+            Exercise(name: "Sumo Squat", sets: 4, reps: "8-10", rest: "90s", intensity: 4, equipment: ["Kettle Bell"]),
+            Exercise(name: "Curtsy Lunge", sets: 3, reps: "10 per leg", rest: "60s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Frog Pump", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
 
-    // CORE WORKOUTS
     Workout(
-        name: "Core Crusher",
-        bodyPartsWorked: ["Abs", "Obliques"],
+        name: "Lower Body Basics",
+        bodyPartsWorked: ["Quads", "Glutes", "Hamstrings", "Calves"],
         difficulty: "Intermediate",
-        duration: 35,
-        exercises: [
-            Exercise(name: "Plank", sets: 3, reps: "45s", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Russian Twists", sets: 3, reps: "20 reps", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Lying Leg Raises", sets: 3, reps: "12-15", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Mountain Climbers", sets: 3, reps: "30s", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat"]
-    ),
-    Workout(
-        name: "Core Strength",
-        bodyPartsWorked: ["Abs", "Obliques"],
-        difficulty: "Advanced",
         duration: 40,
         exercises: [
-            Exercise(name: "Weighted Plank", sets: 3, reps: "30-45s", rest: "30s", equipmentUsed: ["Mat", "Dumbbells"]),
-            Exercise(name: "Hanging Leg Raises", sets: 4, reps: "10-15", rest: "45s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Ab Wheel Rollouts", sets: 3, reps: "8-12", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Cable Woodchoppers", sets: 3, reps: "12 each side", rest: "45s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Mat", "Dumbbells", "Machine", "Cables"]
+            Exercise(name: "Leg Press", sets: 3, reps: "10-12", rest: "75s", intensity: 3, equipment: []),
+            Exercise(name: "Step-Up", sets: 3, reps: "10 per leg", rest: "60s", intensity: 3, equipment: ["Bench", "Dumbbells"]),
+            Exercise(name: "Wall Sit", sets: 3, reps: "30-45s", rest: "30s", intensity: 2, equipment: [])
+        ]
     ),
+
+    Workout(
+        name: "Posterior Chain Day",
+        bodyPartsWorked: ["Hamstrings", "Glutes"],
+        difficulty: "Advanced",
+        duration: 48,
+        exercises: [
+            Exercise(name: "Good Morning", sets: 4, reps: "8-10", rest: "90s", intensity: 4, equipment: ["Barbells"]),
+            Exercise(name: "Stiff Leg Deadlift", sets: 3, reps: "8-10", rest: "90s", intensity: 4, equipment: ["Barbells"]),
+            Exercise(name: "Nordic Curl", sets: 3, reps: "6-10", rest: "60s", intensity: 3, equipment: ["Mat"])
+        ]
+    ),
+
+    // MARK: - CORE (7)
+
     Workout(
         name: "Core Basics",
         bodyPartsWorked: ["Abs", "Obliques"],
         difficulty: "Beginner",
         duration: 30,
         exercises: [
-            Exercise(name: "Knee Plank", sets: 3, reps: "30s", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Crunches", sets: 3, reps: "12-15", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Dead Bug", sets: 3, reps: "10 per side", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Seated Torso Twist", sets: 2, reps: "15-20", rest: "0s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat"]
+            Exercise(name: "Crunch", sets: 3, reps: "12-20", rest: "30s", intensity: 2, equipment: ["Mat"]),
+            Exercise(name: "Plank", sets: 3, reps: "30-45s", rest: "30s", intensity: 2, equipment: ["Mat"]),
+            Exercise(name: "Toe Touches", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
+
     Workout(
-        name: "Abs & Obliques",
+        name: "Core Strength",
+        bodyPartsWorked: ["Abs", "Obliques"],
+        difficulty: "Advanced",
+        duration: 36,
+        exercises: [
+            Exercise(name: "Hanging Leg Raise", sets: 4, reps: "8-12", rest: "45s", intensity: 4, equipment: []),
+            Exercise(name: "Ab Rollout", sets: 3, reps: "8-12", rest: "45s", intensity: 4, equipment: ["Mat"]),
+            Exercise(name: "Russian Twist", sets: 3, reps: "20 reps", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
+    ),
+
+    Workout(
+        name: "Oblique Focus",
+        bodyPartsWorked: ["Obliques", "Abs"],
+        difficulty: "Intermediate",
+        duration: 34,
+        exercises: [
+            Exercise(name: "Cable Woodchopper", sets: 3, reps: "12-15 per side", rest: "30s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Side Plank", sets: 3, reps: "30-45s each side", rest: "30s", intensity: 2, equipment: ["Mat"]),
+            Exercise(name: "Bicycle Crunch", sets: 3, reps: "20 reps", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
+    ),
+
+    Workout(
+        name: "Hanging Core Day",
         bodyPartsWorked: ["Abs", "Obliques"],
         difficulty: "Intermediate",
         duration: 35,
         exercises: [
-            Exercise(name: "Side Plank", sets: 3, reps: "30s each side", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Bicycle Crunches", sets: 3, reps: "20 reps", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Hanging Knee Raises", sets: 3, reps: "10-12", rest: "45s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Heel Taps", sets: 3, reps: "20 reps", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat", "Machine"]
+            Exercise(name: "Hanging Knee Raise", sets: 4, reps: "10-15", rest: "45s", intensity: 3, equipment: []),
+            Exercise(name: "Hanging Leg Raise", sets: 3, reps: "8-12", rest: "45s", intensity: 4, equipment: []),
+            Exercise(name: "Flutter Kicks", sets: 3, reps: "20-30", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
+
     Workout(
-        name: "Full Core Blast",
+        name: "Ab Endurance",
         bodyPartsWorked: ["Abs", "Obliques"],
-        difficulty: "Advanced",
-        duration: 45,
+        difficulty: "Intermediate",
+        duration: 32,
         exercises: [
-            Exercise(name: "Plank with Shoulder Tap", sets: 4, reps: "20 taps", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Hanging Knee Raises", sets: 4, reps: "10-12", rest: "30s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Ab Rollouts", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Russian Twist (Weighted)", sets: 3, reps: "20 reps", rest: "30s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "V-Ups Finisher", sets: 2, reps: "AMRAP", rest: "45s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat", "Machine", "Dumbbells"]
+            Exercise(name: "Sit-Up", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Mat"]),
+            Exercise(name: "Mountain Climbers", sets: 3, reps: "30-40s", rest: "30s", intensity: 3, equipment: ["Mat"]),
+            Exercise(name: "Plank", sets: 3, reps: "45-60s", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
 
-    // FULL BODY WORKOUTS
     Workout(
-        name: "Full Body Burn",
-        bodyPartsWorked: ["Chest", "Quads", "Glutes", "Lats", "Biceps", "Triceps", "Shoulders", "Abs"],
-        difficulty: "Advanced",
-        duration: 55,
-        exercises: [
-            Exercise(name: "Burpees", sets: 4, reps: "10-12", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Push-ups", sets: 4, reps: "12-15", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Squat Jumps", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Dumbbell Thrusters", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Mountain Climbers", sets: 3, reps: "30-40s", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat", "Dumbbells"]
-    ),
-    Workout(
-        name: "Total Body Strength",
-        bodyPartsWorked: ["Chest", "Quads", "Glutes", "Lats", "Biceps", "Triceps", "Shoulders", "Abs"],
+        name: "Decline Core Day",
+        bodyPartsWorked: ["Abs", "Obliques"],
         difficulty: "Intermediate",
-        duration: 50,
+        duration: 33,
         exercises: [
-            Exercise(name: "Deadlifts", sets: 4, reps: "5-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Bench Press", sets: 4, reps: "6-10", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Pull-ups", sets: 3, reps: "6-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Goblet Squats", sets: 3, reps: "10-12", rest: "75s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Machine", "Dumbbells"]
-    ),
-    Workout(
-        name: "Bodyweight Blast",
-        bodyPartsWorked: ["Chest", "Quads", "Glutes", "Abs"],
-        difficulty: "Beginner",
-        duration: 35,
-        exercises: [
-            Exercise(name: "Push-ups", sets: 3, reps: "10-15", rest: "45s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Bodyweight Squats", sets: 3, reps: "15-20", rest: "45s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Glute Bridges", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Plank", sets: 3, reps: "30-45s", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat"]
-    ),
-    Workout(
-        name: "Cardio Strength",
-        bodyPartsWorked: ["Quads", "Glutes", "Abs"],
-        difficulty: "Intermediate",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Jumping Jacks", sets: 3, reps: "50", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Walking Lunges", sets: 3, reps: "12 per leg", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Push-ups", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Mountain Climbers", sets: 3, reps: "30s", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat", "Dumbbells"]
-    ),
-    Workout(
-        name: "Total Body Finisher",
-        bodyPartsWorked: ["Chest", "Quads", "Glutes", "Lats", "Biceps", "Triceps", "Shoulders", "Abs"],
-        difficulty: "Advanced",
-        duration: 55,
-        exercises: [
-            Exercise(name: "Deadlifts", sets: 4, reps: "5-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Pull-ups", sets: 4, reps: "6-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Bench Press", sets: 4, reps: "6-8", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Walking Lunges (Weighted)", sets: 3, reps: "12 per leg", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Burpee Finisher", sets: 2, reps: "AMRAP", rest: "60s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Machine", "Bench", "Dumbbells", "Mat"]
+            Exercise(name: "Decline Sit-Up", sets: 3, reps: "10-15", rest: "30s", intensity: 3, equipment: ["Bench"]),
+            Exercise(name: "Toe Touches", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Mat"]),
+            Exercise(name: "Russian Twist", sets: 3, reps: "20 reps", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
 
-    // UPPER BODY WORKOUTS
     Workout(
-        name: "Upper Body Blast",
-        bodyPartsWorked: ["Chest", "Shoulders", "Biceps", "Triceps"],
+        name: "Core Finisher",
+        bodyPartsWorked: ["Abs", "Obliques", "Shoulders"],
         difficulty: "Intermediate",
-        duration: 45,
+        duration: 28,
         exercises: [
-            Exercise(name: "Bench Press", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Pull-ups", sets: 3, reps: "6-10", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Incline Dumbbell Press", sets: 3, reps: "10-12", rest: "75s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Seated Cable Row", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Lateral Raises", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Machine", "Dumbbells", "Cables"]
-    ),
-    Workout(
-        name: "Upper Body Strength",
-        bodyPartsWorked: ["Chest", "Shoulders", "Biceps", "Triceps"],
-        difficulty: "Advanced",
-        duration: 50,
-        exercises: [
-            Exercise(name: "Incline Bench Press", sets: 4, reps: "5-8", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Barbell Rows", sets: 4, reps: "6-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Overhead Press", sets: 4, reps: "6-8", rest: "75s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Weighted Pull-ups", sets: 3, reps: "6-8", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "EZ-Bar Curls", sets: 3, reps: "8-10", rest: "60s", equipmentUsed: ["Barbell"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Machine"]
-    ),
-    Workout(
-        name: "Upper Body Basics",
-        bodyPartsWorked: ["Chest", "Shoulders", "Biceps", "Triceps"],
-        difficulty: "Beginner",
-        duration: 35,
-        exercises: [
-            Exercise(name: "Push-ups", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Dumbbell Rows", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Dumbbell Shoulder Press (Light)", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Arm Circles", sets: 2, reps: "30s", rest: "0s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat", "Dumbbells", "Bench"]
-    ),
-    Workout(
-        name: "Push & Pull",
-        bodyPartsWorked: ["Chest", "Shoulders", "Biceps", "Triceps"],
-        difficulty: "Intermediate",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Incline Bench Press", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Barbell Row", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Dumbbell Shoulder Press", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Hammer Curls", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Tricep Rope Pushdowns", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Dumbbells", "Cables"]
-    ),
-    Workout(
-        name: "Upper Body Finisher",
-        bodyPartsWorked: ["Chest", "Shoulders", "Biceps", "Triceps"],
-        difficulty: "Advanced",
-        duration: 50,
-        exercises: [
-            Exercise(name: "Weighted Pull-ups", sets: 4, reps: "6-8", rest: "90s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Incline Bench Press", sets: 4, reps: "6-8", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Arnold Press", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Cable Fly", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Arm Finisher Superset (Curl + Pushdown)", sets: 2, reps: "12-15", rest: "45s", equipmentUsed: ["Dumbbells", "Cables"])
-        ],
-        equipmentUsed: ["Machine", "Barbell", "Bench", "Dumbbells", "Cables"]
+            Exercise(name: "Ab Rollout", sets: 3, reps: "8-10", rest: "45s", intensity: 4, equipment: ["Mat"]),
+            Exercise(name: "Bicycle Crunch", sets: 3, reps: "20 reps", rest: "30s", intensity: 2, equipment: ["Mat"]),
+            Exercise(name: "Side Plank", sets: 2, reps: "30-45s each side", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
     ),
 
-    // ADDITIONAL MUSCLE-GROUP TARGETED WORKOUTS
+    // MARK: - ARMS (7)
+
     Workout(
-        name: "Trap Dominance",
-        bodyPartsWorked: ["Traps", "Rear Delts", "Lats"],
-        difficulty: "Intermediate",
-        duration: 40,
-        exercises: [
-            Exercise(name: "Barbell Shrugs", sets: 4, reps: "8-10", rest: "75s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Dumbbell Shrugs (Pause at Top)", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Face Pulls", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Farmer's Carries", sets: 3, reps: "40s", rest: "60s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Barbell", "Dumbbells", "Cables"]
-    ),
-    Workout(
-        name: "Lat Isolation Flow",
-        bodyPartsWorked: ["Lats", "Biceps", "Rear Delts"],
-        difficulty: "Intermediate",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Straight-Arm Pulldown", sets: 4, reps: "10-12", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Single-Arm Lat Pulldown", sets: 3, reps: "10-12 each side", rest: "60s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Chest-Supported Row", sets: 3, reps: "8-12", rest: "90s", equipmentUsed: ["Machine", "Bench"]),
-            Exercise(name: "Cable Lat Stretch Hold", sets: 2, reps: "30s", rest: "30s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Cables", "Machine", "Bench"]
-    ),
-    Workout(
-        name: "Shoulder Complete",
-        bodyPartsWorked: ["Shoulders", "Rear Delts", "Traps"],
-        difficulty: "Intermediate",
-        duration: 45,
-        exercises: [
-            Exercise(name: "Overhead Press", sets: 4, reps: "6-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Lateral Raises", sets: 4, reps: "12-15", rest: "45s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Rear Delt Fly", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Arnold Press", sets: 3, reps: "8-12", rest: "75s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Barbell", "Dumbbells"]
-    ),
-    Workout(
-        name: "Arm Isolation Focus",
+        name: "Arm Builder",
         bodyPartsWorked: ["Biceps", "Triceps", "Forearms"],
         difficulty: "Intermediate",
+        duration: 42,
+        exercises: [
+            Exercise(name: "Barbell Curl", sets: 4, reps: "8-10", rest: "60s", intensity: 4, equipment: ["Barbells"]),
+            Exercise(name: "Tricep Pushdown", sets: 4, reps: "10-12", rest: "60s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Hammer Curl", sets: 3, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Dumbbells"])
+        ]
+    ),
+
+    Workout(
+        name: "Arm Basics",
+        bodyPartsWorked: ["Biceps", "Triceps", "Forearms"],
+        difficulty: "Intermediate",
+        duration: 36,
+        exercises: [
+            Exercise(name: "Dumbbell Curl", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Overhead Tricep Extension", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Wrist Curl", sets: 2, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Dumbbells"])
+        ]
+    ),
+
+    Workout(
+        name: "Biceps Blast",
+        bodyPartsWorked: ["Biceps", "Forearms"],
+        difficulty: "Intermediate",
         duration: 40,
         exercises: [
-            Exercise(name: "Incline Dumbbell Curl", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "EZ Bar Skull Crushers", sets: 3, reps: "8-12", rest: "60s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Hammer Curls", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Rope Pushdowns", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Wrist Curls + Reverse Wrist Curls", sets: 2, reps: "12-15", rest: "45s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Dumbbells", "Bench", "Barbell", "Cables"]
+            Exercise(name: "Preacher Curl", sets: 4, reps: "8-10", rest: "60s", intensity: 4, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Incline Curl", sets: 3, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Zottman Curl", sets: 3, reps: "10-12", rest: "45s", intensity: 2, equipment: ["Dumbbells"])
+        ]
     ),
+
     Workout(
-        name: "Core Oblique Burner",
-        bodyPartsWorked: ["Abs", "Obliques"],
+        name: "Triceps Finisher",
+        bodyPartsWorked: ["Triceps", "Chest", "Shoulders"],
+        difficulty: "Advanced",
+        duration: 41,
+        exercises: [
+            Exercise(name: "Close Grip Bench Press", sets: 4, reps: "6-8", rest: "90s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Skull Crushers", sets: 3, reps: "8-12", rest: "60s", intensity: 4, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Bench Dips", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Bench"])
+        ]
+    ),
+
+    Workout(
+        name: "Cable Arms",
+        bodyPartsWorked: ["Biceps", "Triceps"],
+        difficulty: "Intermediate",
+        duration: 38,
+        exercises: [
+            Exercise(name: "Cable Curl", sets: 4, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Cable Overhead Extension", sets: 4, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Reverse Wrist Curl", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Dumbbells"])
+        ]
+    ),
+
+    Workout(
+        name: "Forearm and Curl Day",
+        bodyPartsWorked: ["Forearms", "Biceps"],
         difficulty: "Intermediate",
         duration: 35,
         exercises: [
-            Exercise(name: "Side Plank Dips", sets: 3, reps: "12 each side", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Russian Twists (Weighted)", sets: 4, reps: "20 reps", rest: "30s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Cable Woodchoppers", sets: 3, reps: "12 each side", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Plank Hip Dips", sets: 3, reps: "15 reps", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat", "Dumbbells", "Cables"]
+            Exercise(name: "Reverse Curl", sets: 4, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Barbells"]),
+            Exercise(name: "Hammer Curl", sets: 3, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Wrist Curl", sets: 3, reps: "15-20", rest: "30s", intensity: 2, equipment: ["Dumbbells"])
+        ]
     ),
+
     Workout(
-        name: "Quad & Adductor Strength",
-        bodyPartsWorked: ["Quads", "Adductors"],
+        name: "Push and Arms",
+        bodyPartsWorked: ["Triceps", "Chest", "Biceps"],
         difficulty: "Intermediate",
-        duration: 45,
+        duration: 39,
         exercises: [
-            Exercise(name: "Sumo Squats", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Leg Extensions", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Cossack Squats", sets: 3, reps: "8-10 each side", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Side Lunges", sets: 3, reps: "10 each side", rest: "60s", equipmentUsed: ["Dumbbells"])
-        ],
-        equipmentUsed: ["Barbell", "Machine", "Mat", "Dumbbells"]
+            Exercise(name: "Close Grip Push-Up", sets: 3, reps: "12-20", rest: "45s", intensity: 3, equipment: ["Mat"]),
+            Exercise(name: "Concentration Curl", sets: 3, reps: "10-12", rest: "45s", intensity: 3, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Tricep Pushdown", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
+    // MARK: - FULL BODY (6)
+
     Workout(
-        name: "Hamstring & Glute Builder",
-        bodyPartsWorked: ["Hamstrings", "Glutes"],
+        name: "Full Body Strength",
+        bodyPartsWorked: ["Chest", "Quads", "Lats", "Shoulders"],
+        difficulty: "Advanced",
+        duration: 55,
+        exercises: [
+            Exercise(name: "Back Squat", sets: 4, reps: "5-8", rest: "120s", intensity: 5, equipment: ["Barbells"]),
+            Exercise(name: "Barbell Bench Press", sets: 4, reps: "6-8", rest: "90s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Pull-Up", sets: 3, reps: "6-10", rest: "90s", intensity: 4, equipment: [])
+        ]
+    ),
+
+    Workout(
+        name: "Full Body Builder",
+        bodyPartsWorked: ["Quads", "Glutes", "Chest", "Lats"],
         difficulty: "Intermediate",
+        duration: 52,
+        exercises: [
+            Exercise(name: "Leg Press", sets: 4, reps: "8-12", rest: "90s", intensity: 4, equipment: []),
+            Exercise(name: "Dumbbell Bench Press", sets: 3, reps: "8-12", rest: "75s", intensity: 4, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Lat Pulldown", sets: 3, reps: "10-12", rest: "75s", intensity: 3, equipment: [])
+        ]
+    ),
+
+    Workout(
+        name: "Full Body Basics",
+        bodyPartsWorked: ["Chest", "Quads", "Abs", "Glutes"],
+        difficulty: "Intermediate",
+        duration: 40,
+        exercises: [
+            Exercise(name: "Push-Up", sets: 3, reps: "10-15", rest: "45s", intensity: 3, equipment: ["Mat"]),
+            Exercise(name: "Walking Lunge", sets: 3, reps: "10 per leg", rest: "60s", intensity: 3, equipment: ["Dumbbells"]),
+            Exercise(name: "Plank", sets: 3, reps: "30-45s", rest: "30s", intensity: 2, equipment: ["Mat"])
+        ]
+    ),
+
+    Workout(
+        name: "Full Body Cable Mix",
+        bodyPartsWorked: ["Chest", "Lats", "Obliques", "Glutes"],
+        difficulty: "Intermediate",
+        duration: 47,
+        exercises: [
+            Exercise(name: "Cable Fly", sets: 3, reps: "12-15", rest: "45s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Straight Arm Pulldown", sets: 3, reps: "12-15", rest: "45s", intensity: 3, equipment: ["Cables"]),
+            Exercise(name: "Cable Kickback", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
+    ),
+
+    Workout(
+        name: "Athletic Full Body",
+        bodyPartsWorked: ["Quads", "Glutes", "Shoulders", "Abs"],
+        difficulty: "Advanced",
+        duration: 46,
+        exercises: [
+            Exercise(name: "Jump Squat", sets: 3, reps: "10-12", rest: "60s", intensity: 4, equipment: ["Mat"]),
+            Exercise(name: "Dumbbell Shoulder Press", sets: 3, reps: "8-12", rest: "60s", intensity: 4, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Mountain Climbers", sets: 3, reps: "30-40s", rest: "30s", intensity: 3, equipment: ["Mat"])
+        ]
+    ),
+
+    Workout(
+        name: "Total Body Finisher",
+        bodyPartsWorked: ["Chest", "Hamstrings", "Lats", "Abs"],
+        difficulty: "Advanced",
         duration: 50,
         exercises: [
-            Exercise(name: "Romanian Deadlifts", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Hip Thrusts", sets: 4, reps: "8-12", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Hamstring Curls", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Bulgarian Split Squats", sets: 3, reps: "8-10 each leg", rest: "75s", equipmentUsed: ["Dumbbells", "Bench"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Machine", "Dumbbells"]
+            Exercise(name: "Romanian Deadlift", sets: 4, reps: "6-8", rest: "120s", intensity: 5, equipment: ["Barbells"]),
+            Exercise(name: "Push-Up", sets: 3, reps: "AMRAP", rest: "45s", intensity: 3, equipment: ["Mat"]),
+            Exercise(name: "Hanging Knee Raise", sets: 3, reps: "10-15", rest: "45s", intensity: 3, equipment: [])
+        ]
     ),
+
+    // MARK: - UPPER BODY (6)
+
     Workout(
-        name: "Glute & Abductor Sculpt",
-        bodyPartsWorked: ["Glutes", "Abductors"],
-        difficulty: "Beginner",
-        duration: 35,
-        exercises: [
-            Exercise(name: "Lateral Band Walks", sets: 3, reps: "15 steps each way", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Glute Bridges", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Clamshells", sets: 3, reps: "15 each side", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Standing Hip Abductions", sets: 2, reps: "12-15 each leg", rest: "30s", equipmentUsed: ["Cables"])
-        ],
-        equipmentUsed: ["Cables", "Mat"]
-    ),
-    Workout(
-        name: "Calf Destroyer",
-        bodyPartsWorked: ["Calves"],
-        difficulty: "Beginner",
-        duration: 25,
-        exercises: [
-            Exercise(name: "Standing Calf Raises", sets: 4, reps: "15-20", rest: "30s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Seated Calf Raises", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Single-Leg Calf Raises", sets: 3, reps: "10 each leg", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Jump Rope", sets: 3, reps: "45s", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Machine", "Mat"]
-    ),
-    Workout(
-        name: "Forearm Strength Circuit",
-        bodyPartsWorked: ["Forearms", "Biceps"],
-        difficulty: "Beginner",
-        duration: 30,
-        exercises: [
-            Exercise(name: "Farmer's Carries", sets: 4, reps: "40s", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Reverse Curls", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Wrist Roller", sets: 3, reps: "Up & Down", rest: "60s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Dead Hang", sets: 3, reps: "30-45s", rest: "60s", equipmentUsed: ["Machine"])
-        ],
-        equipmentUsed: ["Dumbbells", "Barbell", "Machine"]
-    ),
-    Workout(
-        name: "Full Posterior Chain",
-        bodyPartsWorked: ["Hamstrings", "Glutes", "Lats", "Traps", "Rear Delts"],
+        name: "Upper Body Blast",
+        bodyPartsWorked: ["Chest", "Lats", "Shoulders", "Triceps"],
         difficulty: "Advanced",
-        duration: 55,
+        duration: 47,
         exercises: [
-            Exercise(name: "Deadlifts", sets: 4, reps: "5-6", rest: "120s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Barbell Rows", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Face Pulls", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Hip Thrusts", sets: 3, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell", "Bench"]),
-            Exercise(name: "Back Extensions", sets: 3, reps: "12-15", rest: "60s", equipmentUsed: ["Bench"])
-        ],
-        equipmentUsed: ["Barbell", "Bench", "Cables"]
+            Exercise(name: "Barbell Bench Press", sets: 4, reps: "6-8", rest: "90s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Lat Pulldown", sets: 3, reps: "8-12", rest: "75s", intensity: 4, equipment: []),
+            Exercise(name: "Overhead Press", sets: 3, reps: "8-10", rest: "75s", intensity: 4, equipment: ["Barbells"])
+        ]
     ),
-    
-    // ADDUCTOR & ABDUCTOR SPECIALIZATION WORKOUTS
+
     Workout(
-        name: "Adductor Strength Base",
-        bodyPartsWorked: ["Adductors", "Quads", "Glutes"],
+        name: "Upper Body Strength",
+        bodyPartsWorked: ["Chest", "Lats", "Shoulders", "Biceps"],
+        difficulty: "Advanced",
+        duration: 50,
+        exercises: [
+            Exercise(name: "Incline Bench Press", sets: 4, reps: "6-8", rest: "90s", intensity: 5, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Pull-Up", sets: 4, reps: "6-8", rest: "90s", intensity: 5, equipment: []),
+            Exercise(name: "Barbell Curl", sets: 3, reps: "8-10", rest: "60s", intensity: 3, equipment: ["Barbells"])
+        ]
+    ),
+
+    Workout(
+        name: "Upper Body Basics",
+        bodyPartsWorked: ["Chest", "Lats", "Shoulders"],
         difficulty: "Beginner",
-        duration: 35,
+        duration: 38,
         exercises: [
-            Exercise(name: "Sumo Squats", sets: 4, reps: "10-12", rest: "60s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Side Lunges", sets: 3, reps: "10 each side", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Adductor Machine", sets: 3, reps: "12-15", rest: "45s", equipmentUsed: ["Machine"]),
-            Exercise(name: "Wide-Stance Wall Sit", sets: 2, reps: "30-45s", rest: "45s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Dumbbells", "Machine", "Mat"]
+            Exercise(name: "Incline Push-Up", sets: 3, reps: "12-20", rest: "45s", intensity: 2, equipment: ["Bench", "Mat"]),
+            Exercise(name: "Resistance Band Pulldown", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: []),
+            Exercise(name: "Lateral Raise", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Dumbbells"])
+        ]
     ),
+
     Workout(
-        name: "Abductor Activation Flow",
-        bodyPartsWorked: ["Abductors", "Glutes"],
-        difficulty: "Beginner",
-        duration: 30,
-        exercises: [
-            Exercise(name: "Lateral Band Walks", sets: 3, reps: "15 steps each way", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Clamshells", sets: 3, reps: "15 each side", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Standing Hip Abductions", sets: 3, reps: "12-15 each leg", rest: "30s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Glute Bridge Hold (Band)", sets: 2, reps: "30-40s", rest: "45s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Cables", "Mat"]
-    ),
-    Workout(
-        name: "Inner Thigh Burnout",
-        bodyPartsWorked: ["Adductors", "Hamstrings"],
+        name: "Push and Pull",
+        bodyPartsWorked: ["Chest", "Lats", "Shoulders", "Rear Delts"],
         difficulty: "Intermediate",
-        duration: 40,
+        duration: 46,
         exercises: [
-            Exercise(name: "Cossack Squats", sets: 4, reps: "8-10 each side", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Cable Adductions", sets: 3, reps: "12-15 each leg", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Wide-Stance Goblet Squats", sets: 3, reps: "10-12", rest: "60s", equipmentUsed: ["Kettlebells"]),
-            Exercise(name: "Side-Lying Adduction", sets: 3, reps: "12-15 each side", rest: "45s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Dumbbells", "Cables", "Kettlebells", "Mat"]
+            Exercise(name: "Dumbbell Bench Press", sets: 4, reps: "8-10", rest: "75s", intensity: 4, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Wide Grip Lat Pulldown", sets: 4, reps: "8-12", rest: "75s", intensity: 4, equipment: []),
+            Exercise(name: "Face Pull", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
     Workout(
-        name: "Outer Hip Sculpt",
-        bodyPartsWorked: ["Abductors", "Glutes"],
+        name: "Upper Body Pump",
+        bodyPartsWorked: ["Chest", "Shoulders", "Biceps", "Triceps"],
         difficulty: "Intermediate",
-        duration: 40,
+        duration: 44,
         exercises: [
-            Exercise(name: "Cable Hip Abductions", sets: 4, reps: "12-15 each leg", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Side-Lying Leg Raises", sets: 3, reps: "15-20", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Monster Walks", sets: 3, reps: "20 steps", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Frog Pumps", sets: 3, reps: "15-20", rest: "45s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Cables", "Mat"]
+            Exercise(name: "Machine Chest Press", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: []),
+            Exercise(name: "Arnold Press", sets: 3, reps: "10-12", rest: "60s", intensity: 3, equipment: ["Dumbbells", "Bench"]),
+            Exercise(name: "Cable Curl", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     ),
+
     Workout(
-        name: "Athletic Hip Stability",
-        bodyPartsWorked: ["Adductors", "Abductors", "Glutes"],
+        name: "Upper Body Finisher",
+        bodyPartsWorked: ["Chest", "Lats", "Shoulders", "Triceps"],
         difficulty: "Intermediate",
         duration: 45,
         exercises: [
-            Exercise(name: "Lateral Lunges", sets: 3, reps: "10 each side", rest: "60s", equipmentUsed: ["Dumbbells"]),
-            Exercise(name: "Skater Squats", sets: 3, reps: "8-10 each side", rest: "60s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Resistance Band Walks", sets: 3, reps: "20 steps", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Single-Leg Glute Bridge", sets: 3, reps: "10-12 each side", rest: "45s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Dumbbells", "Mat", "Cables"]
-    ),
-    Workout(
-        name: "Inner & Outer Hip Combo",
-        bodyPartsWorked: ["Adductors", "Abductors", "Glutes"],
-        difficulty: "Advanced",
-        duration: 55,
-        exercises: [
-            Exercise(name: "Sumo Squats", sets: 4, reps: "8-10", rest: "90s", equipmentUsed: ["Barbell"]),
-            Exercise(name: "Lateral Band Walks", sets: 4, reps: "20 steps", rest: "45s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Cable Adduction + Abduction Superset", sets: 3, reps: "12 each direction", rest: "60s", equipmentUsed: ["Cables"]),
-            Exercise(name: "Bulgarian Split Squats (Wide Stance)", sets: 3, reps: "8-10 each leg", rest: "75s", equipmentUsed: ["Dumbbells", "Bench"]),
-            Exercise(name: "Isometric Wall Sit (Wide Stance)", sets: 2, reps: "45-60s", rest: "60s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Barbell", "Cables", "Dumbbells", "Bench", "Mat"]
-    ),
-    Workout(
-        name: "Hip Mobility & Control",
-        bodyPartsWorked: ["Adductors", "Abductors"],
-        difficulty: "Beginner",
-        duration: 25,
-        exercises: [
-            Exercise(name: "Hip Openers", sets: 3, reps: "30s each side", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Cossack Squat (Assisted)", sets: 3, reps: "8 each side", rest: "45s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Standing Leg Swings", sets: 3, reps: "15 each leg", rest: "30s", equipmentUsed: ["Mat"]),
-            Exercise(name: "Deep Squat Hold", sets: 2, reps: "30-45s", rest: "30s", equipmentUsed: ["Mat"])
-        ],
-        equipmentUsed: ["Mat"]
+            Exercise(name: "Decline Bench Press", sets: 3, reps: "8-10", rest: "75s", intensity: 4, equipment: ["Barbells", "Bench"]),
+            Exercise(name: "Chin-Up", sets: 3, reps: "6-10", rest: "75s", intensity: 4, equipment: []),
+            Exercise(name: "Cable Lateral Raise", sets: 3, reps: "12-15", rest: "45s", intensity: 2, equipment: ["Cables"])
+        ]
     )
 ]

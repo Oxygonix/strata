@@ -258,34 +258,24 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
                 print("Failed to create workout log: \(error.localizedDescription)")
                 return
             }
-            
-            let workoutLogStoryboard = UIStoryboard(name: "WorkoutLog", bundle: nil)
 
-            guard let workoutLogVC = workoutLogStoryboard.instantiateViewController(withIdentifier: "mainWorkoutLogPage") as? WorkoutLogViewController else {
-                print("Could not instantiate WorkoutLogViewController from WorkoutLog storyboard")
-                return
-            }
-            
-            self.navigationController?.pushViewController(workoutLogVC, animated: true)
-            
-            
-            // Switch tab bars when add to workout log selected
-//            guard let tabBarController = self.tabBarController else {
-//                        print("No tab bar controller found")
-//                        return
-//                    }
-//
-//                    let workoutLogTabIndex = 1   // change if your Workout Log tab is not index 1
-//
-//                    if let viewControllers = tabBarController.viewControllers,
-//                       viewControllers.indices.contains(workoutLogTabIndex) {
-//
-//                        // Remove this recommendations detail screen from its nav stack
-//                        self.navigationController?.popToRootViewController(animated: false)
-//
-//                        // Switch to the actual Workout Log tab
-//                        tabBarController.selectedIndex = workoutLogTabIndex
-//                    }
+            //Switch tab bars when add to workout log selected
+            guard let tabBarController = self.tabBarController else {
+                        print("No tab bar controller found")
+                        return
+                    }
+
+                    let workoutLogTabIndex = 1   // change if your Workout Log tab is not index 1
+
+                    if let viewControllers = tabBarController.viewControllers,
+                       viewControllers.indices.contains(workoutLogTabIndex) {
+
+                        // Remove this recommendations detail screen from its nav stack
+                        self.navigationController?.popToRootViewController(animated: false)
+
+                        // Switch to the actual Workout Log tab
+                        tabBarController.selectedIndex = workoutLogTabIndex
+                    }
         }
     }
 

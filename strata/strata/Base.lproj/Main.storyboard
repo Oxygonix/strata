@@ -295,14 +295,6 @@
             </objects>
             <point key="canvasLocation" x="1628" y="158"/>
         </scene>
-        <!--EditProfile-->
-        <scene sceneID="D5q-gp-WBB">
-            <objects>
-                <viewControllerPlaceholder storyboardName="ProfileSettings" referencedIdentifier="EditProfile" id="IJq-Rg-3hL" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ROP-jt-RoD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="402" y="614"/>
-        </scene>
         <!--HeatMapNavBar-->
         <scene sceneID="EXe-nM-wOq">
             <objects>

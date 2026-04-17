@@ -29,6 +29,8 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
     
+    @IBOutlet weak var profileImage: UIImageView!
+    
     var benchSelected = false
     var barbellsSelected = false
     var kettlebellSelected = false
@@ -39,8 +41,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     
     var onProfileUpdated: (() -> Void)?
     var pendingProfileImage: UIImage?
-    @IBOutlet weak var profileImage: UIImageView!
-    
     var cameFromSignup = false
     
     let db = Firestore.firestore()
@@ -48,24 +48,24 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-            navigationController?.navigationBar.prefersLargeTitles = false
-            navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
 
-            let titleLabel = UILabel()
-            titleLabel.text = cameFromSignup ? "Set Profile" : "Edit Profile"
-            titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-            titleLabel.textColor = .label
-            titleLabel.textAlignment = .center
-            titleLabel.sizeToFit()
+        let titleLabel = UILabel()
+        titleLabel.text = cameFromSignup ? "Set Profile" : "Edit Profile"
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        titleLabel.textColor = .label
+        titleLabel.textAlignment = .center
+        titleLabel.sizeToFit()
 
-            navigationItem.titleView = titleLabel
+        navigationItem.titleView = titleLabel
 
-            loadProfileImage()
-            updateSexButtons()
+        loadProfileImage()
+        updateSexButtons()
 
-            profileImage.layer.cornerRadius = profileImage.frame.width / 2
-            profileImage.clipsToBounds = true
-            profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.cornerRadius = profileImage.frame.width / 2
+        profileImage.clipsToBounds = true
+        profileImage.contentMode = .scaleAspectFill
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +94,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         default:
             break
         }
-        saveProfileToFirestore()
     }
     
     func saveProfileToFirestore() {
@@ -132,31 +131,31 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     @IBAction func donePressed(_ sender: UIButton) {
         saveProfileToFirestore()
 
-            let finishNavigation = {
-                print("cameFromSignup =", self.cameFromSignup)
-                self.onProfileUpdated?()
+        let finishNavigation = {
+            print("cameFromSignup =", self.cameFromSignup)
+            self.onProfileUpdated?()
 
-                if self.cameFromSignup {
-                    self.goToHeatMap()
-                } else {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-
-            if let image = pendingProfileImage {
-                uploadImageToFirebase(image: image) { success in
-                    DispatchQueue.main.async {
-                        if !success {
-                            print("Image upload failed, but profile info was saved.")
-                        }
-
-                        self.pendingProfileImage = nil
-                        finishNavigation()
-                    }
-                }
+            if self.cameFromSignup {
+                self.goToHeatMap()
             } else {
-                finishNavigation()
+                self.navigationController?.popViewController(animated: true)
             }
+        }
+
+        if let image = pendingProfileImage {
+            uploadImageToFirebase(image: image) { success in
+                DispatchQueue.main.async {
+                    if !success {
+                        print("Image upload failed, but profile info was saved.")
+                    }
+
+                    self.pendingProfileImage = nil
+                    finishNavigation()
+                }
+            }
+        } else {
+            finishNavigation()
+        }
     }
     
     private func goToHeatMap() {
@@ -175,13 +174,11 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     @IBAction func maleButtonPushed(_ sender: Any) {
         sex = "male"
         updateSexButtons()
-        saveProfileToFirestore()
     }
     
     @IBAction func femaleButtonPushed(_ sender: Any) {
         sex = "female"
         updateSexButtons()
-        saveProfileToFirestore()
     }
     
     func updateSexButtons() {
@@ -226,17 +223,17 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     @IBAction func changePhotoPressed(_ sender: Any) {
         let alert = UIAlertController(title: "Select Photo", message: nil, preferredStyle: .actionSheet)
             
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-                self.openCamera()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { _ in
-                self.openGallery()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            
-            present(alert, animated: true)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            self.openCamera()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { _ in
+            self.openGallery()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alert, animated: true)
     }
     
     func openCamera() {
@@ -259,12 +256,12 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let selectedImage = info[.originalImage] as? UIImage {
-                profileImage.image = selectedImage
-                pendingProfileImage = selectedImage
-                print("Image selected and waiting to save on Done")
-            }
-            
-            dismiss(animated: true)
+            profileImage.image = selectedImage
+            pendingProfileImage = selectedImage
+            print("Image selected and waiting to save on Done")
+        }
+        
+        dismiss(animated: true)
     }
     
     func uploadImageToFirebase(image: UIImage, completion: @escaping (Bool) -> Void) {
@@ -311,13 +308,10 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     func saveProfileImageToFirestore(image: UIImage) {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
-        // Compress image to reduce size
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
-        // Convert to Base64 string
         let base64String = imageData.base64EncodedString()
         
-        // Save to Firestore in the same document as user info
         Firestore.firestore().collection("users").document(userID).setData([
             "profileImageBase64": base64String
         ], merge: true) { error in
@@ -331,26 +325,26 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     
     func loadProfileImage() {
         guard let userID = Auth.auth().currentUser?.uid else {
-                print("No logged in user to load image")
+            print("No logged in user to load image")
+            return
+        }
+
+        let docRef = Firestore.firestore().collection("users").document(userID)
+        docRef.getDocument { snapshot, error in
+            guard let data = snapshot?.data(),
+                  let urlString = data["profileImageURL"] as? String,
+                  let url = URL(string: urlString) else {
                 return
             }
 
-            let docRef = Firestore.firestore().collection("users").document(userID)
-            docRef.getDocument { snapshot, error in
-                guard let data = snapshot?.data(),
-                      let urlString = data["profileImageURL"] as? String,
-                      let url = URL(string: urlString) else {
-                    return
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                guard let data = data, error == nil else { return }
+
+                DispatchQueue.main.async {
+                    self.profileImage.image = UIImage(data: data)
                 }
-
-                URLSession.shared.dataTask(with: url) { data, _, error in
-                    guard let data = data, error == nil else { return }
-
-                    DispatchQueue.main.async {
-                        self.profileImage.image = UIImage(data: data)
-                    }
-                }.resume()
-            }
+            }.resume()
+        }
     }
     
     func loadProfileData() {
@@ -365,32 +359,30 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
             if let document = document, document.exists {
                 let data = document.data() ?? [:]
                 
-                // Name
                 self.nameTextField.text = data["name"] as? String ?? ""
                 
-                // Age
                 if let age = data["age"] as? Int {
                     self.ageTextField.text = "\(age)"
                 } else {
                     self.ageTextField.text = ""
                 }
                 
-                // Height
                 if let height = data["height"] as? [String: Any] {
                     let ft = height["ft"] as? Int ?? 0
                     let inch = height["in"] as? Int ?? 0
                     self.heightFtTextField.text = "\(ft)"
                     self.heightInTextField.text = "\(inch)"
+                } else {
+                    self.heightFtTextField.text = ""
+                    self.heightInTextField.text = ""
                 }
                 
-                // Weight
                 if let weight = data["weight"] as? Int {
                     self.weightTextField.text = "\(weight)"
                 } else {
                     self.weightTextField.text = ""
                 }
                 
-                // Equipment
                 if let equipment = data["equipment"] as? [String: Bool] {
                     self.benchSelected = equipment["bench"] ?? false
                     self.barbellsSelected = equipment["barbells"] ?? false
@@ -401,7 +393,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
                     self.updateEquipmentButtons()
                 }
                 
-                // Sex
                 if let savedSex = data["sex"] as? String {
                     self.sex = savedSex
                     self.updateSexButtons()
@@ -412,5 +403,4 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
             }
         }
     }
-    
 }

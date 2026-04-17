@@ -10,6 +10,25 @@ import Macaw
 import FirebaseFirestore
 import FirebaseAuth
 
+struct WorkoutLog {
+    let id: String
+    let title: String
+    let date: Date
+    let exercises: [ExerciseLog]
+}
+
+struct ExerciseLog {
+    let name: String
+    let intensity: Int
+    let muscles: [String: Int]
+    let sets: [ExerciseSet]
+}
+
+struct ExerciseSet {
+    let reps: Int
+    let weight: Double
+}
+
 let redHeatmap: [Int: Color] = [
     1: Color.rgb(r: 255, g: 255, b: 255),
     2: Color.rgb(r: 255, g: 230, b: 230),
@@ -87,6 +106,8 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     var frontSVG: String = ""
     var backSVG: String = ""
     
+    var workoutLogs: [WorkoutLog] = []
+    
     var detailView = UIView()
     var trailingConstraint: NSLayoutConstraint?
     let detailViewWidth: CGFloat = 250
@@ -116,6 +137,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         detailView.isUserInteractionEnabled = true
         heatMapContainer.isUserInteractionEnabled = true
         tableView.isUserInteractionEnabled = true
+        UserDefaults.standard.set(false, forKey: "hasSeenHeatmapWelcome") // Testing
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,6 +151,17 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         helloLabel.textColor = isDark ? .white : .black
         getUserInfo()
         getWorkoutLogs()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let hasSeenWelcome = UserDefaults.standard.bool(forKey: "hasSeenHeatmapWelcome")
+        
+        if !hasSeenWelcome {
+            showWelcomeAlert()
+            UserDefaults.standard.set(true, forKey: "hasSeenHeatmapWelcome")
+        }
     }
     
     func setupDetailView() {
@@ -309,9 +342,68 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     }
     
     func getWorkoutLogs() {
-        // Get "logs" collection from firestore and get the workout logs from the past week to update the heatmaps muscles, and recent logs for the detail view
-        // Figure out a way to automatically reduce the intensity based on how long ago the workout was logged
-        // It would be like a shade lighter every day i think
+        guard let user = Auth.auth().currentUser else { return }
+        
+        let logsRef = db.collection("users")
+            .document(user.uid)
+            .collection("WorkoutLogs")
+            .order(by: "workoutDate", descending: true)
+        
+        logsRef.getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching workout logs: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            self.workoutLogs = documents.compactMap { doc -> WorkoutLog? in
+                
+                let data = doc.data()
+                
+                // Basic fields
+                let title = data["title"] as? String ?? "Workout"
+                let timestamp = data["workoutDate"] as? Timestamp ?? Timestamp()
+                let date = timestamp.dateValue()
+                
+                // Exercises parsing
+                guard let exerciseArray = data["exercises"] as? [[String: Any]] else {
+                    return WorkoutLog(id: doc.documentID, title: title, date: date, exercises: [])
+                }
+                
+                let exercises: [ExerciseLog] = exerciseArray.compactMap { exerciseData in
+                    
+                    let name = exerciseData["name"] as? String ?? "Unknown"
+                    let intensity = exerciseData["intensity"] as? Int ?? 1
+                    let muscles = exerciseData["muscles"] as? [String: Int] ?? [:]
+                    
+                    // Parse sets
+                    let setsArray = exerciseData["sets"] as? [[String: Any]] ?? []
+                    
+                    let sets: [ExerciseSet] = setsArray.compactMap { setData in
+                        guard let reps = setData["reps"] as? Int else { return nil }
+                        let weight = setData["weight"] as? Double ?? 0
+                        return ExerciseSet(reps: reps, weight: weight)
+                    }
+                    
+                    return ExerciseLog(name: name, intensity: intensity, muscles: muscles, sets: sets)
+                }
+                
+                return WorkoutLog(
+                    id: doc.documentID,
+                    title: title,
+                    date: date,
+                    exercises: exercises
+                )
+            }
+            
+            print("Loaded \(self.workoutLogs.count) workout logs")
+            
+            // Optional: refresh UI depending on selected muscle
+            if let muscle = self.highlightedMuscle {
+                self.loadTableData(forSegment: self.segmentedControl.selectedSegmentIndex, muscle: muscle)
+            }
+        }
     }
     
     func fillMuscle(name: String, level: Int) {
@@ -547,7 +639,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         switch index {
             
         case 0:
-            // Recent Logs (connect to Firestore later)
+            // Recent Logs
             tableDataWorkouts = []
 //                "\(muscle) - Log 1",
 //                "\(muscle) - Log 2",
@@ -572,9 +664,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
                     difficultyRank($0.difficulty) > difficultyRank($1.difficulty)
                 }
             }
-            
-//            let selected = Array(filtered.prefix(8))
-            
             tableDataWorkouts = Array(filtered)
             
         default:
@@ -627,6 +716,26 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         resetMuscleOpacity()
         isDetailVisible = false
         highlightedMuscle = nil
+    }
+    
+    func showWelcomeAlert() {
+        let message = """
+            
+            Swipe left/right to rotate the body and view the back
+            
+            Tap a muscle to see details, recommendations, and recent logs
+            
+            Once open, swipe the detail panel to the right to close it
+            
+            Enjoy your training!
+            """
+        
+        let alert = UIAlertController(title: "Welcome to Strata!", message: message, preferredStyle: .alert)
+        
+        let gotIt = UIAlertAction(title: "Got it", style: .default, handler: nil)
+        alert.addAction(gotIt)
+        
+        present(alert, animated: true, completion: nil)
     }
 
     @IBAction func swipe(_ sender: UISwipeGestureRecognizer) {

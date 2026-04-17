@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -17,6 +19,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
 
+    private let db = Firestore.firestore()
     private let bottomButtonContainer = UIView()
     private let addToWorkoutLogButton = UIButton(type: .system)
 
@@ -151,8 +154,8 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 124
-        tableView.contentInset = UIEdgeInsets(top: 125, left: 0, bottom: 110, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 125, left: 0, bottom: 110, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 135, left: 0, bottom: 110, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 135, left: 0, bottom: 110, right: 0)
     }
 
     private func setupBottomButton() {
@@ -200,12 +203,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     private func populateWorkoutInfo() {
         bodyPartsValueLabel.text = workout?.bodyPartsWorked.joined(separator: ", ") ?? "Unknown"
         difficultyValueLabel.text = workout?.difficulty ?? "Unknown"
-
-        if let duration = workout?.duration {
-            durationValueLabel.text = "\(duration) mins"
-        } else {
-            durationValueLabel.text = "Unknown"
-        }
+        durationValueLabel.text = workout.map { "\($0.duration) mins" } ?? "Unknown"
 
         tableView.reloadData()
     }
@@ -222,7 +220,88 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
     }
 
     @objc private func addToWorkoutLogTapped() {
-        print("Add to Workout Log tapped for \(workout?.name ?? "Unknown Workout")")
+        guard let workout = workout else { return }
+        guard let user = Auth.auth().currentUser else { return }
+
+        addToWorkoutLogButton.isEnabled = false
+
+        let workoutDate = Date()
+        let exercisesPayload = workout.exercises.map { exercise -> [String: Any] in
+            [
+                "name": exercise.name,
+                "muscles": realMusclesDictionary(for: exercise),
+                "sets": defaultSets(for: exercise).map { $0.dictionary },
+                "intensity": exercise.intensity
+            ]
+        }
+
+        let payload: [String: Any] = [
+            "title": workout.name,
+            "workoutDate": Timestamp(date: workoutDate),
+            "difficulty": workout.difficulty,
+            "duration": workout.duration,
+            "bodyPartsWorked": workout.bodyPartsWorked,
+            "exercises": exercisesPayload
+        ]
+
+        let docRef = db.collection("users")
+            .document(user.uid)
+            .collection("WorkoutLogs")
+            .document()
+
+        docRef.setData(payload) { [weak self] error in
+            guard let self = self else { return }
+
+            self.addToWorkoutLogButton.isEnabled = true
+
+            if let error = error {
+                print("Failed to create workout log: \(error.localizedDescription)")
+                return
+            }
+
+            //Switch tab bars when add to workout log selected
+            guard let tabBarController = self.tabBarController else {
+                        print("No tab bar controller found")
+                        return
+                    }
+
+                    let workoutLogTabIndex = 1   // change if your Workout Log tab is not index 1
+
+                    if let viewControllers = tabBarController.viewControllers,
+                       viewControllers.indices.contains(workoutLogTabIndex) {
+
+                        // Remove this recommendations detail screen from its nav stack
+                        self.navigationController?.popToRootViewController(animated: false)
+
+                        // Switch to the actual Workout Log tab
+                        tabBarController.selectedIndex = workoutLogTabIndex
+                    }
+        }
+    }
+
+    private func defaultSets(for exercise: Exercise) -> [WorkoutSet] {
+        let repValue = defaultRepValue(from: exercise.reps)
+
+        return (0..<exercise.sets).map { _ in
+            WorkoutSet(weight: 0, reps: repValue)
+        }
+    }
+
+    private func defaultRepValue(from repsText: String) -> Int {
+        let numbers = repsText
+            .split { !$0.isNumber }
+            .compactMap { Int($0) }
+
+        return numbers.first ?? 0
+    }
+
+    private func realMusclesDictionary(for exercise: Exercise) -> [String: Int] {
+        if let match = exercises.first(where: { $0.name == exercise.name }) {
+            return match.muscles
+        }
+
+        print("Warning: No ExerciseData match found for \(exercise.name)")
+        return [:]
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -246,7 +325,7 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
         var content = UIListContentConfiguration.subtitleCell()
         content.text = exercise.name
-        content.secondaryText = "\(exercise.sets) sets • \(exercise.reps) reps • Rest: \(exercise.rest) \n Intensity: \(exercise.intensity)/5"
+        content.secondaryText = "\(exercise.sets) sets • \(exercise.reps) reps • Rest: \(exercise.rest)\n\(intensityText(for: exercise.intensity)) (\(exercise.intensity)/5)"
         content.image = UIImage(systemName: iconName(for: exercise.name))
 
         content.imageProperties.tintColor = .systemRed

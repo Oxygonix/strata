@@ -9,7 +9,6 @@ import UIKit
 import UserNotifications
 import FirebaseAuth
 import FirebaseFirestore
-import FirebaseStorage
 
 class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -60,7 +59,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
 
         navigationItem.titleView = titleLabel
 
-        loadProfileImage()
         updateSexButtons()
 
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
@@ -71,6 +69,7 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadProfileData()
+        loadProfileImage()
     }
     
     @IBAction func equipmentButton(_ sender: UIButton) {
@@ -96,9 +95,11 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         }
     }
     
-    func saveProfileToFirestore() {
+    func saveProfileToFirestore(imageBase64: String? = nil,
+                                completion: ((Bool) -> Void)? = nil) {
         guard let user = Auth.auth().currentUser else {
             print("NOT GETTING PAST GUARD")
+            completion?(false)
             return
         }
 
@@ -108,7 +109,7 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         let heightIn = Int(heightInTextField.text ?? "") ?? 0
         let weight = Int(weightTextField.text ?? "") ?? 0
 
-        db.collection("users").document(user.uid).setData([
+        var data: [String: Any] = [
             "name": name,
             "firstTime": cameFromSignup,
             "age": age,
@@ -125,14 +126,26 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
                 "dumbbells": dumbbellsSelected,
                 "mat": matSelected,
                 "cables": cablesSelected
-            ],
-        ], merge: true)
-    }
-    
-    @IBAction func donePressed(_ sender: UIButton) {
-        saveProfileToFirestore()
+            ]
+        ]
 
-        let finishNavigation = {
+        if let imageBase64 = imageBase64 {
+            data["profileImageBase64"] = imageBase64
+        }
+
+        db.collection("users").document(user.uid).setData(data, merge: true) { error in
+            if let error = error {
+                print("Firestore save error: \(error.localizedDescription)")
+                completion?(false)
+            } else {
+                completion?(true)
+            }
+        }
+    }
+
+    @IBAction func donePressed(_ sender: UIButton) {
+        let finishNavigation = { [weak self] in
+            guard let self = self else { return }
             print("cameFromSignup =", self.cameFromSignup)
             self.onProfileUpdated?()
 
@@ -143,20 +156,37 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
             }
         }
 
-        if let image = pendingProfileImage {
-            uploadImageToFirebase(image: image) { success in
+        let writeProfile: (String?) -> Void = { [weak self] base64 in
+            self?.saveProfileToFirestore(imageBase64: base64) { success in
                 DispatchQueue.main.async {
-                    if !success {
-                        print("Image upload failed, but profile info was saved.")
+                    if success {
+                        self?.pendingProfileImage = nil
+                        finishNavigation()
+                    } else {
+                        self?.showSaveError("Could not save your profile. Please try again.")
                     }
-
-                    self.pendingProfileImage = nil
-                    finishNavigation()
                 }
             }
-        } else {
-            finishNavigation()
         }
+
+        if let image = pendingProfileImage {
+            switch encodeProfileImage(image) {
+            case .success(let base64):
+                writeProfile(base64)
+            case .failure(let error):
+                showSaveError("Could not save photo: \(error.localizedDescription)")
+            }
+        } else {
+            writeProfile(nil)
+        }
+    }
+
+    private func showSaveError(_ message: String) {
+        let alert = UIAlertController(title: "Save Failed",
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     private func goToHeatMap() {
@@ -265,63 +295,27 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         dismiss(animated: true)
     }
     
-    func uploadImageToFirebase(image: UIImage, completion: @escaping (Bool) -> Void) {
-        guard let userID = Auth.auth().currentUser?.uid else { completion(false); return }
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else { completion(false); return }
+    private func encodeProfileImage(_ image: UIImage) -> Result<String, Error> {
+        let resized = image.resizedToFit(maxDimension: 400)
 
-        let storageRef = Storage.storage().reference().child("profile_images/\(userID).jpg")
+        var quality: CGFloat = 0.7
+        var data = resized.jpegData(compressionQuality: quality)
 
-        storageRef.putData(imageData, metadata: nil) { _, error in
-            if let error = error {
-                print("Upload error: \(error.localizedDescription)")
-                completion(false)
-                return
-            }
-
-            storageRef.downloadURL { url, error in
-                if let downloadURL = url {
-                    self.saveImageURLToFirestore(url: downloadURL.absoluteString) { success in
-                        completion(success)
-                    }
-                } else {
-                    completion(false)
-                }
-            }
+        // Firestore documents must stay under 1 MB total. Base64 inflates by ~33%,
+        // so cap the JPEG at ~700 KB and step quality down if it's too big.
+        let maxJPEGBytes = 700_000
+        while let current = data, current.count > maxJPEGBytes, quality > 0.1 {
+            quality -= 0.1
+            data = resized.jpegData(compressionQuality: quality)
         }
-    }
-    
-    func saveImageURLToFirestore(url: String, completion: @escaping (Bool) -> Void) {
-        guard let userID = Auth.auth().currentUser?.uid else { completion(false); return }
 
-        Firestore.firestore().collection("users").document(userID).setData([
-            "profileImageURL": url
-        ], merge: true) { error in
-            if let error = error {
-                print("Firestore save error: \(error.localizedDescription)")
-                completion(false)
-            } else {
-                print("Profile image URL saved successfully")
-                completion(true)
-            }
+        guard let finalData = data else {
+            return .failure(NSError(domain: "ProfileImage", code: 422,
+                                    userInfo: [NSLocalizedDescriptionKey: "Could not encode image as JPEG."]))
         }
-    }
-    
-    func saveProfileImageToFirestore(image: UIImage) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
-        
-        let base64String = imageData.base64EncodedString()
-        
-        Firestore.firestore().collection("users").document(userID).setData([
-            "profileImageBase64": base64String
-        ], merge: true) { error in
-            if let error = error {
-                print("Error saving image: \(error.localizedDescription)")
-            } else {
-                print("Profile image saved in Firestore successfully")
-            }
-        }
+
+        print("Encoded profile image: \(finalData.count) bytes at quality \(quality)")
+        return .success(finalData.base64EncodedString())
     }
     
     func loadProfileImage() {
@@ -331,20 +325,17 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         }
 
         let docRef = Firestore.firestore().collection("users").document(userID)
-        docRef.getDocument { snapshot, error in
+        docRef.getDocument { [weak self] snapshot, _ in
             guard let data = snapshot?.data(),
-                  let urlString = data["profileImageURL"] as? String,
-                  let url = URL(string: urlString) else {
+                  let base64 = data["profileImageBase64"] as? String,
+                  let imageData = Data(base64Encoded: base64),
+                  let image = UIImage(data: imageData) else {
                 return
             }
 
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                guard let data = data, error == nil else { return }
-
-                DispatchQueue.main.async {
-                    self.profileImage.image = UIImage(data: data)
-                }
-            }.resume()
+            DispatchQueue.main.async {
+                self?.profileImage.image = image
+            }
         }
     }
     
@@ -402,6 +393,23 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
             } else {
                 print("Document does not exist")
             }
+        }
+    }
+}
+
+private extension UIImage {
+    func resizedToFit(maxDimension: CGFloat) -> UIImage {
+        let longest = max(size.width, size.height)
+        guard longest > maxDimension else { return self }
+
+        let scale = maxDimension / longest
+        let newSize = CGSize(width: size.width * scale, height: size.height * scale)
+
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = 1
+        let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
+        return renderer.image { _ in
+            draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
 }

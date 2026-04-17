@@ -111,18 +111,27 @@ class SettingsTableViewController: UITableViewController {
     func updateUserProfileLabels() {
         guard let user = Auth.auth().currentUser else { return }
         let docRef = db.collection("users").document(user.uid)
-        
+
         docRef.getDocument { [weak self] document, error in
             guard let self = self else { return }
-            
+
             if let document = document, document.exists {
                 let data = document.data() ?? [:]
                 let name = data["name"] as? String ?? "No Name"
                 let email = user.email ?? "No Email"
-                
+
+                var image: UIImage?
+                if let base64 = data["profileImageBase64"] as? String,
+                   let imageData = Data(base64Encoded: base64) {
+                    image = UIImage(data: imageData)
+                }
+
                 DispatchQueue.main.async {
                     self.nameLabel.text = name
                     self.emailLabel.text = email
+                    if let image = image {
+                        self.profileImage.image = image
+                    }
                 }
             } else {
                 print("No user document found")
@@ -410,3 +419,4 @@ class SettingsTableViewController: UITableViewController {
         }
     }
 }
+

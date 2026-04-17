@@ -82,6 +82,8 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     
     var workoutLogs: [WorkoutLog] = []
     
+    var hasSeenWelcome: Bool = false
+    
     var detailView = UIView()
     var trailingConstraint: NSLayoutConstraint?
     let detailViewWidth: CGFloat = 250
@@ -112,7 +114,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
         detailView.isUserInteractionEnabled = true
         heatMapContainer.isUserInteractionEnabled = true
         tableView.isUserInteractionEnabled = true
-        UserDefaults.standard.set(false, forKey: "hasSeenHeatmapWelcome") // Testing
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,9 +132,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let hasSeenWelcome = UserDefaults.standard.bool(forKey: "hasSeenHeatmapWelcome")
-        
-        if !hasSeenWelcome {
+        if !self.hasSeenWelcome {
             showWelcomeAlert()
             UserDefaults.standard.set(true, forKey: "hasSeenHeatmapWelcome")
         }
@@ -368,7 +367,13 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
                     self.backSVG = "Female-Back"
                     musclesFront["Traps"] = 1
                 }
-
+                
+                let firstTime = document.data()!["firstTime"] as? Bool ?? true
+                self.hasSeenWelcome = !firstTime
+                docRef.updateData([
+                    "firstTime": false
+                ])
+                
                 if !self.isDetailVisible {
                     UIView.animate(withDuration: 0.8) {
                         self.helloLabel.alpha = 1
@@ -382,6 +387,7 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
                 
                 self.attachTapHandlers(view: self.heatMapContainer)
                 self.fillAllMuscles(front: self.showingFront)
+                
             } else {
                 print("Document does not exist")
             }

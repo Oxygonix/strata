@@ -110,6 +110,7 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
 
         db.collection("users").document(user.uid).setData([
             "name": name,
+            "firstTime": cameFromSignup,
             "age": age,
             "height": [
                 "ft": heightFt,

@@ -116,42 +116,102 @@ struct WorkoutChartView: View {
     @ObservedObject var model: WorkoutChartModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(model.title)
-                .font(.headline)
-                .padding(.horizontal)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack {
+                Spacer()
+
+                Text(model.title)
+                    .font(.system(size: 22, weight: .bold))
+                    .foregroundColor(Color(uiColor: .label))
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 18)
 
             if model.points.isEmpty {
-                Text("Add sets to see progress.")
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal)
+                VStack(spacing: 8) {
+                    Text("No Exercise Selected")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(Color(uiColor: .label))
+
+                    Text("Add sets to see progress.")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity, minHeight: 220)
+                .padding(.horizontal, 20)
             } else {
                 Chart(model.points) { point in
+                    AreaMark(
+                        x: .value("Date", point.bucketDate),
+                        y: .value("Weight", point.weight)
+                    )
+                    .interpolationMethod(.catmullRom)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                Color.red.opacity(0.22),
+                                Color.red.opacity(0.03)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+
                     LineMark(
                         x: .value("Date", point.bucketDate),
                         y: .value("Weight", point.weight)
                     )
+                    .interpolationMethod(.catmullRom)
+                    .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                    .foregroundStyle(Color.red)
 
                     PointMark(
                         x: .value("Date", point.bucketDate),
                         y: .value("Weight", point.weight)
                     )
+                    .symbolSize(55)
+                    .foregroundStyle(Color.red)
                 }
                 .chartXAxis {
                     AxisMarks(values: model.points.map(\.bucketDate)) { value in
                         AxisGridLine()
+                            .foregroundStyle(Color.gray.opacity(0.15))
                         AxisTick()
+                            .foregroundStyle(Color.gray.opacity(0.25))
+
                         if let dateValue = value.as(Date.self),
-                           let point = model.points.first(where: { Calendar.current.isDate($0.bucketDate, equalTo: dateValue, toGranularity: .day) || $0.bucketDate == dateValue }) {
-                            AxisValueLabel(point.label)
+                           let point = model.points.first(where: { $0.bucketDate == dateValue }) {
+                            AxisValueLabel {
+                                Text(point.label)
+                                    .font(.system(size: 11, weight: .medium))
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
+                .chartYAxis {
+                    AxisMarks(position: .leading) { _ in
+                        AxisGridLine()
+                            .foregroundStyle(Color.gray.opacity(0.15))
+                        AxisTick()
+                            .foregroundStyle(Color.gray.opacity(0.25))
+                        AxisValueLabel()
+                            .foregroundStyle(Color.secondary)
+                    }
+                }
                 .frame(height: 220)
-                .padding(.horizontal)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 18)
             }
         }
-        .padding(.top, 8)
+        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.gray.opacity(0.08), lineWidth: 1)
+        )
+        .padding(.horizontal, 16)
+        .padding(.top, 6)
     }
 }
 

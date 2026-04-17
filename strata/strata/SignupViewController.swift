@@ -22,6 +22,8 @@ class SignupViewController: UIViewController {
     private var hasNavigated = false
     
     override func viewDidLoad() {
+        passwordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.isSecureTextEntry = true
         super.viewDidLoad()
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
                 guard let self = self else { return }

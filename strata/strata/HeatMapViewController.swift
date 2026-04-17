@@ -408,12 +408,10 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
                 
                 let data = doc.data()
                 
-                // Basic fields
                 let title = data["title"] as? String ?? "Workout"
                 let timestamp = data["workoutDate"] as? Timestamp ?? Timestamp()
                 let date = timestamp.dateValue()
                 
-                // Exercises parsing
                 guard let exerciseArray = data["exercises"] as? [[String: Any]] else {
                     return WorkoutLog(id: doc.documentID, title: title, date: date, exercises: [])
                 }
@@ -423,8 +421,6 @@ class HeatMapViewController: UIViewController, UIGestureRecognizerDelegate, UITa
                     let name = exerciseData["name"] as? String ?? "Unknown"
                     let intensity = exerciseData["intensity"] as? Int ?? 1
                     let muscles = exerciseData["muscles"] as? [String: Int] ?? [:]
-                    
-                    // Parse sets
                     let setsArray = exerciseData["sets"] as? [[String: Any]] ?? []
                     
                     let sets: [ExerciseSet] = setsArray.compactMap { setData in

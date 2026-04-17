@@ -172,7 +172,8 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        title = workoutTitle ?? "Workout"
+
+        // paremeters for storyboard title
         
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
@@ -182,6 +183,16 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
         titleLabel.text = workoutTitle ?? "Workout"
         
         navigationItem.titleView = titleLabel
+        
+        // date parameters as storyboard doesn't work
+        dateRange.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            dateRange.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            dateRange.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dateRange.widthAnchor.constraint(equalToConstant: 175),
+            dateRange.heightAnchor.constraint(equalToConstant: 32)
+        ])
 
         currentWorkouts.dataSource = self
         currentWorkouts.delegate = self
@@ -431,12 +442,12 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
         host.view.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            host.view.topAnchor.constraint(equalTo: dateRange.bottomAnchor, constant: 40),
+            host.view.topAnchor.constraint(equalTo: dateRange.bottomAnchor, constant: 10),
             host.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             host.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             host.view.heightAnchor.constraint(equalToConstant: 250),
 
-            currentWorkouts.topAnchor.constraint(equalTo: host.view.bottomAnchor, constant: 20),
+            currentWorkouts.topAnchor.constraint(equalTo: host.view.bottomAnchor, constant: 0),
             currentWorkouts.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             currentWorkouts.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             currentWorkouts.bottomAnchor.constraint(equalTo: view.bottomAnchor)

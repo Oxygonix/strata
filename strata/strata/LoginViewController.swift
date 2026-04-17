@@ -21,6 +21,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        passwordTextField.isSecureTextEntry = true
+        
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
             guard let self = self else { return }
             guard let user = user else { return }

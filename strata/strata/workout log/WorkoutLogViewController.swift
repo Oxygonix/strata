@@ -17,6 +17,16 @@ class WorkoutLogViewController: UIViewController, UITableViewDataSource, UITable
         tableView.dataSource = self
         tableView.delegate = self
         
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        titleLabel.textColor = .label
+        titleLabel.textAlignment = .center
+        titleLabel.sizeToFit()
+        titleLabel.text = "Workout Log"
+        
+        navigationItem.titleView = titleLabel
+
+        
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(addWorkoutTapped)
         

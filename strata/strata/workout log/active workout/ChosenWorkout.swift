@@ -172,7 +172,16 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = workoutTitle ?? "Workout"
+//        title = workoutTitle ?? "Workout"
+        
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        titleLabel.textColor = .label
+        titleLabel.textAlignment = .center
+        titleLabel.sizeToFit()
+        titleLabel.text = workoutTitle ?? "Workout"
+        
+        navigationItem.titleView = titleLabel
 
         currentWorkouts.dataSource = self
         currentWorkouts.delegate = self

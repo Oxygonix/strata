@@ -14,7 +14,6 @@ class SettingsTableViewController: UITableViewController {
     
     @IBOutlet weak var darkModeSwitch: UISwitch!
     @IBOutlet weak var notificationSwitch: UISwitch!
-    
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -26,7 +25,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
         setupNavigationTitle()
         setupTableView()
@@ -72,7 +70,6 @@ class SettingsTableViewController: UITableViewController {
         titleLabel.textColor = .label
         titleLabel.textAlignment = .center
         titleLabel.sizeToFit()
-        
         navigationItem.titleView = titleLabel
         navigationController?.navigationBar.prefersLargeTitles = false
     }
@@ -165,6 +162,12 @@ class SettingsTableViewController: UITableViewController {
                 if let notificationsOn = firestoreNotifications {
                     self.notificationSwitch.isOn = notificationsOn
                     UserDefaults.standard.set(notificationsOn, forKey: self.notificationKey)
+
+                    if notificationsOn {
+                        self.scheduleDailyNotification()
+                    } else {
+                        self.removeDailyNotification()
+                    }
                 }
             }
         }
@@ -274,8 +277,6 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Table sizing
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 132
@@ -287,8 +288,6 @@ class SettingsTableViewController: UITableViewController {
         
         return 88
     }
-    
-    // MARK: - Card styling
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = .clear
@@ -363,9 +362,7 @@ class SettingsTableViewController: UITableViewController {
             button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         }
     }
-    
-    // MARK: - Layout fixes for fixed-frame storyboard content
-    
+
     private func layoutStaticCellContents() {
         guard let profileCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)),
               let editCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)),

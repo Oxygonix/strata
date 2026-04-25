@@ -63,7 +63,6 @@ class SignupViewController: UIViewController {
                    let window = windowScene.windows.first {
                     window.overrideUserInterfaceStyle = isDarkModeEnabled ? .dark : .light
                 }
-
                 completion()
             }
         }
@@ -91,29 +90,22 @@ class SignupViewController: UIViewController {
             showAlert(title: "Email Error", message: "Please enter a valid email address.")
             return
         }
-
         sender.isEnabled = false
-        
         isSigningUp = true
-
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             sender.isEnabled = true
-
             if let error = error {
                 self.showAlert(title: "Signup Failed", message: error.localizedDescription)
                 return
             }
-
             guard let user = authResult?.user else {
                 self.showAlert(title: "Signup Failed", message: "Could not create user.")
                 return
             }
-
             let userData: [String: Any] = [
                 "email": email,
                 "createdAt": Timestamp()
             ]
-
             self.db.collection("users").document(user.uid).setData(userData) { error in
                 if let error = error {
                     self.showAlert(title: "Firestore Error", message: error.localizedDescription)
@@ -122,13 +114,10 @@ class SignupViewController: UIViewController {
 
                 DispatchQueue.main.async {
                     let storyboard = UIStoryboard(name: "ProfileSettings", bundle: nil)
-
                     if let editProfileVC = storyboard.instantiateViewController(withIdentifier: "EditProfile") as? ProfileSetttingsViewController {
                         editProfileVC.cameFromSignup = true
-
                         let navController = UINavigationController(rootViewController: editProfileVC)
                         navController.modalPresentationStyle = .fullScreen
-
                         self.present(navController, animated: true)
                     } else {
                         self.showAlert(title: "Navigation Error", message: "Could not open Edit Profile.")

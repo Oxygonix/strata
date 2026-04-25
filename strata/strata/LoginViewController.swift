@@ -20,14 +20,11 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         passwordTextField.isSecureTextEntry = true
-        
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
             guard let self = self else { return }
             guard let user = user else { return }
             guard !self.hasNavigated else { return }
-            
             self.applySavedPreferences(for: user.uid) {
                 self.hasNavigated = true
                 self.performSegue(withIdentifier: "toHeatmapSegue", sender: self)
@@ -51,10 +48,8 @@ class LoginViewController: UIViewController {
             showAlert(title: "Missing Info", message: "Please enter email and password.")
             return
         }
-
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
-            
             if let error = error {
                 self.showAlert(title: "Login Failed", message: error.localizedDescription)
                 return

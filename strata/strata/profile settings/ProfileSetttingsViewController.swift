@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import UserNotifications
 import FirebaseAuth
 import FirebaseFirestore
 
@@ -17,17 +16,14 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     @IBOutlet weak var heightFtTextField: UITextField!
     @IBOutlet weak var heightInTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
-
     @IBOutlet weak var benchButton: UIButton!
     @IBOutlet weak var barbellsButton: UIButton!
     @IBOutlet weak var kettlebellButton: UIButton!
     @IBOutlet weak var dumbbellsButton: UIButton!
     @IBOutlet weak var matButton: UIButton!
     @IBOutlet weak var cablesButton: UIButton!
-    
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
-    
     @IBOutlet weak var profileImage: UIImageView!
     
     var benchSelected = false
@@ -37,7 +33,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     var matSelected = false
     var cablesSelected = false
     var sex = "male"
-    
     var onProfileUpdated: (() -> Void)?
     var pendingProfileImage: UIImage?
     var cameFromSignup = false
@@ -46,21 +41,16 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
-
         let titleLabel = UILabel()
         titleLabel.text = cameFromSignup ? "Set Profile" : "Edit Profile"
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         titleLabel.textColor = .label
         titleLabel.textAlignment = .center
         titleLabel.sizeToFit()
-
         navigationItem.titleView = titleLabel
-
         updateSexButtons()
-
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.clipsToBounds = true
         profileImage.contentMode = .scaleAspectFill
@@ -76,7 +66,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         sender.isSelected.toggle()
         let imageName = sender.isSelected ? "checkmark.square.fill" : "square"
         sender.setImage(UIImage(systemName: imageName), for: .normal)
-
         switch sender {
         case benchButton:
             benchSelected = sender.isSelected
@@ -98,17 +87,14 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     func saveProfileToFirestore(imageBase64: String? = nil,
                                 completion: ((Bool) -> Void)? = nil) {
         guard let user = Auth.auth().currentUser else {
-            print("NOT GETTING PAST GUARD")
             completion?(false)
             return
         }
-
         let name = nameTextField.text ?? ""
         let age = Int(ageTextField.text ?? "") ?? 0
         let heightFt = Int(heightFtTextField.text ?? "") ?? 0
         let heightIn = Int(heightInTextField.text ?? "") ?? 0
         let weight = Int(weightTextField.text ?? "") ?? 0
-
         var data: [String: Any] = [
             "name": name,
             "firstTime": cameFromSignup,
@@ -128,11 +114,9 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
                 "cables": cablesSelected
             ]
         ]
-
         if let imageBase64 = imageBase64 {
             data["profileImageBase64"] = imageBase64
         }
-
         db.collection("users").document(user.uid).setData(data, merge: true) { error in
             if let error = error {
                 print("Firestore save error: \(error.localizedDescription)")
@@ -146,7 +130,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
     @IBAction func donePressed(_ sender: UIButton) {
         let finishNavigation = { [weak self] in
             guard let self = self else { return }
-            print("cameFromSignup =", self.cameFromSignup)
             self.onProfileUpdated?()
 
             if self.cameFromSignup {
@@ -289,7 +272,6 @@ class ProfileSetttingsViewController: UIViewController, UIImagePickerControllerD
         if let selectedImage = info[.originalImage] as? UIImage {
             profileImage.image = selectedImage
             pendingProfileImage = selectedImage
-            print("Image selected and waiting to save on Done")
         }
         
         dismiss(animated: true)
@@ -405,6 +387,7 @@ private extension UIImage {
         let scale = maxDimension / longest
         let newSize = CGSize(width: size.width * scale, height: size.height * scale)
 
+        // Resizes the image before saving so Firestore does not store huge image data.
         let format = UIGraphicsImageRendererFormat.default()
         format.scale = 1
         let renderer = UIGraphicsImageRenderer(size: newSize, format: format)

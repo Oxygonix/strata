@@ -9,7 +9,7 @@ import Foundation
 
 let workouts: [Workout] = [
 
-    // MARK: - CHEST (8)
+    // CHEST
 
     Workout(
         name: "Chest Strength A",
@@ -107,7 +107,7 @@ let workouts: [Workout] = [
         ]
     ),
 
-    // MARK: - BACK (8)
+    // BACK
 
     Workout(
         name: "Back Strength A",
@@ -205,7 +205,7 @@ let workouts: [Workout] = [
         ]
     ),
 
-    // MARK: - LEGS (8)
+    // LEGS
 
     Workout(
         name: "Leg Strength A",
@@ -303,7 +303,7 @@ let workouts: [Workout] = [
         ]
     ),
 
-    // MARK: - CORE (7)
+    // CORE
 
     Workout(
         name: "Core Basics",
@@ -389,7 +389,7 @@ let workouts: [Workout] = [
         ]
     ),
 
-    // MARK: - ARMS (7)
+    // ARMS
 
     Workout(
         name: "Arm Builder",
@@ -475,7 +475,7 @@ let workouts: [Workout] = [
         ]
     ),
 
-    // MARK: - FULL BODY (6)
+    // FULL BODY
 
     Workout(
         name: "Full Body Strength",
@@ -549,7 +549,7 @@ let workouts: [Workout] = [
         ]
     ),
 
-    // MARK: - UPPER BODY (6)
+    // UPPER BODY
 
     Workout(
         name: "Upper Body Blast",

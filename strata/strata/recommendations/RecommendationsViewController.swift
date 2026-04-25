@@ -19,7 +19,6 @@ class RecommendationsViewController: UIViewController, UITableViewDataSource, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
         setupTableView()
     }
@@ -31,23 +30,19 @@ class RecommendationsViewController: UIViewController, UITableViewDataSource, UI
 
     private func setupView() {
         view.backgroundColor = UIColor.systemGroupedBackground
-
         let titleLabel = UILabel()
         titleLabel.text = "Recommended Workouts"
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = .label
         titleLabel.textAlignment = .center
         titleLabel.sizeToFit()
-
         navigationItem.titleView = titleLabel
-
         navigationController?.navigationBar.prefersLargeTitles = false
     }
 
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
@@ -207,10 +202,8 @@ class RecommendationsViewController: UIViewController, UITableViewDataSource, UI
                     return false
                 }
             }
-
             return true
         }
-
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

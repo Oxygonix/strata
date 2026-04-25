@@ -37,7 +37,6 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
         setupSummaryCard()
         setupTableView()
@@ -265,12 +264,12 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
                         return
                     }
 
-                    let workoutLogTabIndex = 1   // change if your Workout Log tab is not index 1
+                    let workoutLogTabIndex = 1
 
                     if let viewControllers = tabBarController.viewControllers,
                        viewControllers.indices.contains(workoutLogTabIndex) {
 
-                        // Remove this recommendations detail screen from its nav stack
+                        // Remove recommendations detail screen from its nav stack
                         self.navigationController?.popToRootViewController(animated: false)
 
                         // Switch to the actual Workout Log tab

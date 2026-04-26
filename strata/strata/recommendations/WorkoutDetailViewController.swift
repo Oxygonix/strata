@@ -13,10 +13,6 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
     var workout: Workout?
 
-    @IBOutlet weak var workoutLabel: UILabel!
-    @IBOutlet weak var bodyPartsWorkedLabel: UILabel!
-    @IBOutlet weak var difficultyLevelLabel: UILabel!
-    @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
 
     private let db = Firestore.firestore()
@@ -56,11 +52,6 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
         navigationItem.titleView = titleLabel
         navigationController?.navigationBar.prefersLargeTitles = false
-
-        workoutLabel.isHidden = true
-        bodyPartsWorkedLabel.isHidden = true
-        difficultyLevelLabel.isHidden = true
-        durationLabel.isHidden = true
     }
 
     private func setupSummaryCard() {
@@ -153,8 +144,8 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 124
-        tableView.contentInset = UIEdgeInsets(top: 135, left: 0, bottom: 110, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 135, left: 0, bottom: 110, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 240, left: 0, bottom: 110, right: 0)
+        tableView.scrollIndicatorInsets = tableView.contentInset
     }
 
     private func setupBottomButton() {
@@ -262,25 +253,22 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
             guard let tabBarController = self.tabBarController else {
                         print("No tab bar controller found")
                         return
-                    }
+            }
 
-                    let workoutLogTabIndex = 1
+            let workoutLogTabIndex = 1
 
-                    if let viewControllers = tabBarController.viewControllers,
-                       viewControllers.indices.contains(workoutLogTabIndex) {
-
-                        // Remove recommendations detail screen from its nav stack
-                        self.navigationController?.popToRootViewController(animated: false)
-
-                        // Switch to the actual Workout Log tab
-                        tabBarController.selectedIndex = workoutLogTabIndex
-                    }
+            if let viewControllers = tabBarController.viewControllers,
+               viewControllers.indices.contains(workoutLogTabIndex) {
+                // Remove recommendations detail screen from its nav stack
+                self.navigationController?.popToRootViewController(animated: false)
+                // Switch to the actual Workout Log tab
+                tabBarController.selectedIndex = workoutLogTabIndex
+            }
         }
     }
 
     private func defaultSets(for exercise: Exercise) -> [WorkoutSet] {
         let repValue = defaultRepValue(from: exercise.reps)
-
         return (0..<exercise.sets).map { _ in
             WorkoutSet(weight: 0, reps: repValue)
         }
@@ -298,7 +286,6 @@ class WorkoutDetailViewController: UIViewController, UITableViewDelegate, UITabl
         if let match = exercises.first(where: { $0.name == exercise.name }) {
             return match.muscles
         }
-
         print("Warning: No ExerciseData match found for \(exercise.name)")
         return [:]
     }

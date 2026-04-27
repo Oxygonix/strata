@@ -81,7 +81,7 @@ struct WorkoutExercise {
         self.muscles = muscles
         self.sets = parsedSets
         self.intensity = intensity
-        self.chartPoints = ChosenWorkout.makeChartPoints(from: parsedSets)
+        self.chartPoints = []
     }
 
     var dictionary: [String: Any] {
@@ -172,6 +172,8 @@ struct WorkoutChartView: View {
                     .symbolSize(55)
                     .foregroundStyle(Color.red)
                 }
+                .chartXAxisLabel("Date")
+                .chartYAxisLabel("Lbs")
                 .chartXAxis {
                     AxisMarks(values: model.points.map(\.bucketDate)) { value in
                         AxisGridLine()
@@ -540,10 +542,6 @@ class ChosenWorkout: UIViewController, UITableViewDataSource, UITableViewDelegat
         frame.size.width = currentWorkouts.bounds.width
         footerView.frame = frame
         currentWorkouts.tableFooterView = footerView
-    }
-
-    static func makeChartPoints(from sets: [WorkoutSet]) -> [WorkoutPoint] {
-        []
     }
 
     private func updateChart(for workout: WorkoutExercise) {

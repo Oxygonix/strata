@@ -2,6 +2,9 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
+
+// instead of adding this in the page I hardcoded the add section as it looked better,
+// and attempting to do it modally kept running into issues, therefore I decided to do it this way.
 class AddWorkout: UIViewController {
     
     var onWorkoutCreated: (() -> Void)?
@@ -95,6 +98,8 @@ class AddWorkout: UIViewController {
         dateContainer.addSubview(datePicker)
     }
     
+    
+    // was easier for me to add constraints here then in the actual screen, it was less buggy.
     private func setupLayout() {
         NSLayoutConstraint.activate([
             backgroundGlow.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
@@ -147,8 +152,8 @@ class AddWorkout: UIViewController {
     }
     
     private func applyStyling() {
-        titleLabel.text = "Create New Workout"
-        titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        titleLabel.text = "Create Workout"
+        titleLabel.font = .systemFont(ofSize: 23, weight: .bold)
         titleLabel.textColor = .label
         
         subtitleLabel.text = "Choose a name and date before adding it to your log."
@@ -159,21 +164,6 @@ class AddWorkout: UIViewController {
         dateLabel.text = "Workout Date"
         dateLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         dateLabel.textColor = .secondaryLabel
-        
-        backgroundGlow.backgroundColor = .clear
-        backgroundGlow.layer.cornerRadius = 60
-        backgroundGlow.layer.masksToBounds = true
-        
-        let glowLayer = CAGradientLayer()
-        glowLayer.frame = CGRect(x: 0, y: 0, width: 240, height: 120)
-        glowLayer.colors = [
-            accentColor.withAlphaComponent(0.22).cgColor,
-            accentLight.withAlphaComponent(0.08).cgColor
-        ]
-        glowLayer.startPoint = CGPoint(x: 0, y: 0)
-        glowLayer.endPoint = CGPoint(x: 1, y: 1)
-        glowLayer.cornerRadius = 60
-        backgroundGlow.layer.insertSublayer(glowLayer, at: 0)
         
         cardView.backgroundColor = UIColor.white.withAlphaComponent(0.82)
         cardView.layer.cornerRadius = 30
@@ -196,15 +186,6 @@ class AddWorkout: UIViewController {
         
         workoutNameField.textColor = .label
         workoutNameField.tintColor = accentColor
-        
-        navigationController?.navigationBar.tintColor = accentColor
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = softBackground.withAlphaComponent(0.92)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         createButtonGradient.colors = [
             accentLight.cgColor,

@@ -133,8 +133,16 @@ class WorkoutRowCell: UITableViewCell, UICollectionViewDataSource, UICollectionV
                 showDeleteButton: isSelectedSet
             )
 
-            cell.onValueChanged = { [weak self] weight, reps in
-                self?.onSetChanged?(indexPath.item, weight, reps)
+            cell.onValueChanged = { [weak self, weak cell] weight, reps in
+                guard let self = self,
+                      let cell = cell,
+                      let currentIndexPath = self.setsCollectionView.indexPath(for: cell) else {
+                    return
+                }
+                self.sets[currentIndexPath.item].weight = weight
+                self.sets[currentIndexPath.item].reps = reps
+
+                self.onSetChanged?(currentIndexPath.item, weight, reps)
             }
 
             cell.onDeleteTapped = { [weak self] in

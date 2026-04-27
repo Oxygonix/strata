@@ -6,6 +6,7 @@ struct WorkoutActivity {
     let title: String
     let workoutDate: Date
     let exerciseCount: Int
+    let workoutImageBase64: String?
 
     var subtitle: String {
         let formatter = DateFormatter()
@@ -13,11 +14,18 @@ struct WorkoutActivity {
         return formatter.string(from: workoutDate)
     }
 
-    init(id: String, title: String, workoutDate: Date, exerciseCount: Int = 0) {
+    init(
+        id: String,
+        title: String,
+        workoutDate: Date,
+        exerciseCount: Int = 0,
+        workoutImageBase64: String? = nil
+    ) {
         self.id = id
         self.title = title
         self.workoutDate = workoutDate
         self.exerciseCount = exerciseCount
+        self.workoutImageBase64 = workoutImageBase64
     }
 
     init?(document: DocumentSnapshot) {
@@ -35,5 +43,6 @@ struct WorkoutActivity {
         self.title = title
         self.workoutDate = workoutTimestamp.dateValue()
         self.exerciseCount = exercises.count
+        self.workoutImageBase64 = data["workoutImageBase64"] as? String
     }
 }

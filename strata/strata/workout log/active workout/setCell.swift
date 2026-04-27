@@ -37,8 +37,7 @@ class SetCell: UICollectionViewCell {
 
         weightField.addTarget(self, action: #selector(fieldChanged), for: .editingChanged)
         repsField.addTarget(self, action: #selector(fieldChanged), for: .editingChanged)
-        weightField.addTarget(self, action: #selector(fieldChanged), for: .editingDidEnd)
-        repsField.addTarget(self, action: #selector(fieldChanged), for: .editingDidEnd)
+        
         deleteSetBtn.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
 
         contentView.layer.cornerRadius = 12
